@@ -54,7 +54,8 @@ export const cityData: Record<string, MarketData> = {
     evAdoptionRate: 8.2, // percentage
     waterRestrictions: "Stringent", // Drought restrictions
     climateType: "Mediterranean",
-    heroImageUrl: "https://v0.blob.com/Hs9Kd.png", // Updated to absolute URL
+    heroImageUrl:
+      "https://sjc.microlink.io/zkVCBCVSrAPtgrOIwHUUftDb0QgnxiCs7Q5ak68uLnRvLlrDWWQ-kcDCy0ukx5CUFl6Ah0Jxc7h93yAhLPrENA.jpeg", // Updated Fremont image with absolute URL
     accentColor: "blue",
     recentLayoffs: [
       {
@@ -133,7 +134,7 @@ export const cityData: Record<string, MarketData> = {
     evAdoptionRate: 9.5, // percentage
     waterRestrictions: "Stringent", // Drought restrictions
     climateType: "Mediterranean",
-    heroImageUrl: "https://v0.blob.com/Kj7Ls.png", // Updated to absolute URL
+    heroImageUrl: "https://www.magicmoving.com/wp-content/uploads/2017/12/San-Jose-moving-company.jpg", // Updated San Jose image
     accentColor: "teal",
     recentLayoffs: [
       {
@@ -191,7 +192,7 @@ export const cityData: Record<string, MarketData> = {
     evAdoptionRate: 3.8, // percentage
     waterRestrictions: "Moderate", // Drought restrictions
     climateType: "Desert",
-    heroImageUrl: "https://v0.blob.com/Pq2Rt.png", // Updated to absolute URL
+    heroImageUrl: "https://diamondbacklockandkey.com/wp-content/uploads/2022/02/gilbert-arizona-scaled.jpeg", // Updated Gilbert image with absolute URL
     accentColor: "amber",
   },
   "chandler-arizona": {
@@ -247,7 +248,7 @@ export const cityData: Record<string, MarketData> = {
     evAdoptionRate: 3.5, // percentage
     waterRestrictions: "Moderate", // Drought restrictions
     climateType: "Desert",
-    heroImageUrl: "https://v0.blob.com/Xm3Vw.png", // Updated to absolute URL
+    heroImageUrl: "https://upload.wikimedia.org/wikipedia/commons/9/9d/Neighborhoods_in_the_City_of_Chandler.jpg", // Updated Chandler image with absolute URL
     accentColor: "green",
     recentLayoffs: [
       {
@@ -305,7 +306,7 @@ export const cityData: Record<string, MarketData> = {
     evAdoptionRate: 4.2, // percentage
     waterRestrictions: "Moderate", // Drought restrictions
     climateType: "Desert",
-    heroImageUrl: "https://v0.blob.com/Zn4Wx.png", // Updated to absolute URL
+    heroImageUrl: "https://cdn.prod.website-files.com/6489c5e926fad2580b7b01cb/6542773492a0abc62ee80884_2.png", // Updated Scottsdale image with absolute URL
     accentColor: "purple",
     recentLayoffs: [
       {
@@ -367,7 +368,7 @@ export const cityData: Record<string, MarketData> = {
     evAdoptionRate: 3.2, // percentage
     waterRestrictions: "Minimal",
     climateType: "Humid Subtropical",
-    heroImageUrl: "https://v0.blob.com/Qp5Ty.png", // Updated to absolute URL
+    heroImageUrl: "https://content.civicplus.com/api/assets/5d325e2d-432a-4e7b-aaed-f9d662512dc5?cache=1800", // Updated Plano image with absolute URL
     accentColor: "green",
     recentLayoffs: [
       {
@@ -450,7 +451,8 @@ export const cityData: Record<string, MarketData> = {
     evAdoptionRate: 1.2, // percentage
     waterRestrictions: "None",
     climateType: "Subarctic",
-    heroImageUrl: "https://v0.blob.com/Vk6Uz.png", // Updated to absolute URL
+    heroImageUrl:
+      "https://cdn1.alaskatravel.com/public/photos/00001236/anchorage-skyline-summer-1236-1-HeroSubPage.jpg", // Updated Anchorage image
     accentColor: "blue",
     recentLayoffs: [
       {
@@ -514,7 +516,7 @@ export const cityData: Record<string, MarketData> = {
     evAdoptionRate: 2.5, // percentage
     waterRestrictions: "Minimal",
     climateType: "Humid Subtropical",
-    heroImageUrl: "https://v0.blob.com/Wl7Va.png", // Updated to absolute URL
+    heroImageUrl: "https://e7jecw7o93n.exactdn.com/wp-content/uploads/2019/05/ChesapeakeVI.jpg?lossy=1&ssl=1", // Updated Chesapeake image with absolute URL
     accentColor: "green",
     recentLayoffs: [
       {
@@ -574,7 +576,7 @@ export const cityData: Record<string, MarketData> = {
     evAdoptionRate: 5.8, // percentage
     waterRestrictions: "Moderate",
     climateType: "Mediterranean",
-    heroImageUrl: "https://v0.blob.com/Yj8Wb.png", // Updated to absolute URL
+    heroImageUrl: "https://cdn.homeandmoney.com/wp-content/uploads/2023/11/17153640/Chula-Vista-CA.webp", // Updated Chula Vista image
     accentColor: "teal",
     recentLayoffs: [
       {
@@ -650,7 +652,7 @@ export const cityData: Record<string, MarketData> = {
     evAdoptionRate: 2.8, // percentage
     waterRestrictions: "Minimal",
     climateType: "Humid Subtropical",
-    heroImageUrl: "https://v0.blob.com/Xn9Xc.png", // Updated to absolute URL
+    heroImageUrl: "https://imagescdn.homes.com/i2/qbskSbcs15xskr33HFP1wdiVqtdvgDkVU7agxIKJBwY/117/image.jpg?p=1", // Updated Virginia Beach image with absolute URL
     accentColor: "blue",
     recentLayoffs: [
       {

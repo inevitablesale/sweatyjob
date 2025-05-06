@@ -1,6 +1,45 @@
 import type { MetadataRoute } from "next"
+import { createClient } from "@supabase/supabase-js"
 
-export default function sitemap(): MetadataRoute.Sitemap {
+// Add this function to generate competitor comparison URLs
+async function getCompetitorUrls() {
+  try {
+    // Create a server-side Supabase client
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+      process.env.SUPABASE_SERVICE_ROLE_KEY || "",
+    )
+
+    // Get competitors data
+    const { data: competitors } = await supabase.from("competitors").select("name, city, state").limit(100) // Adjust based on how many you want to include
+
+    if (!competitors || competitors.length === 0) {
+      return []
+    }
+
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://sweatyjob.com"
+
+    // Generate URLs for each competitor
+    return competitors.map((competitor) => {
+      const name = competitor.name.toLowerCase().replace(/\s+/g, "-")
+      const city = competitor.city?.toLowerCase().replace(/\s+/g, "-") || ""
+      const state = competitor.state?.toLowerCase() || ""
+
+      return {
+        url: `${baseUrl}/compare/${name}-${city}-${state}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.7,
+      }
+    })
+  } catch (error) {
+    console.error("Error generating competitor URLs:", error)
+    return []
+  }
+}
+
+// In the sitemap function, add the competitor URLs
+export default async function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://sweatyjob.com"
 
   // Richmond neighborhoods for SEO
@@ -118,5 +157,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   )
 
-  return [...basePages, ...neighborhoodPages, ...servicePages, ...neighborhoodServicePages]
+  // Get competitor comparison URLs
+  const competitorPages = await getCompetitorUrls()
+
+  return [...basePages, ...neighborhoodPages, ...servicePages, ...neighborhoodServicePages, ...competitorPages]
 }
