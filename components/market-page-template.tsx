@@ -19,10 +19,7 @@ export function MarketPageTemplate({
   competitorDescription,
   industryPartners,
   cityData,
-  \,
-}: MarketPageProps)
-=>
-{
+}: MarketPageProps) {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
