@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { CheckCircle, Star, Award, Trophy, Zap } from "lucide-react"
 import Link from "next/link"
 
-export function PartnerCertificationBadges() {
+const PartnerCertificationBadges = () => {
   const [selectedLevel, setSelectedLevel] = useState<string | null>(null)
 
   const certificationLevels = [
@@ -170,3 +170,5 @@ export function PartnerCertificationBadges() {
     </div>
   )
 }
+
+export default PartnerCertificationBadges

@@ -5,7 +5,11 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { BarChart3, CheckCircle, ChevronRight, Repeat, Sprout, Bug, Flower2, Building, Home } from "lucide-react"
 
-export function IndustryShowcase() {
+interface IndustryShowcaseProps {
+  partners?: any[] // Added to match usage in market-page-template.tsx
+}
+
+const IndustryShowcase = ({ partners }: IndustryShowcaseProps) => {
   const industries = [
     {
       id: "lawn-care",
@@ -209,3 +213,5 @@ export function IndustryShowcase() {
     </Tabs>
   )
 }
+
+export default IndustryShowcase

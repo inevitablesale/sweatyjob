@@ -9,7 +9,7 @@ import { capturePhone } from "@/app/actions/capture-phone"
 import { Loader2 } from "lucide-react"
 
 type PhoneCaptureFormProps = {
-  source: string
+  source?: string
   buttonText?: string
   buttonSize?: "default" | "sm" | "lg"
   onSuccess?: () => void
@@ -20,8 +20,8 @@ type PhoneCaptureFormProps = {
   skipRedirect?: boolean
 }
 
-export function PhoneCaptureForm({
-  source,
+const PhoneCaptureForm = ({
+  source = "market-page",
   buttonText = "Submit",
   buttonSize = "default",
   onSuccess,
@@ -30,7 +30,7 @@ export function PhoneCaptureForm({
   dark,
   showThankYou,
   skipRedirect = false,
-}: PhoneCaptureFormProps) {
+}: PhoneCaptureFormProps) => {
   const [phone, setPhone] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -110,3 +110,5 @@ export function PhoneCaptureForm({
     </div>
   )
 }
+
+export default PhoneCaptureForm

@@ -9,7 +9,7 @@ import CityDataDisplay from "./city-data-display"
 import PhoneCaptureForm from "./phone-capture-form"
 import PartnerCertificationBadges from "./partner-certification-badges"
 
-export default function MarketPageTemplate({
+export function MarketPageTemplate({
   cityName,
   stateName,
   heroImage,
@@ -19,7 +19,10 @@ export default function MarketPageTemplate({
   competitorDescription,
   industryPartners,
   cityData,
-}: MarketPageProps) {
+  \,
+}: MarketPageProps)
+=>
+{
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -64,6 +67,7 @@ export default function MarketPageTemplate({
                       key={index}
                       title={stat.title}
                       value={stat.value}
+                      subtitle={stat.subtitle}
                       description={stat.description}
                       icon={stat.icon}
                     />
@@ -148,7 +152,7 @@ export default function MarketPageTemplate({
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-12 text-center">{cityName} Market Research</h2>
-          <MarketResearchStats />
+          <MarketResearchStats marketSize="$5.4 Billion by 2026" growthRate="CAGR of 12.5% (2023-2028)" />
         </div>
       </section>
 

@@ -11,9 +11,10 @@ interface MarketStatsCardProps {
   icon?: ReactNode
   className?: string
   city?: string // Added city prop to match the loading UI
+  description?: string // Added to match the props in market-page-template.tsx
 }
 
-export function MarketStatsCard({ title, value, subtitle, icon, className, city }: MarketStatsCardProps) {
+const MarketStatsCard = ({ title, value, subtitle, icon, className, city, description }: MarketStatsCardProps) => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -56,7 +57,10 @@ export function MarketStatsCard({ title, value, subtitle, icon, className, city 
           {typeof value === "number" ? value.toLocaleString() : value}
         </p>
         {subtitle && <p className="text-sm text-slate-500 mt-1">{subtitle}</p>}
+        {description && <p className="text-sm text-slate-600 mt-2">{description}</p>}
       </CardContent>
     </Card>
   )
 }
+
+export default MarketStatsCard
