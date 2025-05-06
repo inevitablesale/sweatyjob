@@ -18,37 +18,10 @@ export function MapboxAddressInput({ onAddressSelect }: MapboxAddressInputProps)
   const [results, setResults] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [mapboxToken, setMapboxToken] = useState<string | null>(null)
   const searchTimeout = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
-    // Fetch the Mapbox token from the server
-    const fetchMapboxToken = async () => {
-      try {
-        const response = await fetch("/api/get-mapbox-token")
-
-        if (!response.ok) {
-          throw new Error(`Failed to load Mapbox token: ${response.status} ${response.statusText}`)
-        }
-
-        const data = await response.json()
-
-        if (!data.token) {
-          throw new Error("Mapbox token not found in response")
-        }
-
-        setMapboxToken(data.token)
-      } catch (error) {
-        console.error("Error fetching Mapbox token:", error)
-        setError("Failed to initialize address search. Please try again later.")
-      }
-    }
-
-    fetchMapboxToken()
-  }, [])
-
-  useEffect(() => {
-    if (!query || !mapboxToken) return
+    if (!query) return
 
     // Clear previous timeout
     if (searchTimeout.current) {
@@ -61,14 +34,16 @@ export function MapboxAddressInput({ onAddressSelect }: MapboxAddressInputProps)
       setError(null)
 
       try {
+        // Use our secure proxy endpoint instead of directly calling Mapbox
+        const encodedQuery = encodeURIComponent(query)
+        const proxyParams = encodeURIComponent(`country=us&types=address&limit=5&proximity=-77.436,37.5407`)
+
         const response = await fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-            query,
-          )}.json?access_token=${mapboxToken}&country=us&types=address&limit=5&proximity=-77.436,37.5407`,
+          `/api/mapbox-proxy?endpoint=geocoding/v5/mapbox.places/${encodedQuery}.json&query=${proxyParams}`,
         )
 
         if (!response.ok) {
-          throw new Error(`Mapbox search failed: ${response.status} ${response.statusText}`)
+          throw new Error(`Geocoding search failed: ${response.status} ${response.statusText}`)
         }
 
         const data = await response.json()
@@ -86,7 +61,7 @@ export function MapboxAddressInput({ onAddressSelect }: MapboxAddressInputProps)
         clearTimeout(searchTimeout.current)
       }
     }
-  }, [query, mapboxToken])
+  }, [query])
 
   const handleAddressSelect = (result: any) => {
     const { place_name, center } = result

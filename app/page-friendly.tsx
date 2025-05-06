@@ -36,8 +36,8 @@ export default function FriendlyHomePage() {
                 Let robots mow your lawn <span className="text-teal-500">while you relax</span>
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                No more pushing a mower in the hot sun! Our friendly robot mowers keep your lawn 
-                looking great all the time, so you can enjoy your weekends again.
+                No more pushing a mower in the hot sun! Our friendly robot mowers keep your lawn looking great all the
+                time, so you can enjoy your weekends again.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <PhoneCaptureForm
@@ -50,28 +50,28 @@ export default function FriendlyHomePage() {
                   How It Works
                 </Button>
               </div>
-              
+
               <div className="mt-8 flex items-center">
                 <div className="flex -space-x-2">
-                  <Image 
-                    src="/happy-woman-smiling.png" 
-                    alt="Happy customer" 
-                    width={40} 
-                    height={40} 
+                  <Image
+                    src="/happy-woman-smiling.png"
+                    alt="Happy customer"
+                    width={40}
+                    height={40}
                     className="rounded-full border-2 border-white"
                   />
-                  <Image 
-                    src="/happy-man-smiling.png" 
-                    alt="Happy customer" 
-                    width={40} 
-                    height={40} 
+                  <Image
+                    src="/happy-man-smiling.png"
+                    alt="Happy customer"
+                    width={40}
+                    height={40}
                     className="rounded-full border-2 border-white"
                   />
-                  <Image 
-                    src="/placeholder.svg?height=100&width=100&query=happy family smiling" 
-                    alt="Happy customer" 
-                    width={40} 
-                    height={40} 
+                  <Image
+                    src="/placeholder.svg?key=sctgz"
+                    alt="Happy customer"
+                    width={40}
+                    height={40}
                     className="rounded-full border-2 border-white"
                   />
                 </div>
@@ -89,15 +89,15 @@ export default function FriendlyHomePage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="relative">
               <div className="absolute -inset-4 bg-teal-200 rounded-full blur-xl opacity-30"></div>
               <div className="relative rounded-2xl overflow-hidden">
-                <Image 
-                  src="/placeholder.svg?height=600&width=600&query=happy family relaxing in backyard with robot mower" 
-                  alt="Family enjoying free time while robot mows lawn" 
-                  width={600} 
-                  height={600} 
+                <Image
+                  src="/placeholder.svg?key=0pd5z"
+                  alt="Family enjoying free time while robot mows lawn"
+                  width={600}
+                  height={600}
                   className="w-full h-auto rounded-2xl"
                 />
                 <div className="absolute top-4 right-4 bg-teal-500 text-white px-4 py-2 rounded-full text-sm font-medium">
@@ -129,8 +129,8 @@ export default function FriendlyHomePage() {
               </div>
               <h3 className="text-xl font-bold mb-4 text-gray-800">We Set Everything Up</h3>
               <p className="text-gray-600">
-                Our friendly team comes to your home, maps your yard, and installs your robot mower system. 
-                No technical knowledge needed!
+                Our friendly team comes to your home, maps your yard, and installs your robot mower system. No technical
+                knowledge needed!
               </p>
             </div>
 
@@ -140,8 +140,8 @@ export default function FriendlyHomePage() {
               </div>
               <h3 className="text-xl font-bold mb-4 text-gray-800">Robot Does the Work</h3>
               <p className="text-gray-600">
-                Your robot mower works automatically, keeping your lawn perfectly trimmed all the time. 
-                It even charges itself!
+                Your robot mower works automatically, keeping your lawn perfectly trimmed all the time. It even charges
+                itself!
               </p>
             </div>
 
@@ -151,8 +151,8 @@ export default function FriendlyHomePage() {
               </div>
               <h3 className="text-xl font-bold mb-4 text-gray-800">You Enjoy Life</h3>
               <p className="text-gray-600">
-                Spend your weekends doing what you love instead of pushing a mower. 
-                Your lawn stays perfect with zero effort!
+                Spend your weekends doing what you love instead of pushing a mower. Your lawn stays perfect with zero
+                effort!
               </p>
             </div>
           </div>
@@ -219,7 +219,8 @@ export default function FriendlyHomePage() {
               </div>
               <h3 className="text-xl font-bold mb-2 text-gray-800">Neighbors Will Be Jealous</h3>
               <p className="text-gray-600">
-                Your lawn will look so good, your neighbors will wonder how you do it while they're still pushing mowers!
+                Your lawn will look so good, your neighbors will wonder how you do it while they're still pushing
+                mowers!
               </p>
             </div>
 
@@ -261,15 +262,15 @@ export default function FriendlyHomePage() {
                 </div>
               </div>
               <p className="text-gray-600 mb-6">
-                "I used to spend every Saturday mowing my lawn. Now I spend that time with my kids at the park! 
-                Best decision I've made this year."
+                "I used to spend every Saturday mowing my lawn. Now I spend that time with my kids at the park! Best
+                decision I've made this year."
               </p>
               <div className="flex items-center">
-                <Image 
-                  src="/placeholder.svg?height=100&width=100&query=happy dad with kids" 
-                  alt="Happy customer" 
-                  width={50} 
-                  height={50} 
+                <Image
+                  src="/placeholder.svg?key=jvbt7"
+                  alt="Happy customer"
+                  width={50}
+                  height={50}
                   className="rounded-full mr-4"
                 />
                 <div>
@@ -290,15 +291,15 @@ export default function FriendlyHomePage() {
                 </div>
               </div>
               <p className="text-gray-600 mb-6">
-                "My lawn looks better than ever and I haven't touched a mower in months! The setup was super easy 
-                and the team was so friendly."
+                "My lawn looks better than ever and I haven't touched a mower in months! The setup was super easy and
+                the team was so friendly."
               </p>
               <div className="flex items-center">
-                <Image 
-                  src="/placeholder.svg?height=100&width=100&query=happy woman homeowner" 
-                  alt="Happy customer" 
-                  width={50} 
-                  height={50} 
+                <Image
+                  src="/placeholder.svg?key=vzi34"
+                  alt="Happy customer"
+                  width={50}
+                  height={50}
                   className="rounded-full mr-4"
                 />
                 <div>
@@ -319,15 +320,15 @@ export default function FriendlyHomePage() {
                 </div>
               </div>
               <p className="text-gray-600 mb-6">
-                "As a busy professional, I never had time to keep up with my lawn. Now it's always perfect and I 
-                didn't have to hire an expensive lawn service!"
+                "As a busy professional, I never had time to keep up with my lawn. Now it's always perfect and I didn't
+                have to hire an expensive lawn service!"
               </p>
               <div className="flex items-center">
-                <Image 
-                  src="/placeholder.svg?height=100&width=100&query=professional man in business casual" 
-                  alt="Happy customer" 
-                  width={50} 
-                  height={50} 
+                <Image
+                  src="/professional-man-business-casual.png"
+                  alt="Happy customer"
+                  width={50}
+                  height={50}
                   className="rounded-full mr-4"
                 />
                 <div>
@@ -362,7 +363,7 @@ export default function FriendlyHomePage() {
                   <div className="flex items-baseline mb-4">
                     <span className="text-4xl font-bold text-gray-800">$249</span>
                   </div>
-                  
+
                   <ul className="space-y-3 mb-6">
                     <li className="flex items-start">
                       <CheckCircle2 className="h-5 w-5 text-teal-500 mr-2 flex-shrink-0" />
@@ -377,12 +378,10 @@ export default function FriendlyHomePage() {
                       <span>App setup and training</span>
                     </li>
                   </ul>
-                  
-                  <Button className="w-full bg-teal-500 hover:bg-teal-600 text-white">
-                    Get Started
-                  </Button>
+
+                  <Button className="w-full bg-teal-500 hover:bg-teal-600 text-white">Get Started</Button>
                 </div>
-                
+
                 <div className="p-8 relative">
                   <div className="absolute top-0 right-0 bg-teal-500 text-white px-4 py-1 text-sm font-medium">
                     MOST POPULAR
@@ -393,7 +392,7 @@ export default function FriendlyHomePage() {
                     <span className="text-4xl font-bold text-gray-800">$99</span>
                     <span className="text-gray-500 ml-2">/month</span>
                   </div>
-                  
+
                   <ul className="space-y-3 mb-6">
                     <li className="flex items-start">
                       <CheckCircle2 className="h-5 w-5 text-teal-500 mr-2 flex-shrink-0" />
@@ -408,17 +407,16 @@ export default function FriendlyHomePage() {
                       <span>Free repairs if needed</span>
                     </li>
                   </ul>
-                  
-                  <Button className="w-full bg-teal-500 hover:bg-teal-600 text-white">
-                    Subscribe Now
-                  </Button>
+
+                  <Button className="w-full bg-teal-500 hover:bg-teal-600 text-white">Subscribe Now</Button>
                 </div>
               </div>
             </div>
-            
+
             <div className="mt-8 bg-white rounded-xl p-6 shadow-md border border-gray-100">
               <p className="text-center text-gray-600">
-                Not sure which option is right for you? Give us a call at <span className="font-medium text-teal-600">(804) 555-1234</span> and we'll help you decide!
+                Not sure which option is right for you? Give us a call at{" "}
+                <span className="font-medium text-teal-600">(804) 555-1234</span> and we'll help you decide!
               </p>
             </div>
           </div>
@@ -443,45 +441,45 @@ export default function FriendlyHomePage() {
               <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                 <h3 className="text-xl font-bold mb-3 text-gray-800">How does the robot mower know where to go?</h3>
                 <p className="text-gray-600">
-                  Our robot mowers use a combination of boundary wires and smart navigation technology. 
-                  We install a thin wire around the perimeter of your lawn that creates an invisible boundary. 
-                  The robot uses this, along with its sensors, to navigate your entire yard efficiently.
+                  Our robot mowers use a combination of boundary wires and smart navigation technology. We install a
+                  thin wire around the perimeter of your lawn that creates an invisible boundary. The robot uses this,
+                  along with its sensors, to navigate your entire yard efficiently.
                 </p>
               </div>
 
               <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                 <h3 className="text-xl font-bold mb-3 text-gray-800">Is it safe around kids and pets?</h3>
                 <p className="text-gray-600">
-                  Our robot mowers have multiple safety features including lift sensors, 
-                  obstacle detection, and automatic shut-off if tilted. The blades are also tucked safely 
-                  under the mower, making them much safer than traditional mowers.
+                  Our robot mowers have multiple safety features including lift sensors, obstacle detection, and
+                  automatic shut-off if tilted. The blades are also tucked safely under the mower, making them much
+                  safer than traditional mowers.
                 </p>
               </div>
 
               <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                 <h3 className="text-xl font-bold mb-3 text-gray-800">What happens when it rains?</h3>
                 <p className="text-gray-600">
-                  Our smart mowers have rain sensors and will automatically return to their charging 
-                  station when it starts raining. They'll resume mowing when conditions are dry again, 
-                  so you never have to worry about scheduling around the weather.
+                  Our smart mowers have rain sensors and will automatically return to their charging station when it
+                  starts raining. They'll resume mowing when conditions are dry again, so you never have to worry about
+                  scheduling around the weather.
                 </p>
               </div>
 
               <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                 <h3 className="text-xl font-bold mb-3 text-gray-800">How long does the battery last?</h3>
                 <p className="text-gray-600">
-                  The robot mowers typically run for 60-90 minutes before automatically returning to their 
-                  charging station. They'll recharge for about 60 minutes, then head back out to continue 
-                  mowing. This cycle repeats until your entire lawn is perfectly cut.
+                  The robot mowers typically run for 60-90 minutes before automatically returning to their charging
+                  station. They'll recharge for about 60 minutes, then head back out to continue mowing. This cycle
+                  repeats until your entire lawn is perfectly cut.
                 </p>
               </div>
 
               <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                 <h3 className="text-xl font-bold mb-3 text-gray-800">What maintenance is required?</h3>
                 <p className="text-gray-600">
-                  Very little! You'll need to occasionally clean grass clippings from the underside and 
-                  replace the blades every few months (which we handle as part of our service). The robot 
-                  takes care of everything else automatically.
+                  Very little! You'll need to occasionally clean grass clippings from the underside and replace the
+                  blades every few months (which we handle as part of our service). The robot takes care of everything
+                  else automatically.
                 </p>
               </div>
             </div>
@@ -494,6 +492,24 @@ export default function FriendlyHomePage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Reclaim Your Weekends?</h2>
+            <p className="text-xl mb-8">
+              Join hundreds of happy homeowners who have switched to robot mowing. It's easy to get started and you'll
+              wonder why you didn't do it sooner!
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <PhoneCaptureForm
+                source="friendly-footer"
+                buttonText="Get Started Today"
+                className="w-full sm:w-auto"
+                showThankYou={true}
+              />
+              <Button variant="outline" className="border-white text-white hover:bg-teal-600">
+                Learn More
+              </Button>
+            </div>
           </div>
         </div>
-      </section>\
+      </section>
+    </div>
+  )
+}

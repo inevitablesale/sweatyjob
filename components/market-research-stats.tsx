@@ -14,10 +14,10 @@ interface MarketResearchStatsProps {
   dark?: boolean
 }
 
-const MarketResearchStats = ({
+export function MarketResearchStats({
   title = "Robotic Mower Market Research",
-  marketSize = "$5.4 Billion by 2026",
-  growthRate = "CAGR of 12.5% (2023-2028)",
+  marketSize,
+  growthRate,
   segmentData = {
     residential: 60,
     commercial: 20,
@@ -26,7 +26,7 @@ const MarketResearchStats = ({
     rental: 5,
   },
   dark = false,
-}: MarketResearchStatsProps) => {
+}: MarketResearchStatsProps) {
   const textColor = dark ? "text-white" : "text-gray-800"
   const bgColor = dark ? "bg-slate-800" : "bg-white"
   const borderColor = dark ? "border-slate-700" : "border-gray-200"
@@ -123,5 +123,3 @@ const MarketResearchStats = ({
     </div>
   )
 }
-
-export default MarketResearchStats

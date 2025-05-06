@@ -61,15 +61,13 @@
     "@emotion/is-prop-valid": "latest",
     "@supabase/supabase-js": "latest",
     "@stripe/stripe-js": "latest",
-    "schema-dts": "latest",
     "framer-motion": "latest",
     "@supabase/auth-helpers-nextjs": "latest",
     "@stripe/react-stripe-js": "latest",
     "stripe": "latest",
     "canvas-confetti": "latest",
     "react-feather": "latest",
-    "mapbox-gl": "latest",
-    "react-schemaorg": "latest"
+    "mapbox-gl": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",

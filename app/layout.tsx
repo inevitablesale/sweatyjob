@@ -2,9 +2,10 @@ import type React from "react"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import type { Metadata } from "next"
+import { Header } from "@/components/header"
+import Footer from "@/components/footer"
 import ScrollToTop from "@/components/scroll-to-top"
 import { ExitIntentPopup } from "@/components/exit-intent-popup"
-import ConditionalLayout from "@/components/conditional-layout"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -38,7 +39,9 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} bg-night-900 text-white`}>
         <ScrollToTop />
-        <ConditionalLayout>{children}</ConditionalLayout>
+        <Header />
+        <main>{children}</main>
+        <Footer />
         <ExitIntentPopup />
       </body>
     </html>

@@ -54,7 +54,7 @@ export default function NeighborhoodRepairPage({ neighborhood, children }: Neigh
           }),
         }}
       />
-      
+
       {/* Hero Section */}
       <section className="py-16 md:py-24 bg-gradient-to-b from-green-50 to-white">
         <div className="container mx-auto px-4">
@@ -67,7 +67,8 @@ export default function NeighborhoodRepairPage({ neighborhood, children }: Neigh
                 <span className="text-green-600">{neighborhood.name}</span> Lawn Mower Repair Alternative
               </h1>
               <p className="text-xl mb-8 text-gray-700">
-                Looking for lawn mower repair in {neighborhood.name}, Richmond? Save time and money with our robot mowing service. No more repairs, no maintenance, just a perfect lawn every day.
+                Looking for lawn mower repair in {neighborhood.name}, Richmond? Save time and money with our robot
+                mowing service. No more repairs, no maintenance, just a perfect lawn every day.
               </p>
               <div className="space-y-4">
                 <div className="flex items-center">
@@ -98,5 +99,102 @@ export default function NeighborhoodRepairPage({ neighborhood, children }: Neigh
             </div>
             <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
               <Image
-\
-Let's create a component for internal linking between repair and neighborhood pages:
+                src={neighborhood.image || "/placeholder.svg"}
+                alt={`${neighborhood.name} Richmond VA neighborhood`}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            Why Choose Robot Mowing Over Lawn Mower Repair?
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-green-50 p-6 rounded-lg">
+              <h3 className="text-xl font-bold mb-4 text-green-700">Traditional Lawn Mower Repair</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <span className="text-red-500 mr-2">✗</span>
+                  <span>Unexpected repair costs ($150-$400 per repair)</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-red-500 mr-2">✗</span>
+                  <span>Wait days or weeks for repairs</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-red-500 mr-2">✗</span>
+                  <span>Need to transport heavy equipment</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-red-500 mr-2">✗</span>
+                  <span>Ongoing maintenance costs (oil, filters, gas)</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-red-500 mr-2">✗</span>
+                  <span>Your time spent mowing (104+ hours/year)</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-green-100 p-6 rounded-lg">
+              <h3 className="text-xl font-bold mb-4 text-green-700">SweatyJob Robot Mowing</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-2">✓</span>
+                  <span>Predictable monthly cost ($79/month)</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-2">✓</span>
+                  <span>Daily mowing - always looks perfect</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-2">✓</span>
+                  <span>We handle all maintenance and repairs</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-2">✓</span>
+                  <span>Zero-emission, eco-friendly solution</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-2">✓</span>
+                  <span>Reclaim your weekends - no more mowing</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Button asChild size="lg">
+              <Link href="/book">Schedule Your Free Consultation</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Additional Content */}
+      {children}
+
+      {/* CTA Section */}
+      <section className="py-16 bg-green-50">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Forget About Lawn Mower Repairs Forever?</h2>
+          <p className="text-xl mb-8 max-w-3xl mx-auto">
+            Join your neighbors in {neighborhood.name} who have switched to our robot mowing service. Enjoy a perfectly
+            maintained lawn without the hassle of repairs, maintenance, or mowing.
+          </p>
+          <Button asChild size="lg">
+            <Link href="/get-started">Get Started Today</Link>
+          </Button>
+        </div>
+      </section>
+    </>
+  )
+}
