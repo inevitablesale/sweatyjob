@@ -2,5 +2,5 @@
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
-  "installCommand": "npm install --no-save"
+  "installCommand": "npm install --no-save --ignore-scripts --no-package-lock"
 }

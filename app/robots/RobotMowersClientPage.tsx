@@ -1,554 +1,414 @@
 "use client"
 
-import { useState } from "react"
 import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { CheckCircle, ArrowRight, Play, Zap, Shield, Battery } from "lucide-react"
 import Link from "next/link"
-import VideoModal from "../../components/video-modal"
+import { useState } from "react"
+import { VideoModal } from "@/components/video-modal"
 
 export default function RobotMowersClientPage() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
-  const [currentVideo, setCurrentVideo] = useState("")
-
-  const openVideoModal = (videoUrl: string) => {
-    setCurrentVideo(videoUrl)
-    setIsVideoModalOpen(true)
-  }
-
-  const closeVideoModal = () => {
-    setIsVideoModalOpen(false)
-    setCurrentVideo("")
-  }
+  const videoUrl =
+    "https://www.bestmow.com/cdn/shop/videos/c/vp/962096c1d1224dc78b09087c9a8c7ef8/962096c1d1224dc78b09087c9a8c7ef8.HD-1080p-7.2Mbps-44563247.mp4?v=0"
 
   return (
-    <div className="bg-white">
+    <main className="bg-black text-white">
+      {/* Schema Markup */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: "SmartYard Robot Lawn Mower",
+            description: "Experience the future of lawn care with our SmartYard AI-powered robot mowers.",
+            brand: {
+              "@type": "Brand",
+              name: "SmartYard",
+            },
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            speakable: {
+              "@type": "SpeakableSpecification",
+              cssSelector: [".speakable-content"],
+            },
+            url: "https://www.sweatyjob.com/robots",
+          }),
+        }}
+      />
+
+      {/* Video Modal */}
+      <VideoModal isOpen={isVideoModalOpen} onClose={() => setIsVideoModalOpen(false)} videoUrl={videoUrl} />
+
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-green-600 to-green-800 py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <section className="relative min-h-[80vh] flex items-center overflow-hidden border-b-4 border-yellow-500 pt-24">
+        {/* Background image with overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/robot-lawn-mower.png"
+            alt="Advanced robot lawn mower technology"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/90"></div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-3xl">
+            <div className="relative speakable-content">
+              <div className="absolute -top-16 -left-8 text-yellow-500 text-9xl font-black opacity-10">AI</div>
+              <h1 className="text-4xl md:text-6xl font-black mb-6 leading-none">
+                ROBOT <span className="text-yellow-500">LAWN MOWING</span> SERVICE
+              </h1>
+
+              <div className="bg-yellow-500 h-2 w-32 mb-8"></div>
+
+              <p className="text-xl md:text-2xl font-bold mb-8 text-gray-300">
+                Experience the future of lawn care with our SmartYard AI-powered robot mowers. Daily cutting, perfect
+                results, no work for you. Starting at $79/month in Richmond.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                <Button
+                  size="lg"
+                  className="bg-yellow-500 hover:bg-yellow-600 text-black text-lg font-bold px-8 py-6 rounded-md flex items-center gap-2"
+                  asChild
+                >
+                  <Link href="/purchase/smart-yard">
+                    GET YOUR SMARTYARD <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-yellow-500 bg-black hover:bg-black/80 text-yellow-500 text-lg font-bold px-8 py-6 rounded-md relative overflow-hidden group"
+                  onClick={() => setIsVideoModalOpen(true)}
+                >
+                  <span className="relative z-10 group-hover:text-black transition-colors duration-300 flex items-center">
+                    <Play className="mr-2 h-5 w-5" /> WATCH DEMO VIDEO
+                  </span>
+                  <span className="absolute inset-0 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+                </Button>
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+                <div className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-yellow-500 mr-2" />
+                  <span>Daily mowing</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-yellow-500 mr-2" />
+                  <span>AI navigation</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="h-5 w-5 text-yellow-500 mr-2" />
+                  <span>Weather adaptive</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Related Pages Section */}
+      <section className="py-12 bg-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Lawn Mowing Page Link */}
+              <Link href="/robots/lawn-mowing" className="block">
+                <div className="bg-gray-800 rounded-lg p-6 h-full border-l-4 border-yellow-500 hover:bg-gray-700 transition-colors">
+                  <h3 className="text-xl font-bold mb-2">Lawn Mowing Service</h3>
+                  <p className="text-gray-300">
+                    Learn more about our daily robot lawn mowing service and how it can transform your lawn care
+                    routine.
+                  </p>
+                  <div className="mt-4 flex items-center text-yellow-500">
+                    <span className="font-bold">Learn More</span>
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </div>
+                </div>
+              </Link>
+
+              {/* Lawn Mower Repair Alternative Page Link */}
+              <Link href="/robots/lawn-mower-repair" className="block">
+                <div className="bg-gray-800 rounded-lg p-6 h-full border-l-4 border-yellow-500 hover:bg-gray-700 transition-colors">
+                  <h3 className="text-xl font-bold mb-2">Lawn Mower Repair Alternative</h3>
+                  <p className="text-gray-300">
+                    Why repair your old mower when you can upgrade to our SmartYard robot mowing service?
+                  </p>
+                  <div className="mt-4 flex items-center text-yellow-500">
+                    <span className="font-bold">Learn More</span>
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How Robot Mowers Work */}
+      <section className="py-20 bg-gradient-to-b from-black to-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 speakable-content">
+            <h2 className="text-4xl md:text-5xl font-black mb-4">
+              HOW <span className="text-yellow-500">SMARTYARD WORKS</span>
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Advanced technology that delivers perfect results every day, automatically.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Robotic Lawn Mowers</h1>
-              <p className="text-xl text-white mb-8">
-                Experience the future of lawn care with our SmartYard AI-powered robot mowers.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/purchase/smart-yard"
-                  className="bg-white text-green-700 hover:bg-gray-100 px-6 py-3 rounded-lg font-medium text-lg inline-block text-center"
-                >
-                  Shop Now
-                </Link>
-                <button
-                  onClick={() => openVideoModal("https://www.youtube.com/embed/dQw4w9WgXcQ")}
-                  className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-green-700 px-6 py-3 rounded-lg font-medium text-lg inline-block text-center"
-                >
-                  Watch Demo
-                </button>
-              </div>
-            </div>
-            <div className="relative h-64 sm:h-80 md:h-96">
-              <Image src="/robot-lawn-mower.png" alt="Robot Lawn Mower" fill className="object-contain" priority />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Smart Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-green-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Efficient Cutting</h3>
-              <p className="text-gray-600">
-                Advanced blade technology ensures a perfect cut every time, maintaining your lawn at the ideal height.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-green-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Smart Navigation</h3>
-              <p className="text-gray-600">
-                AI-powered navigation systems create optimal mowing patterns and avoid obstacles with precision.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-green-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Scheduled Mowing</h3>
-              <p className="text-gray-600">
-                Set it and forget it with customizable mowing schedules that work around your lifestyle.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Product Showcase */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Our Robot Mower Models</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Model 1 */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md transition-transform hover:shadow-lg hover:-translate-y-1">
-              <div className="relative h-48 bg-gray-100">
+              <div className="rounded-xl overflow-hidden shadow-2xl border-2 border-yellow-500 mb-8">
                 <Image
-                  src="/images/husqvarna-automower.png"
-                  alt="SmartYard Basic Model"
-                  fill
-                  className="object-contain p-4"
+                  src="/robot-mower-action.png"
+                  alt="Robot mower in action"
+                  width={600}
+                  height={400}
+                  className="w-full h-auto"
                 />
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">SmartYard Basic</h3>
-                <p className="text-gray-600 mb-4">Perfect for small to medium yards up to 0.25 acres.</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold text-green-600">$999</span>
-                  <Link
-                    href="/purchase/smart-yard?model=basic"
-                    className="bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded-lg font-medium"
-                  >
-                    View Details
-                  </Link>
-                </div>
+              <div className="rounded-xl overflow-hidden shadow-2xl border-2 border-yellow-500">
+                <Image
+                  src="/robot-mower-closeup.png"
+                  alt="Robot mower closeup"
+                  width={600}
+                  height={400}
+                  className="w-full h-auto"
+                />
               </div>
             </div>
 
-            {/* Model 2 */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md transition-transform hover:shadow-lg hover:-translate-y-1">
-              <div className="relative h-48 bg-gray-100">
-                <Image src="/images/worx-landroid.png" alt="SmartYard Pro Model" fill className="object-contain p-4" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">SmartYard Pro</h3>
-                <p className="text-gray-600 mb-4">Ideal for medium to large yards up to 0.5 acres.</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold text-green-600">$1,499</span>
-                  <Link
-                    href="/purchase/smart-yard?model=pro"
-                    className="bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded-lg font-medium"
-                  >
-                    View Details
-                  </Link>
+            <div className="flex flex-col justify-center">
+              <div className="mb-8">
+                <div className="flex items-center mb-4">
+                  <div className="bg-yellow-500 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                    <Zap className="h-6 w-6 text-black" />
+                  </div>
+                  <h3 className="text-2xl font-bold">AI NAVIGATION</h3>
                 </div>
+                <p className="text-gray-300 ml-16">
+                  Advanced RTK positioning and vision technology create a virtual map of your lawn - no boundary wires
+                  needed. The robot navigates efficiently, avoiding obstacles and ensuring complete coverage whether you
+                  have a small garden or a large 2-acre property. Setup is simple compared to traditional robot
+                  lawnmowers that require wire installation.
+                </p>
               </div>
-            </div>
 
-            {/* Model 3 */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md transition-transform hover:shadow-lg hover:-translate-y-1">
-              <div className="relative h-48 bg-gray-100">
-                <Image src="/images/robomow.png" alt="SmartYard Elite Model" fill className="object-contain p-4" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">SmartYard Elite</h3>
-                <p className="text-gray-600 mb-4">For large yards and complex landscapes up to 1 acre.</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold text-green-600">$1,999</span>
-                  <Link
-                    href="/purchase/smart-yard?model=elite"
-                    className="bg-green-600 text-white hover:bg-green-700 px-4 py-2 rounded-lg font-medium"
-                  >
-                    View Details
-                  </Link>
+              <div className="mb-8">
+                <div className="flex items-center mb-4">
+                  <div className="bg-yellow-500 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                    <Shield className="h-6 w-6 text-black" />
+                  </div>
+                  <h3 className="text-2xl font-bold">SAFETY FEATURES</h3>
                 </div>
+                <p className="text-gray-300 ml-16">
+                  Multiple safety sensors detect obstacles, pets, and people. The blades automatically stop if the mower
+                  is lifted or tilted, ensuring complete safety.
+                </p>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* How It Works */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="relative h-64 sm:h-80 md:h-96">
-              <Image
-                src="/robot-mower-action.png"
-                alt="Robot Mower in Action"
-                fill
-                className="object-contain rounded-lg"
-              />
-            </div>
-            <div>
-              <ol className="space-y-6">
-                <li className="flex gap-4">
-                  <div className="flex-shrink-0 h-8 w-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">
-                    1
+              <div className="mb-8">
+                <div className="flex items-center mb-4">
+                  <div className="bg-yellow-500 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                    <Battery className="h-6 w-6 text-black" />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-1">Boundary Setup</h3>
-                    <p className="text-gray-600">
-                      Install the boundary wire around your lawn to define the mowing area.
-                    </p>
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <div className="flex-shrink-0 h-8 w-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">
-                    2
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-1">App Configuration</h3>
-                    <p className="text-gray-600">Use our mobile app to set schedules and customize mowing patterns.</p>
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <div className="flex-shrink-0 h-8 w-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">
-                    3
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-1">Automated Mowing</h3>
-                    <p className="text-gray-600">
-                      Your robot mower works autonomously, returning to its charging station when needed.
-                    </p>
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <div className="flex-shrink-0 h-8 w-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">
-                    4
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-1">Enjoy Your Free Time</h3>
-                    <p className="text-gray-600">Relax while your lawn is perfectly maintained without your effort.</p>
-                  </div>
-                </li>
-              </ol>
-              <button
-                onClick={() => openVideoModal("https://www.youtube.com/embed/dQw4w9WgXcQ")}
-                className="mt-8 bg-green-600 text-white hover:bg-green-700 px-6 py-3 rounded-lg font-medium inline-flex items-center"
+                  <h3 className="text-2xl font-bold">SELF-CHARGING</h3>
+                </div>
+                <p className="text-gray-300 ml-16">
+                  When battery runs low, the robot automatically returns to its charging station. Once recharged, it
+                  resumes mowing exactly where it left off.
+                </p>
+              </div>
+
+              <Button
+                size="lg"
+                className="bg-yellow-500 hover:bg-yellow-600 text-black text-lg font-bold px-8 py-6 rounded-md self-start"
+                onClick={() => setIsVideoModalOpen(true)}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                Watch Installation Guide
-              </button>
+                SEE IT IN ACTION <Play className="ml-2 h-5 w-5" />
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">What Our Customers Say</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                  <span className="text-green-600 font-bold">JD</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold">John Doe</h3>
-                  <p className="text-sm text-gray-500">Richmond, VA</p>
-                </div>
+      {/* Benefits Section */}
+      <section className="py-20 bg-black">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 speakable-content">
+            <h2 className="text-4xl md:text-5xl font-black mb-4">
+              BENEFITS OF <span className="text-yellow-500">SMARTYARD</span>
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Why Richmond homeowners are switching to robot lawn mowing service.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* Benefit 1 */}
+            <div className="bg-gray-900 rounded-lg p-8 border-2 border-yellow-500 transform transition-all duration-300 hover:scale-105">
+              <div className="bg-yellow-500 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-8 w-8 text-black"
+                >
+                  <path d="M12 2v20" />
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
               </div>
-              <p className="text-gray-600">
-                "My SmartYard robot mower has completely transformed my weekends. I used to spend hours mowing my lawn,
-                but now I can enjoy my free time while my lawn looks better than ever."
+              <h3 className="text-2xl font-bold mb-3">SAVE MONEY</h3>
+              <p className="text-gray-300">
+                No equipment to buy or maintain. No gas, oil, or repair costs. Just $79/month for complete lawn care.
               </p>
-              <div className="flex mt-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              </div>
             </div>
 
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                  <span className="text-green-600 font-bold">JS</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold">Jane Smith</h3>
-                  <p className="text-sm text-gray-500">Ginter Park</p>
-                </div>
+            {/* Benefit 2 */}
+            <div className="bg-gray-900 rounded-lg p-8 border-2 border-yellow-500 transform transition-all duration-300 hover:scale-105">
+              <div className="bg-yellow-500 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-8 w-8 text-black"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
               </div>
-              <p className="text-gray-600">
-                "The SmartYard Elite has been a game-changer for our large property. It navigates our complex landscape
-                with ease, and the app makes it simple to adjust settings. Worth every penny!"
+              <h3 className="text-2xl font-bold mb-3">SAVE TIME</h3>
+              <p className="text-gray-300">
+                Reclaim 35+ hours each season. No more pushing a mower in Richmond's summer heat.
               </p>
-              <div className="flex mt-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              </div>
             </div>
 
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                  <span className="text-green-600 font-bold">RJ</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold">Robert Johnson</h3>
-                  <p className="text-sm text-gray-500">Battery Park</p>
-                </div>
+            {/* Benefit 3 */}
+            <div className="bg-gray-900 rounded-lg p-8 border-2 border-yellow-500 transform transition-all duration-300 hover:scale-105">
+              <div className="bg-yellow-500 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-8 w-8 text-black"
+                >
+                  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
               </div>
-              <p className="text-gray-600">
-                "As someone with allergies, the SmartYard robot mower has been a lifesaver. I no longer have to deal
-                with grass clippings and pollen while mowing. My lawn looks immaculate year-round."
+              <h3 className="text-2xl font-bold mb-3">BETTER RESULTS</h3>
+              <p className="text-gray-300">
+                Daily cutting creates a denser, healthier lawn that's more resistant to weeds and drought.
               </p>
-              <div className="flex mt-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-yellow-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Technical Specs */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Technical Specifications</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="space-y-6">
-                <div className="border-b border-gray-200 pb-4">
-                  <h3 className="text-xl font-semibold mb-2">Cutting System</h3>
-                  <p className="text-gray-600">
-                    Triple-blade cutting system with floating deck design for even cutting on uneven terrain.
-                  </p>
-                </div>
-                <div className="border-b border-gray-200 pb-4">
-                  <h3 className="text-xl font-semibold mb-2">Navigation</h3>
-                  <p className="text-gray-600">
-                    GPS-assisted navigation with boundary wire system and obstacle detection sensors.
-                  </p>
-                </div>
-                <div className="border-b border-gray-200 pb-4">
-                  <h3 className="text-xl font-semibold mb-2">Battery Life</h3>
-                  <p className="text-gray-600">
-                    Up to 3 hours of continuous operation with quick-charge technology (80% in 45 minutes).
-                  </p>
-                </div>
-                <div className="border-b border-gray-200 pb-4">
-                  <h3 className="text-xl font-semibold mb-2">Weather Resistance</h3>
-                  <p className="text-gray-600">
-                    IPX5 water resistance rating, capable of operating in light rain and temperatures from 35°F to
-                    105°F.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">Connectivity</h3>
-                  <p className="text-gray-600">
-                    Wi-Fi and Bluetooth connectivity for app control and over-the-air updates.
-                  </p>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mt-8">
+            {/* Benefit 4 */}
+            <div className="bg-gray-900 rounded-lg p-8 border-2 border-yellow-500 transform transition-all duration-300 hover:scale-105">
+              <div className="bg-yellow-500 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-8 w-8 text-black"
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
               </div>
+              <h3 className="text-2xl font-bold mb-3">ECO-FRIENDLY</h3>
+              <p className="text-gray-300">
+                Zero emissions, no pollution, and 90% less energy usage compared to gas-powered mowers.
+              </p>
             </div>
-            <div className="relative h-64 sm:h-80 md:h-96">
-              <Image
-                src="/robot-mower-closeup.png"
-                alt="Robot Mower Technical Details"
-                fill
-                className="object-contain rounded-lg"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* FAQ Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
-          <div className="space-y-6 max-w-3xl mx-auto">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-2">How does the boundary system work?</h3>
-              <p className="text-gray-600">
-                The boundary wire creates an invisible perimeter that the robot mower detects. This keeps the mower
-                within your lawn area and can also be used to protect flower beds, ponds, and other areas you want the
-                mower to avoid.
+            {/* Benefit 5 */}
+            <div className="bg-gray-900 rounded-lg p-8 border-2 border-yellow-500 transform transition-all duration-300 hover:scale-105">
+              <div className="bg-yellow-500 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-8 w-8 text-black"
+                >
+                  <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                  <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold mb-3">WHISPER QUIET</h3>
+              <p className="text-gray-300">
+                So quiet you can run it at night. No more disturbing neighbors with loud mowing.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-2">Is the robot mower safe around children and pets?</h3>
-              <p className="text-gray-600">
-                Yes, our robot mowers are equipped with multiple safety features, including lift sensors that
-                immediately stop the blades if the mower is lifted, obstacle detection to avoid collisions, and
-                PIN-protected controls to prevent unauthorized use.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-2">What maintenance is required?</h3>
-              <p className="text-gray-600">
-                Minimal maintenance is required. We recommend cleaning the underside of the mower and replacing the
-                blades every 2-3 months during the mowing season. The app will send you reminders when maintenance is
-                needed.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-2">Can it handle slopes and uneven terrain?</h3>
-              <p className="text-gray-600">
-                Our robot mowers can handle slopes up to 35% (20 degrees) and navigate most uneven terrain. The floating
-                deck design ensures an even cut regardless of small bumps and dips in your lawn.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-2">What happens if it rains?</h3>
-              <p className="text-gray-600">
-                Our robot mowers have rain sensors and will automatically return to their charging station when it
-                starts raining. They'll resume mowing once conditions are dry enough, ensuring optimal cutting results.
+
+            {/* Benefit 6 */}
+            <div className="bg-gray-900 rounded-lg p-8 border-2 border-yellow-500 transform transition-all duration-300 hover:scale-105">
+              <div className="bg-yellow-500 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-8 w-8 text-black"
+                >
+                  <path d="M20 7h-9" />
+                  <path d="M14 17H5" />
+                  <circle cx="17" cy="17" r="3" />
+                  <circle cx="7" cy="7" r="3" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold mb-3">SMART CONTROL</h3>
+              <p className="text-gray-300">
+                Monitor and control your robot mower from your smartphone. Adjust settings from anywhere.
               </p>
             </div>
           </div>
@@ -556,32 +416,32 @@ export default function RobotMowersClientPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-green-600 text-white">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Transform Your Lawn Care Experience?</h2>
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Join thousands of satisfied customers who have reclaimed their weekends and enjoy perfectly maintained lawns
-            year-round.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/purchase/smart-yard"
-              className="bg-white text-green-700 hover:bg-gray-100 px-8 py-4 rounded-lg font-medium text-lg inline-block"
+      <section className="py-20 bg-yellow-500 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-400 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl opacity-50"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-yellow-400 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl opacity-50"></div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-4xl md:text-6xl font-black mb-6 text-black">EXPERIENCE THE SMARTYARD DIFFERENCE</h2>
+            <p className="text-2xl mb-8 text-black/80 font-bold">
+              Join other Richmond homeowners who've upgraded to robot mowing.
+            </p>
+
+            <Button
+              size="lg"
+              className="bg-black hover:bg-gray-900 text-yellow-500 text-xl font-black px-8 py-6 rounded-md"
+              asChild
             >
-              Shop Robot Mowers
-            </Link>
-            <Link
-              href="/book"
-              className="bg-transparent border-2 border-white hover:bg-white hover:text-green-700 px-8 py-4 rounded-lg font-medium text-lg inline-block"
-            >
-              Schedule a Consultation
-            </Link>
+              <Link href="/purchase/smart-yard">
+                GET YOUR SMARTYARD NOW <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <p className="mt-6 text-black/80 font-bold">
+              Limited spots available for Richmond this month. Don't miss out.
+            </p>
           </div>
         </div>
       </section>
-
-      {/* Video Modal */}
-      {isVideoModalOpen && <VideoModal isOpen={isVideoModalOpen} onClose={closeVideoModal} videoUrl={currentVideo} />}
-    </div>
+    </main>
   )
 }
