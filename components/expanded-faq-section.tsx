@@ -230,3 +230,174 @@ export const commercialRobotMowersFAQs: FAQItem[] = [
       "Yes, by deploying multiple SmartYard units that work together as a fleet. Each unit can maintain up to 1.5 acres, and our commercial packages include multiple units with coordinated operation. The mowers communicate with each other to ensure complete coverage without overlap, maximizing efficiency. For very large properties, we create zones with dedicated mowers for each area. Explore our <a href='/commercial' class='text-yellow-500 hover:underline'>commercial solutions</a>.",
   },
 ]
+
+// New set of FAQs specifically for "near me" search intent that doesn't duplicate the ones on the compare page
+export const lawnMowingNearMeFAQs: FAQItem[] = [
+  {
+    question: "What is the lawn mowing service near me cost?",
+    answer:
+      "The cost of lawn mowing services varies by location and lawn size, but typically ranges from $40-50 per visit for traditional services. SweatyJob's robot mowing service costs a flat $79 per month regardless of lawn size (up to 1/2 acre), which includes daily mowing, maintenance, and support.",
+  },
+  {
+    question: "Where can I find affordable lawn mowing near me?",
+    answer:
+      "SweatyJob offers the most affordable lawn mowing solution at just $79/month for daily robot mowing. This is approximately 50% cheaper than traditional services while providing daily rather than weekly service. Check availability in your area on our website.",
+  },
+  {
+    question: "Can I get lawn mowing and maintenance near me?",
+    answer:
+      "Yes, SweatyJob provides comprehensive lawn mowing and maintenance services. Our $79/month robot mowing service includes daily mowing, regular maintenance of the robot, blade sharpening, and technical support. We handle everything so you don't have to worry about lawn maintenance.",
+  },
+  {
+    question: "Where can I find lawn care and mowing near me?",
+    answer:
+      "SweatyJob provides complete lawn care and mowing services nationwide. Our robot mowers deliver daily mowing that promotes healthier grass growth. The frequent mowing creates fine grass clippings that act as natural fertilizer, improving your lawn's health and appearance.",
+  },
+  {
+    question: "Is there lawn mowing and trimming near me?",
+    answer:
+      "SweatyJob's robot mowing service handles the mowing portion of your lawn care needs. For comprehensive care including trimming, we offer add-on services that can be scheduled through our app. Our robot mowers handle the daily mowing while our professionals can handle trimming and edging as needed.",
+  },
+]
+
+// Additional "near me" FAQs for extended content needs
+export const extendedNearMeFAQs: FAQItem[] = [
+  {
+    question: "Where can I find lawn mowing and gardening services near me?",
+    answer:
+      "SweatyJob's primary service is daily robot lawn mowing for $79/month. We also offer add-on gardening services including flower bed maintenance, garden weeding, and seasonal planting in many service areas. Check our website for availability of these additional services in your location.",
+  },
+  {
+    question: "Is there lawn mowing and weeding service near me?",
+    answer:
+      "SweatyJob's robot mowers handle daily lawn mowing, which naturally reduces weed growth by promoting denser, healthier grass. For additional weed control, we offer add-on weeding services in many areas that can be scheduled through our app. Check our website for service availability in your area.",
+  },
+  {
+    question: "What is the average price for lawn mowing near me?",
+    answer:
+      "The average price for traditional lawn mowing services is $40-50 per visit or $160-200 monthly for weekly service. Prices vary based on lawn size and location. SweatyJob's robot mowing service costs a flat $79 monthly for daily mowing regardless of lawn size (up to 1/2 acre).",
+  },
+  {
+    question: "Can I get lawn mowing and garden maintenance near me?",
+    answer:
+      "Yes, SweatyJob offers daily robot lawn mowing for $79/month and additional garden maintenance services in many areas. Our add-on services include flower bed maintenance, garden weeding, and seasonal planting that can be scheduled through our app as needed.",
+  },
+  {
+    question: "Where can I find the best lawn mowing service near me?",
+    answer:
+      "SweatyJob consistently outperforms traditional lawn services in customer satisfaction, lawn health, and value. Our robots mow daily (not just weekly), creating a healthier lawn with finer clippings that act as natural fertilizer. They're whisper-quiet, produce zero emissions, and eliminate scheduling hassles - all at about half the cost.",
+  },
+]
+
+// Service-oriented FAQs
+export const lawnServiceFAQs: FAQItem[] = [
+  {
+    question: "Are there lawn mowing companies near me?",
+    answer:
+      "There are numerous lawn mowing companies in most areas, but SweatyJob offers a revolutionary alternative with our robot mowing service. Unlike traditional companies that visit weekly, our robots provide daily mowing at about half the cost ($79/month vs. $160-200/month for traditional services).",
+  },
+  {
+    question: "Where can I find lawn mowing contractors near me?",
+    answer:
+      "While there are many lawn mowing contractors available in most areas, SweatyJob eliminates the need for contractors entirely. Our robot mowing service provides daily mowing for $79/month with no scheduling hassles, no noise, and no emissions - all for about half the cost of traditional contractors.",
+  },
+  {
+    question: "Can I get same day lawn mowing near me?",
+    answer:
+      "Yes! With SweatyJob's robot mowing service, your lawn gets mowed every day automatically. Installation can often be scheduled same-day or within 24-48 hours in our service areas. Unlike traditional services that require scheduling and waiting, our robots work autonomously on your schedule.",
+  },
+  {
+    question: "Where can I find lawn mowing equipment near me?",
+    answer:
+      "With SweatyJob's robot mowing service, you don't need to purchase any lawn mowing equipment. We provide the robot mower, installation, maintenance, and support all for $79/month. This eliminates the need to buy, store, maintain, or repair any lawn equipment yourself.",
+  },
+  {
+    question: "Can I get online estimates for lawn mowing service near me?",
+    answer:
+      "Yes, SweatyJob provides instant online estimates for our robot mowing service. Simply visit our website, enter your address, and you'll immediately see if service is available in your area and the flat rate of $79/month for daily mowing (for lawns up to 1/2 acre).",
+  },
+]
+
+// Career and opportunity FAQs
+export const lawnCareerFAQs: FAQItem[] = [
+  {
+    question: "Are there lawn mowing gigs near me?",
+    answer:
+      "While there may be lawn mowing gigs available in your area, SweatyJob offers a more reliable and consistent solution. Our robot mowing service provides daily mowing for $79/month, eliminating the uncertainty and scheduling issues that often come with gig-based lawn services.",
+  },
+  {
+    question: "Are there lawn mowing companies near me hiring?",
+    answer:
+      "SweatyJob is frequently expanding our service areas and hiring for installation technicians and maintenance specialists. Visit our careers page to see current openings in your area. We're revolutionizing the lawn care industry with our robot mowing technology.",
+  },
+  {
+    question: "Are there lawn mowing jobs near me?",
+    answer:
+      "SweatyJob is frequently hiring for installation technicians and maintenance specialists as we expand our robot mowing service. Visit our careers page to see current openings. We offer competitive pay and the opportunity to work with cutting-edge lawn care technology.",
+  },
+  {
+    question: "Are there lawn mowing jobs near me part time?",
+    answer:
+      "SweatyJob offers both full-time and part-time positions as we expand our robot mowing service. We frequently hire installation technicians and maintenance specialists on flexible schedules. Visit our careers page to see current part-time openings in your area.",
+  },
+  {
+    question: "Where can I find local lawn mowing services near me?",
+    answer:
+      "SweatyJob provides robot mowing services in numerous locations nationwide. Our service is expanding rapidly to new areas. To check if we service your specific location, simply enter your address on our website for instant verification of availability.",
+  },
+]
+
+// Add this new FAQ dataset after the existing FAQ datasets (after wetGrassMowingFAQs)
+
+export const robotLawnmowerKeywordFAQs: FAQItem[] = [
+  {
+    question: "How much is a robot lawnmower?",
+    answer:
+      "Robot lawnmowers typically cost between $600-$3,500 to purchase outright, depending on features and lawn size capacity. However, with SweatyJob's subscription model, you can get a premium robot lawnmower service for just $79/month with no upfront equipment cost. This includes the robot mower, installation, maintenance, and support—making it the most affordable way to enjoy robot mowing technology.",
+  },
+  {
+    question: "How to set up a robot lawnmower?",
+    answer:
+      "Setting up a robot lawnmower traditionally involves installing boundary wires, connecting the charging station, and programming the mower. With SweatyJob, we handle the entire setup process for you. Our professional installation ($249 one-time fee) includes property assessment, precision mapping with RTK positioning (no boundary wires needed), charging station setup, custom configuration, app setup, and training. Learn more about our <a href='/robots' class='text-yellow-500 hover:underline'>installation process</a>.",
+  },
+  {
+    question: "How much does a robot lawnmower cost?",
+    answer:
+      "The cost of purchasing a robot lawnmower ranges from $600 for basic models to $3,500+ for advanced units with GPS and app control. With SweatyJob, you can access premium robot mowing technology for just $79/month with no large upfront investment. Our subscription includes the mower, professional installation (for a one-time $249 fee), maintenance, and automatic replacements if needed. View our <a href='/purchase/smart-yard' class='text-yellow-500 hover:underline'>pricing details</a>.",
+  },
+  {
+    question: "Which robot lawnmower is best?",
+    answer:
+      "The best robot lawnmower depends on your specific needs, but top models include Husqvarna Automower, WORX Landroid, and Robomow for their reliability and features. However, these require significant upfront investment ($1,500-$3,500) and self-maintenance. SweatyJob offers premium robot mowing technology with professional support for just $79/month, making it the best value option for most homeowners. Our service includes daily mowing, maintenance, and support without the high upfront cost.",
+  },
+  {
+    question: "Is there a robot lawnmower for 2 acres?",
+    answer:
+      "Yes, there are robot lawnmowers designed for larger properties up to 2 acres, though they typically cost $2,500-$4,000 to purchase. SweatyJob's commercial-grade robot mowers can handle properties up to 1.5 acres per unit, and for larger properties like 2 acres, we can deploy multiple coordinated units. Our subscription model at $79/month (per unit) makes this advanced technology accessible without the large upfront investment. Contact us for a <a href='/commercial' class='text-yellow-500 hover:underline'>custom quote</a> for your 2-acre property.",
+  },
+  {
+    question: "Are there robot lawnmowers for small gardens?",
+    answer:
+      "Yes, there are many robot lawnmowers designed specifically for small gardens, typically costing $600-$1,200 to purchase. SweatyJob's robot mowing service is perfect for small gardens, providing daily mowing at $79/month with no large upfront cost. Our robots are compact, quiet, and efficient, making them ideal for small urban or suburban gardens where noise and space are concerns. The daily mowing creates a denser, healthier lawn even in small spaces.",
+  },
+  {
+    question: "Where can I find robot lawnmowers for sale?",
+    answer:
+      "Robot lawnmowers are available for sale at home improvement stores like Home Depot and Lowe's, as well as online retailers like Amazon. However, purchasing outright means paying $600-$3,500 upfront plus handling all maintenance yourself. SweatyJob offers a more affordable alternative with our $79/month subscription service that includes the robot mower, maintenance, and support with no large upfront cost. <a href='/purchase/smart-yard' class='text-yellow-500 hover:underline'>Learn more</a> about our service.",
+  },
+  {
+    question: "Are there robot lawnmowers without wires?",
+    answer:
+      "Yes, newer advanced robot lawnmowers like SweatyJob's use GPS, RTK positioning, and computer vision to navigate without physical boundary wires. These wire-free systems are more convenient as they eliminate wire installation and maintenance issues. While wire-free models typically cost $2,000-$3,500 to purchase outright, SweatyJob offers this advanced technology for just $79/month with our subscription service. Learn more about our <a href='/robots' class='text-yellow-500 hover:underline'>wire-free technology</a>.",
+  },
+  {
+    question: "How do robot lawnmowers handle dog poop?",
+    answer:
+      "Most robot lawnmowers, including SweatyJob's, have obstacle detection sensors but cannot specifically identify dog waste. It's recommended to pick up pet waste before mowing to prevent spreading and potential damage to the mower blades. SweatyJob's daily mowing schedule makes this easier as you'll likely notice waste before the robot encounters it. Some of our customers pair our service with pet waste removal services for a completely hands-off lawn care experience.",
+  },
+  {
+    question: "Are there robot lawnmowers with grass collection?",
+    answer:
+      "Traditional robot lawnmowers, including SweatyJob's, don't collect grass clippings. Instead, they operate on the mulching principle, cutting grass into tiny clippings that quickly decompose and act as natural fertilizer for your lawn. This daily micro-cutting approach is actually better for lawn health than collection, as it returns nutrients to the soil and promotes thicker, more resilient turf. The clippings are so fine they're virtually invisible, leaving your lawn looking clean and manicured.",
+  },
+]
