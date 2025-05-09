@@ -1,48 +1,57 @@
-import { type NextRequest, NextResponse } from "next/server"
-
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url)
+  const endpoint = searchParams.get("endpoint")
   const query = searchParams.get("query")
-  const url = searchParams.get("url")
-  const proximity = searchParams.get("proximity")
-  const radius = searchParams.get("radius") || "5000"
-  const type = searchParams.get("type") || "geocoding"
 
-  // Get the Mapbox token from environment variables (server-side only)
-  const mapboxToken = process.env.MAPBOX_ACCESS_TOKEN
-
-  if (!mapboxToken) {
-    return NextResponse.json({ error: "Mapbox token not configured" }, { status: 500 })
+  if (!endpoint) {
+    return new Response("Endpoint parameter is required", { status: 400 })
   }
 
+  let url
+
+  // Handle mapbox:// URLs
+  if (endpoint.startsWith("mapbox://")) {
+    const mapboxPath = endpoint.replace("mapbox://", "")
+    url = `https://api.mapbox.com/${mapboxPath}`
+  } else {
+    // Handle regular URLs
+    url = `https://api.mapbox.com/${endpoint}`
+  }
+
+  // Add the query parameters if provided
+  if (query) {
+    url += `?${query}`
+  }
+
+  // Add the access token
+  const separator = url.includes("?") ? "&" : "?"
+  url += `${separator}access_token=${process.env.MAPBOX_ACCESS_TOKEN}`
+
   try {
-    let response
+    const response = await fetch(url)
+    const contentType = response.headers.get("content-type")
 
-    // Handle different types of Mapbox API requests
-    if (type === "style" && url) {
-      // Handle style requests
-      response = await fetch(`${url}?access_token=${mapboxToken}`, { headers: { "Content-Type": "application/json" } })
-    } else if (query) {
-      // Handle geocoding requests
-      const proximityParam = proximity ? `&proximity=${proximity}` : ""
-      const radiusParam = radius ? `&radius=${radius}` : ""
-
-      response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxToken}${proximityParam}${radiusParam}&limit=5`,
-        { headers: { "Content-Type": "application/json" } },
-      )
-    } else {
-      return NextResponse.json({ error: "Invalid request parameters" }, { status: 400 })
+    // If the response is JSON, parse it and return it
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json()
+      return new Response(JSON.stringify(data), {
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "max-age=3600",
+        },
+      })
     }
 
-    if (!response.ok) {
-      throw new Error(`Mapbox API error: ${response.statusText}`)
-    }
-
-    const data = await response.json()
-    return NextResponse.json(data)
+    // Otherwise, return the response as is
+    const data = await response.arrayBuffer()
+    return new Response(data, {
+      headers: {
+        "Content-Type": contentType || "application/octet-stream",
+        "Cache-Control": "max-age=3600",
+      },
+    })
   } catch (error) {
-    console.error("Error in Mapbox proxy:", error)
-    return NextResponse.json({ error: "Failed to process Mapbox request" }, { status: 500 })
+    console.error("Error proxying Mapbox request:", error)
+    return new Response("Error proxying Mapbox request", { status: 500 })
   }
 }
