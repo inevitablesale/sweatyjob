@@ -51,5 +51,3 @@ export const getSupabaseClient = () => {
   }
   return supabaseClient
 }
-
-// Re-export explicitly to ensure it's recognized

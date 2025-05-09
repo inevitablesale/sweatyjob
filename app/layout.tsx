@@ -9,30 +9,10 @@ import { ExitIntentPopup } from "@/components/exit-intent-popup"
 
 const inter = Inter({ subsets: ["latin"] })
 
-// This would typically come from a database or API
-// For now, we'll hardcode Richmond neighborhoods
-const richmondNeighborhoods = [
-  "The Fan",
-  "Church Hill",
-  "Jackson Ward",
-  "Shockoe Bottom",
-  "Museum District",
-  "Scott's Addition",
-  "Carytown",
-  "Manchester",
-  "Ginter Park",
-  "Bellevue",
-  "Battery Park",
-  "Woodland Heights",
-  "Forest Hill",
-  "Westover Hills",
-  "Northside",
-  "Randolph",
-]
-
 export const metadata: Metadata = {
   title: "SweatyJob | AI-Powered Lawn Mowing in Richmond, VA",
-  description: `SweatyJob offers autonomous AI mowing in Richmond, VA neighborhoods including ${richmondNeighborhoods.slice(0, 5).join(", ")} and more. Reclaim your weekends with our smart lawn care service.`,
+  description:
+    "SweatyJob offers autonomous AI mowing in Richmond, VA. Reclaim your weekends with our smart lawn care service.",
     generator: 'v0.dev'
 }
 

@@ -1,13 +1,14 @@
 /**
  * Utility functions for fetching neighborhood data from Wikipedia
  */
+import { getCityCoordinates } from "@/app/actions/geocoding"
 
 // Function to get neighborhoods for a city using Wikipedia's GeoSearch API
 async function getNeighborhoodsFromWikipedia(city: string, state: string): Promise<string[] | null> {
   console.log(`🔍 Searching for neighborhoods in ${city}, ${state}`)
 
   try {
-    // First, get the coordinates for the city
+    // First, get the coordinates for the city using our server action
     const cityCoordinates = await getCityCoordinates(city, state)
 
     if (!cityCoordinates) {
@@ -95,40 +96,6 @@ async function getNeighborhoodsFromWikipedia(city: string, state: string): Promi
     return null
   } catch (error) {
     console.error(`❌ Error fetching neighborhoods from Wikipedia:`, error)
-    return null
-  }
-}
-
-// Helper function to get city coordinates using Mapbox
-async function getCityCoordinates(city: string, state: string) {
-  try {
-    // This should only be used server-side
-    const mapboxToken = process.env.MAPBOX_ACCESS_TOKEN
-    if (!mapboxToken) {
-      console.error("Mapbox token not found")
-      return null
-    }
-
-    const query = encodeURIComponent(`${city}, ${state}`)
-    const response = await fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${mapboxToken}&limit=1&types=place`,
-      { cache: "force-cache" }, // Cache the response to improve performance
-    )
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch coordinates: ${response.statusText}`)
-    }
-
-    const data = await response.json()
-
-    if (data.features && data.features.length > 0) {
-      const [longitude, latitude] = data.features[0].center
-      return { latitude, longitude }
-    }
-
-    return null
-  } catch (error) {
-    console.error("Error fetching city coordinates:", error)
     return null
   }
 }

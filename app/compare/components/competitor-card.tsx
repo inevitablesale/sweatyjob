@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { Star, MapPin, MessageSquare } from "lucide-react"
+import { Star, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import LocalBusinessSchema from "./local-business-schema"
 
@@ -57,16 +57,6 @@ export default function CompetitorCard({ competitor, cityName, onMouseEnter, onM
           </span>
         </div>
       </div>
-
-      {/* Review Text */}
-      {competitor.review_text && (
-        <div className="mb-4">
-          <div className="flex items-start">
-            <MessageSquare size={14} className="mr-1 mt-1 text-gray-400 flex-shrink-0" />
-            <p className="text-gray-300 text-sm line-clamp-3">"{competitor.review_text}"</p>
-          </div>
-        </div>
-      )}
 
       <div className="flex justify-end items-center mt-6">
         {competitor.slug ? (

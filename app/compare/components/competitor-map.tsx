@@ -24,7 +24,6 @@ interface Competitor {
   latOffset?: number
   lngOffset?: number
   street?: string
-  category?: string
   google_maps_url?: string
   phone?: string
   website?: string
@@ -112,17 +111,34 @@ export default function CompetitorMap({ competitors, lawnCareSuggestions = [] }:
       style: mapStyle,
       center: [-98.5795, 39.8283], // Center of US
       zoom: 3, // Lower zoom level to show entire US
-      // We'll use our proxy API instead of direct token access
-      accessToken: "",
+      accessToken: "", // We'll use our proxy API instead of direct token access
       transformRequest: (url, resourceType) => {
         // Transform mapbox:// URLs to use our proxy
-        if (url.startsWith("mapbox://")) {
-          return {
-            url: `/api/mapbox-proxy?url=${encodeURIComponent(url)}`,
-            headers: {},
-            credentials: "same-origin",
+        if (url.startsWith("mapbox://") || url.includes("api.mapbox.com")) {
+          // Extract the path from the URL
+          let urlObj
+          try {
+            urlObj = new URL(url)
+            return {
+              url: `/api/mapbox-proxy?path=${encodeURIComponent(urlObj.pathname)}&search=${encodeURIComponent(
+                urlObj.search,
+              )}`,
+              headers: {},
+              credentials: "same-origin",
+            }
+          } catch (e) {
+            // If the URL is not valid, try to parse it as a mapbox:// URL
+            if (url.startsWith("mapbox://")) {
+              const mapboxPath = url.replace("mapbox://", "")
+              return {
+                url: `/api/mapbox-proxy?path=${encodeURIComponent(mapboxPath)}`,
+                headers: {},
+                credentials: "same-origin",
+              }
+            }
           }
         }
+        return { url }
       },
       projection: "mercator", // Use mercator instead of globe for better performance
     })
@@ -330,7 +346,6 @@ export default function CompetitorMap({ competitors, lawnCareSuggestions = [] }:
       "columbus, ohio": { lat: 39.9612, lng: -82.9988 },
       "indianapolis, indiana": { lat: 39.7684, lng: -86.1581 },
       "charlotte, north carolina": { lat: 35.2271, lng: -80.8431 },
-      'memphis, tennessee": { lat: 35.1  north carolina': { lat: 35.2271, lng: -80.8431 },
       "memphis, tennessee": { lat: 35.1495, lng: -90.049 },
       "baltimore, maryland": { lat: 39.2904, lng: -76.6122 },
       "milwaukee, wisconsin": { lat: 43.0389, lng: -87.9065 },

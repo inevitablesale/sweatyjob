@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
-import { Search, ChevronRight, ArrowRight, HelpCircle, MapPin } from "lucide-react"
+import { Search, ChevronRight, ArrowRight, HelpCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { getSupabaseClient } from "@/lib/supabase/client"
@@ -49,9 +49,6 @@ export default function ComparePage() {
   ])
   const supabase = getSupabaseClient()
   const [visibleCompetitors, setVisibleCompetitors] = useState(5)
-  const [isInitialLoad, setIsInitialLoad] = useState(true)
-
-  const listingsRef = useRef<HTMLDivElement>(null)
 
   // Load initial data
   useEffect(() => {
@@ -101,17 +98,16 @@ export default function ComparePage() {
       setFilteredCities(citiesArray)
       setCompetitors(competitorsData || [])
 
-      // Only set active city if it's in the URL parameters
+      // Set default active city
       if (cityParam && stateParam) {
         const cityKey = `${cityParam}-${stateParam}`.toLowerCase()
         if (cityMap.has(cityKey)) {
           setActiveCity(cityKey)
+        } else if (citiesArray.length > 0) {
+          setActiveCity(citiesArray[0].id) // Default to first city
         }
-      }
-      // Otherwise, no city is selected by default
-
-      if (isInitialLoad) {
-        setIsInitialLoad(false)
+      } else if (citiesArray.length > 0) {
+        setActiveCity(citiesArray[0].id) // Default to first city
       }
     } catch (error) {
       console.error("Error fetching data:", error)
@@ -536,17 +532,6 @@ export default function ComparePage() {
     }
   }, [activeCity])
 
-  // Scroll to listings when a city is selected
-  useEffect(() => {
-    if (activeCity && listingsRef.current && !isInitialLoad) {
-      // Small delay to ensure content is rendered
-      const timer = setTimeout(() => {
-        listingsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-      }, 100)
-      return () => clearTimeout(timer)
-    }
-  }, [activeCity, isInitialLoad])
-
   return (
     <div className="min-h-screen bg-black text-white">
       {/* SEO Schema */}
@@ -607,9 +592,6 @@ export default function ComparePage() {
               <Button
                 variant="outline"
                 className="border-white text-black bg-white hover:bg-white/90 px-8 py-6 text-lg"
-                onClick={() => {
-                  document.getElementById("search-section")?.scrollIntoView({ behavior: "smooth" })
-                }}
               >
                 Compare Services
               </Button>
@@ -654,7 +636,7 @@ export default function ComparePage() {
         {/* Left Panel - Cities */}
         <div className="lg:w-1/3 bg-black border-r border-gray-800">
           {/* Search Bar */}
-          <div id="search-section" className="p-6 border-b border-gray-800">
+          <div className="p-6 border-b border-gray-800">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
               <Input
@@ -718,10 +700,7 @@ export default function ComparePage() {
                     className={`p-4 rounded-lg cursor-pointer transition-all ${
                       activeCity === city.id ? "bg-green-900" : "bg-gray-900 hover:bg-gray-800"
                     }`}
-                    onClick={() => {
-                      setActiveCity(city.id)
-                      setIsInitialLoad(false) // Ensure we know this is a user selection
-                    }}
+                    onClick={() => setActiveCity(city.id)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -774,7 +753,7 @@ export default function ComparePage() {
               </div>
 
               {/* Competitors Grid */}
-              <div className="p-8" ref={listingsRef}>
+              <div className="p-8">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-bold">Top Lawn Mowing Services</h2>
                   <Link
@@ -892,23 +871,11 @@ export default function ComparePage() {
             </>
           ) : (
             <div className="flex items-center justify-center h-full">
-              <div className="text-center p-8 max-w-2xl mx-auto">
-                <div className="mb-8 flex justify-center">
-                  <MapPin size={64} className="text-green-500" />
-                </div>
-                <h2 className="text-3xl font-bold mb-4">Select a city to compare lawn services</h2>
-                <p className="text-gray-400 text-xl mb-8">
-                  Choose a city from the list on the left to see top-rated lawn care services in that area.
+              <div className="text-center p-8">
+                <h2 className="text-2xl font-bold mb-4">Select a city to compare lawn services</h2>
+                <p className="text-gray-400">
+                  Choose from the list on the left to see top-rated lawn care services near you.
                 </p>
-                <div className="bg-gray-900 p-6 rounded-lg">
-                  <h3 className="text-xl font-semibold mb-3">Why compare lawn services?</h3>
-                  <ul className="text-gray-300 space-y-2 text-left">
-                    <li>• Find the most affordable options in your area</li>
-                    <li>• Compare traditional services vs. robot mowing</li>
-                    <li>• See real customer ratings and reviews</li>
-                    <li>• Discover services that match your specific needs</li>
-                  </ul>
-                </div>
               </div>
             </div>
           )}

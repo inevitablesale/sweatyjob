@@ -739,10 +739,7 @@ export function VideoSection({ videoInfo, competitor }: { videoInfo: VideoInfo; 
           }}
         >
           <img
-            src={
-              videoInfo.thumbnailUrl ||
-              "https://sjc.microlink.io/RDtndPkm5tQdLrPSYvSLzZOE1lWpiQlrcaIf7qcIhCczjt-FjXOBSUGjoa8BqpxiD6jPHraF-IqbrvEeP-auBA.jpeg"
-            }
+            src={videoInfo.thumbnailUrl || "/placeholder.svg"}
             alt={videoInfo.name}
             className="w-full h-full object-cover absolute inset-0 group-hover:opacity-80 transition-opacity"
           />

@@ -33,32 +33,6 @@ import Link from "next/link"
 // Make sure the import statement for NeighborhoodOffer is correct
 import { NeighborhoodOffer } from "@/components/neighborhood-offer"
 
-// Define a function to get neighborhood history
-function getNeighborhoodHistory(neighborhood: string): string | undefined {
-  const neighborhoodHistories: Record<string, string> = {
-    "Battery Park":
-      "Battery Park was established in the early 20th century and is known for its historic architecture and community feel.",
-    Bellevue:
-      "Bellevue was developed in the early 20th century and is characterized by its charming homes and vibrant commercial district.",
-    "Laburnum Park":
-      "Laburnum Park is a residential neighborhood featuring early 20th century homes with distinctive architectural styles.",
-    "Ginter Park":
-      "Ginter Park is a historic neighborhood with grand homes and wide boulevards, developed by Lewis Ginter in the late 19th century.",
-    "Sherwood Park":
-      "Sherwood Park is a quiet residential neighborhood with well-maintained homes and convenient access to amenities.",
-    Rosedale: "Rosedale is a diverse neighborhood with a mix of housing styles and a strong sense of community.",
-    "Bryan Parkway":
-      "Bryan Parkway is a picturesque neighborhood with distinctive homes and a strong community spirit.",
-    "The Fan":
-      "The Fan is one of Richmond's most iconic neighborhoods, known for its distinctive fan-shaped street grid and stunning architecture.",
-    "Church Hill": "Church Hill is Richmond's oldest neighborhood, rich in history and architectural significance.",
-    "Museum District":
-      "The Museum District is a culturally rich neighborhood centered around the Virginia Museum of Fine Arts and the Virginia Museum of History & Culture.",
-  }
-
-  return neighborhoodHistories[neighborhood]
-}
-
 // Function to get neighborhood-specific service descriptions
 function getNeighborhoodServiceDescriptions(neighborhood: string): Record<string, string> {
   const serviceDescriptions: Record<string, Record<string, string>> = {
@@ -610,51 +584,45 @@ function getRealEstateBusinesses(neighborhood: string): {
 }
 
 function getNeighborhoodFAQs(neighborhood: string): any[] {
-  // Get landmarks for this neighborhood to reference in FAQs
-  const landmarks = getNeighborhoodLandmarks(neighborhood)
-  const landmarksList = landmarks.landmarks.length > 0 ? landmarks.landmarks : ["local parks", "community centers"]
-  const intersectionsList =
-    landmarks.intersections.length > 0 ? landmarks.intersections : ["major streets", "residential areas"]
-
   return [
     {
       "@type": "Question",
-      name: `How does the robot lawn mowing work in ${neighborhood}, Richmond VA near ${landmarksList[0]} and ${landmarksList.length > 1 ? landmarksList[1] : "other local landmarks"}?`,
+      name: `How does the robot lawn mowing work in ${neighborhood}, Richmond VA?`,
       acceptedAnswer: {
         "@type": "Answer",
-        text: `Our robot lawn mowing in ${neighborhood} uses advanced GPS technology instead of traditional boundary wires. We install a GPS pole, connect the mower to your WiFi, and it works autonomously. The intelligent mapping feature creates virtual boundaries, eliminating the need for unsightly wires around your property. This is especially beneficial for homes near ${intersectionsList[0]} and throughout the ${neighborhood} area, where maintaining curb appeal is important.`,
+        text: `Our robot lawn mowing in ${neighborhood} uses advanced GPS technology instead of traditional boundary wires. We install a GPS pole, connect the mower to your WiFi, and it works autonomously. The intelligent mapping feature creates virtual boundaries, eliminating the need for unsightly wires around your property.`,
       },
     },
     {
       "@type": "Question",
-      name: `What are the benefits of grass lawn mowing with robots in ${neighborhood}, especially near ${landmarksList[0]}?`,
+      name: `What are the benefits of grass lawn mowing with robots in ${neighborhood}?`,
       acceptedAnswer: {
         "@type": "Answer",
-        text: `Robot lawn mowing in ${neighborhood} provides daily cutting for a consistently perfect lawn, zero noise pollution (important for residents near ${landmarksList.length > 1 ? landmarksList[1] : landmarksList[0]} and ${intersectionsList[0]}), no emissions, and eliminates scheduling hassles. Your lawn stays at the ideal height at all times, promoting healthier growth and reducing water needs. Plus, you reclaim hours of your weekend while your lawn looks better than ever. Homeowners throughout ${neighborhood}, particularly those near ${intersectionsList.length > 1 ? intersectionsList[1] : intersectionsList[0]}, appreciate the consistent, manicured appearance.`,
+        text: `Robot lawn mowing in ${neighborhood} provides daily cutting for a consistently perfect lawn, zero noise pollution, no emissions, and eliminates scheduling hassles. Your lawn stays at the ideal height at all times, promoting healthier growth and reducing water needs. Plus, you reclaim hours of your weekend while your lawn looks better than ever.`,
       },
     },
     {
       "@type": "Question",
-      name: `How much do lawn mowing services near me cost in ${neighborhood}, including areas around ${landmarksList[0]}?`,
+      name: `How much do lawn mowing services near me cost in ${neighborhood}?`,
       acceptedAnswer: {
         "@type": "Answer",
-        text: `The SmartYard membership in ${neighborhood} is $30/week ($120/month) with no long-term commitment. This includes your dedicated AI mower, monthly human touch-ups for trimming and edging, complete maintenance, and exclusive member discounts on other home services. There may be a one-time setup fee depending on your lawn size and complexity. This pricing is consistent throughout ${neighborhood}, whether you're near ${intersectionsList[0]} or ${landmarksList.length > 1 ? landmarksList[1] : "other local areas"}.`,
+        text: `The SmartYard membership in ${neighborhood} is $30/week ($120/month) with no long-term commitment. This includes your dedicated AI mower, monthly human touch-ups for trimming and edging, complete maintenance, and exclusive member discounts on other home services. There may be a one-time setup fee depending on your lawn size and complexity.`,
       },
     },
     {
       "@type": "Question",
-      name: `Is the SmartYard robot lawn mowing safe for children and pets in ${neighborhood} homes near ${intersectionsList.length > 1 ? intersectionsList[1] : intersectionsList[0]}?`,
+      name: `Is the SmartYard robot lawn mowing safe for children and pets in ${neighborhood}?`,
       acceptedAnswer: {
         "@type": "Answer",
-        text: `Yes, our robot lawn mowing deployed in ${neighborhood} has multiple safety features including lift sensors, obstacle detection, and blade-stop technology that activates when the mower is lifted or tilted. They're designed to operate safely around children, pets, and obstacles common in ${neighborhood} yards. Families near ${landmarksList[0]} and throughout the ${neighborhood} area appreciate the peace of mind our safety features provide, especially in busy areas near ${intersectionsList[0]}.`,
+        text: `Yes, our robot lawn mowing deployed in ${neighborhood} has multiple safety features including lift sensors, obstacle detection, and blade-stop technology that activates when the mower is lifted or tilted. They're designed to operate safely around children, pets, and obstacles common in ${neighborhood} yards.`,
       },
     },
     {
       "@type": "Question",
-      name: `How do I apply for grass lawn mowing services near me in ${neighborhood}, particularly for properties close to ${landmarksList.length > 1 ? landmarksList[1] : landmarksList[0]}?`,
+      name: `How do I apply for grass lawn mowing services near me in ${neighborhood}?`,
       acceptedAnswer: {
         "@type": "Answer",
-        text: `To apply for SmartYard robot lawn mowing in ${neighborhood}, simply text (804) 573-9825. We'll check availability in your specific area of ${neighborhood}, whether you're near ${intersectionsList[0]}, ${landmarksList[0]}, or anywhere else in the neighborhood, and schedule a property assessment. With only 100 bots available for all of Richmond, we recommend applying early to secure your spot, especially for residents near popular areas like ${landmarksList.length > 1 ? landmarksList[1] : landmarksList[0]}.`,
+        text: `To apply for SmartYard robot lawn mowing in ${neighborhood}, simply text (804) 573-9825. We'll check availability in your specific area of ${neighborhood} and schedule a property assessment. With only 100 bots available for all of Richmond, we recommend applying early to secure your spot.`,
       },
     },
   ]
@@ -663,28 +631,65 @@ function getNeighborhoodFAQs(neighborhood: string): any[] {
 // Real neighborhood descriptions based on research
 function getNeighborhoodDescription(neighborhood: string, description: string): string {
   const neighborhoodDescriptions: Record<string, string> = {
-    "Battery Park": `Battery Park is a historic neighborhood in Richmond's Northside known for its beautiful park, tree-lined streets, and mix of historic and modern homes near Hotchkiss Field Community Center and the Northside YMCA. Established in the early 20th century, this vibrant community features distinctive architectural styles including Colonial Revival, Craftsman, and Tudor homes along Overbrook Road and North Avenue. The neighborhood's mature tree canopy creates unique grass lawn mowing challenges that SmartYard's AI mowers are perfectly designed to address. Our robot lawn mowing technology navigates Battery Park's varied terrain with precision, maintaining perfect lawns without the noise and scheduling hassles of traditional lawn mowing services near me. Residents near Chamberlayne Avenue and Ladies Mile Road particularly appreciate our quiet operation.`,
+    "Battery Park": `Battery Park is a historic neighborhood in Richmond's Northside known for its beautiful park, tree-lined streets, and mix of historic and modern homes. Established in the early 20th century, this vibrant community features distinctive architectural styles including Colonial Revival, Craftsman, and Tudor homes. The neighborhood's mature tree canopy creates unique grass lawn mowing challenges that SmartYard's AI mowers are perfectly designed to address. Our robot lawn mowing technology navigates Battery Park's varied terrain with precision, maintaining perfect lawns without the noise and scheduling hassles of traditional lawn mowing services near me.`,
 
-    Bellevue: `Bellevue is one of Richmond's most charming neighborhoods, characterized by its historic homes, tree-lined streets, and vibrant commercial district along MacArthur Avenue near Once Upon a Vine North and Stir Crazy Café. Developed primarily in the 1910s and 1920s, Bellevue features an impressive collection of Arts and Crafts, Colonial Revival, and American Foursquare homes along Pope Avenue and Fauquier Avenue. The neighborhood's distinctive architectural details, established gardens, and mature landscaping create specific grass lawn mowing requirements that SmartYard's robot lawn mowing technology is uniquely equipped to handle. Our autonomous mowers work daily to maintain Bellevue's lawns at the perfect height, enhancing the neighborhood's historic charm while providing homeowners with more free time to enjoy MacArthur Avenue's shops and restaurants. Properties near Newport Drive and Avondale Avenue benefit from our precision cutting.`,
+    Bellevue: `Bellevue is one of Richmond's most charming neighborhoods, characterized by its historic homes, tree-lined streets, and vibrant commercial district along MacArthur Avenue. Developed primarily in the 1910s and 1920s, Bellevue features an impressive collection of Arts and Crafts, Colonial Revival, and American Foursquare homes. The neighborhood's distinctive architectural details, established gardens, and mature landscaping create specific grass lawn mowing requirements that SmartYard's robot lawn mowing technology is uniquely equipped to handle. Our autonomous mowers work daily to maintain Bellevue's lawns at the perfect height, enhancing the neighborhood's historic charm while providing homeowners with more free time to enjoy MacArthur Avenue's shops and restaurants.`,
 
-    "Laburnum Park": `Laburnum Park is a residential neighborhood featuring early 20th century homes with distinctive architectural styles and beautiful landscaping near Laburnum Elementary School and Norrell Elementary School. This historic district, developed between 1913 and 1950, is known for its wide streets, generous lots, and impressive collection of Colonial Revival, Tudor, and Craftsman homes along Laburnum Avenue and Hermitage Road. The neighborhood's established gardens, mature trees, and historic properties require specialized grass lawn mowing services that SmartYard's AI mowers deliver with precision. Our robot lawn mowing technology maintains Laburnum Park's lawns at the ideal height daily, preserving the neighborhood's elegant character while eliminating the noise and inconvenience of traditional lawn mowing services near me. Residents near Westwood Avenue and Chatham Road particularly value our consistent service.`,
+    "Laburnum Park": `Laburnum Park is a residential neighborhood featuring early 20th century homes with distinctive architectural styles and beautiful landscaping. This historic district, developed between 1913 and 1950, is known for its wide streets, generous lots, and impressive collection of Colonial Revival, Tudor, and Craftsman homes. The neighborhood's established gardens, mature trees, and historic properties require specialized grass lawn mowing services that SmartYard's AI mowers deliver with precision. Our robot lawn mowing technology maintains Laburnum Park's lawns at the ideal height daily, preserving the neighborhood's elegant character while eliminating the noise and inconvenience of traditional lawn mowing services near me.`,
 
-    "Ginter Park": `Ginter Park is a historic neighborhood with grand homes, wide boulevards, and mature trees near Union Presbyterian Seminary and Ginter Park Library, developed by Lewis Ginter in the late 19th century. This prestigious area features some of Richmond's most impressive residential architecture, including Queen Anne, Colonial Revival, and Neoclassical styles along Chamberlayne Avenue and Seminary Avenue. The neighborhood's expansive lots, historic gardens, and significant tree canopy create unique grass lawn mowing challenges that SmartYard's robot lawn mowing technology is specifically programmed to address. Our autonomous mowers navigate Ginter Park's varied terrain with precision, maintaining these showcase properties with daily attention that traditional lawn mowing services near me simply cannot match. Homeowners near Brook Road and Westwood Avenue appreciate our attention to detail.`,
+    "Ginter Park": `Ginter Park is a historic neighborhood with grand homes, wide boulevards, and mature trees, developed by Lewis Ginter in the late 19th century. This prestigious area features some of Richmond's most impressive residential architecture, including Queen Anne, Colonial Revival, and Neoclassical styles. The neighborhood's expansive lots, historic gardens, and significant tree canopy create unique grass lawn mowing challenges that SmartYard's robot lawn mowing technology is specifically programmed to address. Our autonomous mowers navigate Ginter Park's varied terrain with precision, maintaining these showcase properties with daily attention that traditional lawn mowing services near me simply cannot match.`,
 
-    "Sherwood Park": `Sherwood Park is a quiet residential neighborhood with well-maintained homes, friendly neighbors, and convenient access to amenities near Ginter Park Presbyterian Church and the Brookland Park Boulevard Commercial District. Developed primarily in the mid-20th century, this established community features a mix of Ranch, Split-Level, and Colonial-style homes on generously sized lots along Sherwood Avenue and Griffin Avenue. The neighborhood's mature landscaping, established gardens, and family-friendly outdoor spaces benefit from the daily attention of SmartYard's robot lawn mowing technology. Our autonomous grass lawn mowing maintains Sherwood Park's lawns at the perfect height consistently, enhancing property values while giving residents more time to enjoy their community. Families near Richmond-Henrico Turnpike and Vale Street particularly value our reliable service.`,
+    "Sherwood Park": `Sherwood Park is a quiet residential neighborhood with well-maintained homes, friendly neighbors, and convenient access to amenities. Developed primarily in the mid-20th century, this established community features a mix of Ranch, Split-Level, and Colonial-style homes on generously sized lots. The neighborhood's mature landscaping, established gardens, and family-friendly outdoor spaces benefit from the daily attention of SmartYard's robot lawn mowing technology. Our autonomous grass lawn mowing maintains Sherwood Park's lawns at the perfect height consistently, enhancing property values while giving residents more time to enjoy their community.`,
 
-    Rosedale: `Rosedale is a diverse neighborhood with a mix of housing styles, community gardens, and a strong sense of community near Rosedale Park and the Mechanicsville Turnpike Commercial District. This evolving area features an eclectic blend of architectural styles from different eras, creating a unique character that reflects Richmond's changing landscape. The neighborhood's varied property types, from historic homes to newer constructions along Rosedale Avenue and Carlisle Avenue, benefit from the adaptable programming of SmartYard's robot lawn mowing technology. Our autonomous grass lawn mowing learns each lawn's specific needs, providing consistent, perfect cuts regardless of terrain variations or obstacles common in Rosedale's diverse landscape. Residents near Whitcomb Street and Mechanicsville Turnpike appreciate our flexible service options.`,
+    Rosedale: `Rosedale is a diverse neighborhood with a mix of housing styles, community gardens, and a strong sense of community. This evolving area features an eclectic blend of architectural styles from different eras, creating a unique character that reflects Richmond's changing landscape. The neighborhood's varied property types, from historic homes to newer constructions, benefit from the adaptable programming of SmartYard's robot lawn mowing technology. Our autonomous grass lawn mowing learns each lawn's specific needs, providing consistent, perfect cuts regardless of terrain variations or obstacles common in Rosedale's diverse landscape.`,
 
-    "Bryan Parkway": `Bryan Parkway is a picturesque neighborhood with distinctive homes, landscaped medians, and a strong community spirit near Bryan Park and the Joseph Bryan Park Azalea Garden. Named for its proximity to Bryan Park, this charming area features winding streets, mature trees, and a variety of architectural styles including Tudor, Colonial Revival, and Craftsman homes along Bryan Park Avenue and Westbrook Avenue. The neighborhood's proximity to natural areas, combined with its established landscaping, creates specific grass lawn mowing requirements that SmartYard's robot lawn mowing technology is programmed to handle. Our autonomous lawn mowing services near me maintain Bryan Parkway's lawns daily, preserving the neighborhood's connection to nature while eliminating the noise and scheduling hassles of traditional services. Residents near Bellevue Avenue and Wilmington Avenue particularly value our environmentally friendly approach.`,
+    "Bryan Parkway": `Bryan Parkway is a picturesque neighborhood with distinctive homes, landscaped medians, and a strong community spirit. Named for its proximity to Bryan Park, this charming area features winding streets, mature trees, and a variety of architectural styles including Tudor, Colonial Revival, and Craftsman homes. The neighborhood's proximity to natural areas, combined with its established landscaping, creates specific grass lawn mowing requirements that SmartYard's robot lawn mowing technology is programmed to handle. Our autonomous lawn mowing services near me maintain Bryan Parkway's lawns daily, preserving the neighborhood's connection to nature while eliminating the noise and scheduling hassles of traditional services.`,
 
-    "The Fan": `The Fan is one of Richmond's most iconic neighborhoods, known for its distinctive fan-shaped street grid and stunning collection of late 19th and early 20th century architecture near Monument Avenue and Meadow Park. This historic district features an impressive array of Victorian, Colonial Revival, and Italianate homes, many with ornate details and well-maintained gardens along Grove Avenue and Lombardy Street. The neighborhood's dense urban layout, with narrow lots and intricate landscaping, presents unique grass lawn mowing challenges that SmartYard's robot lawn mowing technology is specifically designed to address. Our autonomous lawn mowing services near me navigate The Fan's compact spaces with precision, maintaining these historic properties with daily attention while respecting the neighborhood's architectural heritage. Homeowners near Main Street and Meadow Street appreciate our ability to handle tight spaces.`,
+    "The Fan": `The Fan is one of Richmond's most iconic neighborhoods, known for its distinctive fan-shaped street grid and stunning collection of late 19th and early 20th century architecture. This historic district features an impressive array of Victorian, Colonial Revival, and Italianate homes, many with ornate details and well-maintained gardens. The neighborhood's dense urban layout, with narrow lots and intricate landscaping, presents unique grass lawn mowing challenges that SmartYard's robot lawn mowing technology is specifically designed to address. Our autonomous lawn mowing services near me navigate The Fan's compact spaces with precision, maintaining these historic properties with daily attention while respecting the neighborhood's architectural heritage.`,
 
-    "Church Hill": `Church Hill is Richmond's oldest neighborhood, rich in history and architectural significance near St. John's Church and Chimborazo Park. Named for St. John's Church where Patrick Henry delivered his famous "Give me liberty or give me death" speech, this area features some of the city's best-preserved 19th century homes along Broad Street and 25th Street. The neighborhood's hilly terrain, historic properties, and established gardens create specific grass lawn mowing requirements that SmartYard's robot lawn mowing technology handles with ease. Our autonomous lawn mowing services near me maintain Church Hill's lawns at the perfect height daily, preserving the neighborhood's historic character while eliminating the noise and scheduling hassles of traditional lawn mowing services. Residents near East Grace Street and North 23rd Street particularly value our ability to handle sloped terrain.`,
+    "Church Hill": `Church Hill is Richmond's oldest neighborhood, rich in history and architectural significance. Named for St. John's Church where Patrick Henry delivered his famous "Give me liberty or give me death" speech, this area features some of the city's best-preserved 19th century homes. The neighborhood's hilly terrain, historic properties, and established gardens create specific grass lawn mowing requirements that SmartYard's robot lawn mowing technology handles with ease. Our autonomous lawn mowing services near me maintain Church Hill's lawns at the perfect height daily, preserving the neighborhood's historic character while eliminating the noise and scheduling hassles of traditional lawn mowing services.`,
 
-    "Museum District": `The Museum District is a culturally rich neighborhood centered around the Virginia Museum of Fine Arts and the Virginia Museum of History & Culture near Carytown Shopping District and Byrd Park. This elegant area features a mix of early 20th century townhomes, apartments, and single-family residences with distinctive architectural details along Grove Avenue and Boulevard. The neighborhood's urban density, mature trees, and established landscaping create unique grass lawn mowing challenges that SmartYard's robot lawn mowing technology is programmed to address. Our autonomous lawn mowing services near me maintain the Museum District's green spaces with precision, enhancing the neighborhood's refined aesthetic while providing residents with more time to enjoy the area's cultural amenities. Homeowners near Kensington Avenue and Nansemond Street appreciate our quiet, unobtrusive service.`,
+    "Museum District": `The Museum District is a culturally rich neighborhood centered around the Virginia Museum of Fine Arts and the Virginia Museum of History & Culture. This elegant area features a mix of early 20th century townhomes, apartments, and single-family residences with distinctive architectural details. The neighborhood's urban density, mature trees, and established landscaping create unique grass lawn mowing challenges that SmartYard's robot lawn mowing technology is programmed to address. Our autonomous lawn mowing services near me maintain the Museum District's green spaces with precision, enhancing the neighborhood's refined aesthetic while providing residents with more time to enjoy the area's cultural amenities.`,
   }
 
   return neighborhoodDescriptions[neighborhood] || description
+}
+
+// Real neighborhood histories based on research
+function getNeighborhoodHistory(neighborhood: string): string {
+  const neighborhoodHistories: Record<string, string> = {
+    "Battery Park":
+      "Battery Park was named after a Civil War battery that once stood in the area. The neighborhood developed primarily in the early 20th century as Richmond expanded northward. During the 1950s, the area became an important center for Richmond's African American community. In 2006, Tropical Storm Ernesto caused significant flooding in the neighborhood, leading to infrastructure improvements. Today, Battery Park represents a diverse, revitalized community that honors its rich historical legacy while embracing modern urban living.",
+
+    Bellevue:
+      "Bellevue was developed in the early 100s as a streetcar suburb, with the trolley line running along what is now Bellevue Avenue. The neighborhood was designed to provide an escape from city life while maintaining convenient access to downtown Richmond. The Bellevue Theater, built in 1925, was a neighborhood landmark until its closure in the 1960s. Many of Bellevue's original homes and commercial buildings remain intact, creating a living museum of early 20th century architectural styles. In 1998, the neighborhood was listed on the National Register of Historic Places.",
+
+    "Laburnum Park":
+      "Laburnum Park was established in the early 20th century on land that was once part of the Laburnum estate, owned by Joseph Bryan, a prominent Richmond businessman. The neighborhood was designed as an upscale residential area with strict building codes that ensured architectural harmony. Its development coincided with the rise of automobile ownership, which is reflected in the presence of detached garages and wider streets. The Laburnum Park Historic District was added to the National Register of Historic Places in 2000, recognizing the neighborhood's architectural significance and well-preserved character.",
+
+    "Ginter Park":
+      "Ginter Park was founded by Major Lewis Ginter, a prominent Richmond businessman and philanthropist, in the 1890s. Ginter envisioned a suburban retreat with spacious lots, wide boulevards, and impressive homes. After his death in 1897, his niece Grace Arents continued developing the neighborhood according to his vision. The neighborhood became home to many of Richmond's elite families and continues to be one of the city's most prestigious addresses. Union Presbyterian Seminary, established in 1898, remains a central landmark in the neighborhood. Ginter Park was added to the National Register of Historic Places in 1986.",
+
+    "Sherwood Park":
+      "Sherwood Park developed primarily after World War II during Richmond's suburban expansion. The neighborhood offered modern amenities and larger lots than were available in the city's older districts. Its development reflected mid-century American ideals of suburban living, with designs that emphasized family life, automobile ownership, and indoor-outdoor connectivity. The neighborhood's name was inspired by the legendary Sherwood Forest, evoking images of a peaceful woodland retreat. Unlike some of Richmond's older neighborhoods, Sherwood Park was designed with modern urban planning principles, including curved streets and cul-de-sacs that created a sense of privacy and community.",
+
+    Rosedale:
+      "Rosedale has evolved over several decades, with development occurring in phases that reflect changing architectural trends and demographic shifts in Richmond. The neighborhood has experienced significant revitalization in recent years, with new residents drawn to its affordable housing stock, convenient location, and strong community bonds. Rosedale's proximity to the Mechanicsville Turnpike commercial corridor has made it an increasingly desirable location for families seeking urban amenities with a neighborhood feel. Community initiatives, including the Rosedale Community Garden established in 2012, have helped strengthen neighborhood connections and improve quality of life for residents.",
+
+    "Bryan Parkway":
+      "Bryan Parkway developed in the early to mid-20th century, taking its name from nearby Bryan Park, which was established in 1910 on land donated by Belle Stewart Bryan, widow of Joseph Bryan. The neighborhood's design was influenced by the \"City Beautiful\" movement, with attention to aesthetic elements like landscaped medians and harmonious architectural styles. Its proximity to Bryan Park has always been a defining feature, attracting nature lovers and outdoor enthusiasts. The Bryan Park Azalea Garden, planted in the 1950s, remains a popular destination for residents and visitors, especially during the spring blooming season. The neighborhood's winding streets and mature tree canopy create a distinctive character that sets it apart from Richmond's grid-pattern neighborhoods.",
+
+    "The Fan":
+      "The Fan developed between 1890 and 1930 as Richmond expanded westward from downtown. Named for the way its streets fan out from Monroe Park, the neighborhood was designed for the city's growing middle and upper-middle class. Its development coincided with the City Beautiful movement, which emphasized harmonious urban design and green spaces. The Fan District Association, formed in 1961, has been instrumental in preserving the neighborhood's historic character. Today, The Fan is one of Richmond's most desirable neighborhoods, with its historic homes carefully preserved and its tree-lined streets creating a distinctive urban environment. The Fan District was listed on the National Register of Historic Places in 1986.",
+
+    "Church Hill":
+      "Church Hill is Richmond's oldest neighborhood, established in the late 18th century around St. John's Church where Patrick Henry delivered his famous speech in 1775. The area saw significant development in the 19th century, with many homes built between 1830 and 1915. After a period of decline in the mid-20th century, Church Hill has experienced remarkable revitalization since the 1970s. The Church Hill Association, founded in 1957, has been a driving force in historic preservation efforts. The neighborhood's cobblestone streets, gas lamps, and historic homes create a distinctive atmosphere that attracts history enthusiasts and urban professionals alike. Church Hill was listed on the National Register of Historic Places in 1969.",
+
+    "Museum District":
+      "The Museum District developed primarily in the early 20th century, with most homes built between 1910 and 1940. Originally known as West End, the neighborhood was renamed to reflect its proximity to the Virginia Museum of Fine Arts, which opened in 1936. The area was designed as an upscale residential extension of The Fan, with similar architectural styles but slightly larger lots. The neighborhood's character was significantly influenced by the City Beautiful movement, with tree-lined streets and small parks enhancing its urban design. Today, the Museum District remains a cultural hub, with the VMFA's 2010 expansion reinforcing the neighborhood's identity as a center for arts and culture. The Museum District was added to the National Register of Historic Places in 1994.",
+  }
+
+  return neighborhoodHistories[neighborhood] || ""
 }
 
 function getNeighborhoodSeasonalTips(neighborhood: string): any[] {
@@ -728,73 +733,12 @@ function getNeighborhoodSeasonalTips(neighborhood: string): any[] {
   ]
 }
 
+// Real neighborhood landmarks based on research
 function getNeighborhoodLandmarks(neighborhood: string): {
   landmarks: string[]
   intersections: string[]
-  pois: string[]
 } {
-  // Add additional neighborhoods from GeoSearch
-  const additionalNeighborhoods = {
-    Madison: {
-      landmarks: [
-        "Monona Terrace",
-        "Concerts on the Square",
-        "Art Fair on the Square",
-        "State Capitol",
-        "University of Wisconsin-Madison",
-      ],
-      intersections: [
-        "State Street & Capitol Square",
-        "University Avenue & Park Street",
-        "Johnson Street & East Washington Avenue",
-        "Regent Street & Monroe Street",
-        "Williamson Street & Baldwin Street",
-      ],
-      pois: [
-        "Lake Mendota",
-        "Lake Monona",
-        "Henry Vilas Zoo",
-        "Olbrich Botanical Gardens",
-        "Memorial Union Terrace",
-        "Chazen Museum of Art",
-        "Camp Randall Stadium",
-        "Kohl Center",
-        "Madison Farmers' Market",
-        "Overture Center for the Arts",
-      ],
-    },
-    Rochester: {
-      landmarks: [
-        "Peabody",
-        "Neighborhood of the Arts",
-        "Neighborhood Office District",
-        "Neighborhood Four",
-        "Mayo Clinic",
-      ],
-      intersections: [
-        "East Avenue & University Avenue",
-        "Park Avenue & Berkeley Street",
-        "Monroe Avenue & Alexander Street",
-        "East Main Street & Gibbs Street",
-        "Clinton Avenue & Atlantic Avenue",
-      ],
-      pois: [
-        "Strong National Museum of Play",
-        "Rochester Museum & Science Center",
-        "Highland Park",
-        "Seneca Park Zoo",
-        "George Eastman Museum",
-        "Memorial Art Gallery",
-        "Blue Cross Arena",
-        "Frontier Field",
-        "High Falls",
-        "Public Market",
-      ],
-    },
-  }
-
-  // Merge with existing data
-  const landmarksData: Record<string, { landmarks: string[]; intersections: string[]; pois: string[] }> = {
+  const landmarksData: Record<string, { landmarks: string[]; intersections: string[] }> = {
     "Battery Park": {
       landmarks: [
         "Battery Park",
@@ -809,18 +753,6 @@ function getNeighborhoodLandmarks(neighborhood: string): {
         "North Avenue & West Lancaster Road",
         "Dupont Circle & Hawthorne Avenue",
         "Fendall Avenue & West Lancaster Road",
-      ],
-      pois: [
-        "Battery Park Playground",
-        "North Avenue Library",
-        "Hotchkiss Community Garden",
-        "Chamberlayne Avenue Shopping Center",
-        "Battery Park Pond",
-        "Richmond Community High School Athletic Fields",
-        "Northside Family YMCA Pool",
-        "Battery Park Tennis Courts",
-        "Hotchkiss Field Baseball Diamond",
-        "Battery Park Christian Church Community Center",
       ],
     },
     Bellevue: {
@@ -838,18 +770,6 @@ function getNeighborhoodLandmarks(neighborhood: string): {
         "Newport Drive & Avondale Avenue",
         "Lamont Street & Westminster Avenue",
       ],
-      pois: [
-        "Bellevue Park",
-        "MacArthur Avenue Shops",
-        "Bellevue Branch Library",
-        "Bellevue Community Center",
-        "Bellevue Dog Park",
-        "Bellevue Farmers Market",
-        "Bellevue Arts District",
-        "Bellevue Historic Homes",
-        "Bellevue Community Garden",
-        "Bellevue Elementary School Playground",
-      ],
     },
     "Laburnum Park": {
       landmarks: [
@@ -865,18 +785,6 @@ function getNeighborhoodLandmarks(neighborhood: string): {
         "Gloucester Road & Wilmington Avenue",
         "Laburnum Avenue & Brook Road",
         "Westwood Avenue & Fauquier Avenue",
-      ],
-      pois: [
-        "Laburnum Park Rose Garden",
-        "Laburnum Park Community Center",
-        "Laburnum Park Playground",
-        "Laburnum Park Walking Trails",
-        "Laburnum Park Gazebo",
-        "Laburnum Park Historic Homes",
-        "Laburnum Park Community Garden",
-        "Laburnum Park Tennis Courts",
-        "Laburnum Park Picnic Area",
-        "Laburnum Park Dog Park",
       ],
     },
     "Ginter Park": {
@@ -894,18 +802,6 @@ function getNeighborhoodLandmarks(neighborhood: string): {
         "Laburnum Avenue & Brook Road",
         "Walton Avenue & Gloucester Road",
       ],
-      pois: [
-        "Ginter Park Botanical Garden",
-        "Ginter Park Golf Course",
-        "Ginter Park Community Center",
-        "Ginter Park Playground",
-        "Ginter Park Walking Trails",
-        "Ginter Park Historic Homes",
-        "Ginter Park Community Garden",
-        "Ginter Park Tennis Courts",
-        "Ginter Park Picnic Area",
-        "Ginter Park Dog Park",
-      ],
     },
     "Sherwood Park": {
       landmarks: [
@@ -921,18 +817,6 @@ function getNeighborhoodLandmarks(neighborhood: string): {
         "Richmond-Henrico Turnpike & Vale Street",
         "Walton Avenue & Griffin Avenue",
         "Brookland Park Boulevard & Richmond-Henrico Turnpike",
-      ],
-      pois: [
-        "Sherwood Park Playground",
-        "Sherwood Park Community Center",
-        "Sherwood Park Walking Trails",
-        "Sherwood Park Picnic Area",
-        "Sherwood Park Dog Park",
-        "Sherwood Park Baseball Field",
-        "Sherwood Park Basketball Courts",
-        "Sherwood Park Tennis Courts",
-        "Sherwood Park Community Garden",
-        "Sherwood Park Skate Park",
       ],
     },
     Rosedale: {
@@ -950,18 +834,6 @@ function getNeighborhoodLandmarks(neighborhood: string): {
         "Rosedale Avenue & Carlisle Avenue",
         "Whitcomb Street & Deforrest Street",
       ],
-      pois: [
-        "Rosedale Community Center",
-        "Rosedale Playground",
-        "Rosedale Walking Trails",
-        "Rosedale Picnic Area",
-        "Rosedale Dog Park",
-        "Rosedale Baseball Field",
-        "Rosedale Basketball Courts",
-        "Rosedale Tennis Courts",
-        "Rosedale Community Garden",
-        "Rosedale Skate Park",
-      ],
     },
     "Bryan Parkway": {
       landmarks: [
@@ -977,18 +849,6 @@ function getNeighborhoodLandmarks(neighborhood: string): {
         "Westbrook Avenue & Hermitage Road",
         "Laburnum Avenue & Hermitage Road",
         "Bellevue Avenue & Bryan Park Avenue",
-      ],
-      pois: [
-        "Bryan Park Lake",
-        "Bryan Park Nature Center",
-        "Bryan Park Disc Golf Course",
-        "Bryan Park Playground",
-        "Bryan Park Walking Trails",
-        "Bryan Park Picnic Area",
-        "Bryan Park Dog Park",
-        "Bryan Park Tennis Courts",
-        "Bryan Park Community Garden",
-        "Bryan Park Soccer Fields",
       ],
     },
     "The Fan": {
@@ -1006,18 +866,6 @@ function getNeighborhoodLandmarks(neighborhood: string): {
         "Park Avenue & Strawberry Street",
         "Cary Street & Robinson Street",
       ],
-      pois: [
-        "Virginia Museum of Fine Arts",
-        "Science Museum of Virginia",
-        "Children's Museum of Richmond",
-        "Carytown Shopping District",
-        "The National Theater",
-        "The Branch Museum of Architecture and Design",
-        "Monument Avenue Historic District",
-        "The Fan District Arts Scene",
-        "The Fan District Restaurants",
-        "The Fan District Coffee Shops",
-      ],
     },
     "Church Hill": {
       landmarks: [
@@ -1033,18 +881,6 @@ function getNeighborhoodLandmarks(neighborhood: string): {
         "East Franklin Street & North 27th Street",
         "East Leigh Street & North 30th Street",
         "East Marshall Street & North 24th Street",
-      ],
-      pois: [
-        "St. John's Church Historic Site",
-        "Chimborazo Park National Battlefield",
-        "Libby Hill Park Overlook",
-        "Church Hill Restaurants",
-        "Church Hill Coffee Shops",
-        "Church Hill Antique Shops",
-        "Church Hill Art Galleries",
-        "Church Hill Farmers Market",
-        "Church Hill Historic Homes",
-        "Church Hill Community Events",
       ],
     },
     "Museum District": {
@@ -1062,22 +898,10 @@ function getNeighborhoodLandmarks(neighborhood: string): {
         "Stuart Avenue & Roseneath Road",
         "Hanover Avenue & Belmont Avenue",
       ],
-      pois: [
-        "Virginia Museum of Fine Arts Sculpture Garden",
-        "Virginia Museum of History & Culture Exhibits",
-        "Carytown Shopping and Dining",
-        "Byrd Park Swan Lake",
-        "Maymont Park and Mansion",
-        "Science Museum of Virginia Exhibits",
-        "Children's Museum of Richmond Activities",
-        "Museum District Art Galleries",
-        "Museum District Restaurants",
-        "Museum District Coffee Shops",
-      ],
     },
   }
 
-  return landmarksData[neighborhood] || { landmarks: [], intersections: [], pois: [] }
+  return landmarksData[neighborhood] || { landmarks: [], intersections: [] }
 }
 
 // Real neighborhood events based on research
@@ -1391,33 +1215,6 @@ function getWeatherDescription(code: number): { description: string; icon: strin
 
   return weatherCodes[code] || { description: "Unknown", icon: "❓" }
 }
-
-// Define a function to get neighborhood history
-// Removing duplicate function definition
-// function getNeighborhoodHistory(neighborhood: string): string | undefined {
-//   const neighborhoodHistories: Record<string, string> = {
-//     "Battery Park":
-//       "Battery Park was established in the early 20th century and is known for its historic architecture and community feel.",
-//     Bellevue:
-//       "Bellevue was developed in the early 20th century and is characterized by its charming homes and vibrant commercial district.",
-//     "Laburnum Park":
-//       "Laburnum Park is a residential neighborhood featuring early 20th century homes with distinctive architectural styles.",
-//     "Ginter Park":
-//       "Ginter Park is a historic neighborhood with grand homes and wide boulevards, developed by Lewis Ginter in the late 19th century.",
-//     "Sherwood Park":
-//       "Sherwood Park is a quiet residential neighborhood with well-maintained homes and convenient access to amenities.",
-//     Rosedale: "Rosedale is a diverse neighborhood with a mix of housing styles and a strong sense of community.",
-//     "Bryan Parkway":
-//       "Bryan Parkway is a picturesque neighborhood with distinctive homes and a strong community spirit.",
-//     "The Fan":
-//       "The Fan is one of Richmond's most iconic neighborhoods, known for its distinctive fan-shaped street grid and stunning architecture.",
-//     "Church Hill": "Church Hill is Richmond's oldest neighborhood, rich in history and architectural significance.",
-//     "Museum District":
-//       "The Museum District is a culturally rich neighborhood centered around the Virginia Museum of Fine Arts and the Virginia Museum of History & Culture.",
-//   }
-
-//   return neighborhoodHistories[neighborhood]
-// }
 
 export default function NeighborhoodPageClient({
   neighborhood,
@@ -1744,10 +1541,7 @@ export default function NeighborhoodPageClient({
             {/* Service Recommendations */}
             {recommendedServices.length > 0 && (
               <div className="mt-6">
-                <h3 className="text-xl font-bold text-white mb-4">
-                  Recommended Services for {neighborhood.name} Homes Near{" "}
-                  {landmarks.landmarks.slice(0, 2).join(" and ")} and {landmarks.intersections.slice(0, 1)}
-                </h3>
+                <h3 className="text-xl font-bold text-white mb-4">Recommended Services Based on Weather</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {recommendedServices.map((service, index) => (
                     <Card key={index} className="bg-slate-800 border-slate-700 text-white">
@@ -1755,11 +1549,7 @@ export default function NeighborhoodPageClient({
                         <CardTitle>{service.name}</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-slate-300 mb-4">
-                          {service.description} Perfect for properties near{" "}
-                          {landmarks.landmarks[index % landmarks.landmarks.length]}
-                          and {landmarks.intersections[index % landmarks.intersections.length]}.
-                        </p>
+                        <p className="text-slate-300 mb-4">{service.description}</p>
                         <Button asChild>
                           <Link href={`/neighborhoods/${neighborhood.slug}/${service.slug}`}>View Details</Link>
                         </Button>
@@ -1786,16 +1576,7 @@ export default function NeighborhoodPageClient({
               <TabsContent value="overview" className="bg-slate-800 p-6 rounded-lg">
                 <div className="prose prose-invert max-w-none">
                   {getNeighborhoodDescription(neighborhood.name, neighborhood.description) ? (
-                    <p className="text-lg">
-                      {getNeighborhoodDescription(neighborhood.name, neighborhood.description)}
-                      Our robot lawn mowing services are available throughout {neighborhood.name}, including near local
-                      landmarks like {landmarks.landmarks.slice(0, 3).join(", ")}, popular intersections such as{" "}
-                      {landmarks.intersections.slice(0, 2).join(" and ")}, and points of interest including{" "}
-                      {landmarks.pois && landmarks.pois.length > 0
-                        ? landmarks.pois.slice(0, 3).join(", ")
-                        : "local attractions"}
-                      .
-                    </p>
+                    <p className="text-lg">{getNeighborhoodDescription(neighborhood.name, neighborhood.description)}</p>
                   ) : (
                     <p className="text-lg">
                       {neighborhood.description || "Information about this neighborhood is coming soon."}
@@ -1842,24 +1623,6 @@ export default function NeighborhoodPageClient({
                         </ul>
                       ) : (
                         <p className="text-slate-300">Intersection information coming soon.</p>
-                      )}
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-                        <MapPin className="h-5 w-5 mr-2 text-blue-400" />
-                        Points of Interest
-                      </h3>
-                      {landmarks.pois && landmarks.pois.length > 0 ? (
-                        <ul className="space-y-2">
-                          {landmarks.pois.map((poi, index) => (
-                            <li key={index} className="flex items-start">
-                              <span className="text-blue-400 mr-2">•</span>
-                              <span>{poi}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p className="text-slate-300">POI information coming soon.</p>
                       )}
                     </div>
                   </div>
@@ -1967,15 +1730,12 @@ export default function NeighborhoodPageClient({
                   )}
 
                   <h3 className="text-xl font-bold text-white mt-6 mb-4">
-                    Seasonal Lawn Care Tips for {neighborhood.name} Properties Near{" "}
-                    {landmarks.landmarks.slice(0, 2).join(", ")}
+                    Seasonal Lawn Care Tips for {neighborhood.name}
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {seasonalTips.map((season, index) => (
                       <div key={index} className="bg-slate-700 p-4 rounded-lg">
-                        <h4 className="text-lg font-bold text-white mb-2">
-                          {season.season} in {neighborhood.name}
-                        </h4>
+                        <h4 className="text-lg font-bold text-white mb-2">{season.season}</h4>
                         <ul className="space-y-2">
                           {season.tips.map((tip, tipIndex) => (
                             <li key={tipIndex} className="flex items-start">
@@ -2014,34 +1774,26 @@ export default function NeighborhoodPageClient({
           </div>
 
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
-            Smart Grass Lawn Mowing Technology for {neighborhood.name} Properties Near{" "}
-            {landmarks.landmarks.slice(0, 3).join(", ")}
+            Smart Grass Lawn Mowing Technology for {neighborhood.name}
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             <div className="bg-slate-800 rounded-lg overflow-hidden">
               <div className="h-48 relative">
-                <Image
-                  src="https://www.bestmow.com/cdn/shop/files/30.png?v=1744042530&width=3600"
-                  alt="Robot Lawn Mower in action"
-                  fill
-                  className="object-cover"
-                />
+                <Image src="/images/dandy-robot.png" alt="Dandy AI Weed Control Robot" fill className="object-cover" />
               </div>
               <div className="p-6">
                 <div className="flex items-center mb-2">
                   <Sparkles className="h-5 w-5 text-green-400 mr-2" />
-                  <h3 className="text-xl font-bold text-white">AI-Powered Lawn Mowing</h3>
+                  <h3 className="text-xl font-bold text-white">Dandy AI Weed Control</h3>
                 </div>
                 <p className="text-gray-300 mb-4">
-                  Our advanced robot mowers use GPS and AI to navigate the unique landscapes of {neighborhood.name},
-                  particularly around {landmarks.landmarks.slice(0, 2).join(" and ")}. They adapt to the specific
-                  terrain challenges near {landmarks.intersections.slice(0, 2).join(" and ")}, ensuring a perfect cut
-                  every time without human intervention.
+                  Precision weed control technology that uses AI to target individual weeds, reducing herbicide use by
+                  90% while protecting {neighborhood.name}'s environment.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button asChild>
-                    <Link href="/smart-yard">Learn More</Link>
+                    <Link href="/blog/dandy-eco-friendly-weed-control">Learn More</Link>
                   </Button>
                   <Button
                     variant="outline"
@@ -2056,34 +1808,27 @@ export default function NeighborhoodPageClient({
 
             <div className="bg-slate-800 rounded-lg overflow-hidden">
               <div className="h-48 relative">
-                <Image
-                  src="https://www.bestmow.com/cdn/shop/files/30.png?v=1744042530&width=3600"
-                  alt="SweatyJob Robot Mower Demo - Better Than PALEX services LLC in Madison"
-                  fill
-                  className="object-cover"
-                />
+                <Image src="/images/oto-sprinkler.jpg" alt="OtO Smart Sprinkler System" fill className="object-cover" />
               </div>
               <div className="p-6">
                 <div className="flex items-center mb-2">
                   <Droplets className="h-5 w-5 text-blue-400 mr-2" />
-                  <h3 className="text-xl font-bold text-white">Smart Lawn Maintenance</h3>
+                  <h3 className="text-xl font-bold text-white">OtO Smart Sprinkler</h3>
                 </div>
                 <p className="text-gray-300 mb-4">
-                  Our comprehensive lawn care system is tailored for {neighborhood.name}'s unique environment,
-                  especially properties near {landmarks.landmarks.slice(0, 2).join(" and ")}. The system adapts to local
-                  conditions around {landmarks.intersections.slice(0, 2).join(" and ")}, ensuring your lawn stays
-                  healthy year-round with minimal water usage and environmental impact.
+                  Weather-adaptive irrigation system that creates custom watering zones perfect for {neighborhood.name}
+                  's unique landscape, saving up to 50% on water usage.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button asChild>
-                    <Link href="/blog/smart-lawn-care">Learn More</Link>
+                    <Link href="/blog/oto-lawn-watering-guide">Learn More</Link>
                   </Button>
                   <Button
                     variant="outline"
                     className="border-blue-500 text-blue-400 hover:bg-blue-500/5"
                     onClick={() => setShowPhoneForm(true)}
                   >
-                    Schedule Consultation
+                    Request Demo
                   </Button>
                 </div>
               </div>
@@ -2093,9 +1838,7 @@ export default function NeighborhoodPageClient({
           <NeighborhoodReviews neighborhood={neighborhood.name} />
           {showPhoneForm ? (
             <div className="bg-slate-800 p-8 rounded-lg mb-16">
-              <h3 className="text-2xl font-bold text-white mb-4">
-                Request Service in {neighborhood.name} Near {landmarks.landmarks.slice(0, 2).join(" and ")}
-              </h3>
+              <h3 className="text-2xl font-bold text-white mb-4">Request Service in {neighborhood.name}</h3>
               <PhoneCaptureForm
                 source={`neighborhood-${neighborhood.slug}`}
                 buttonText="Submit Request"
@@ -2104,13 +1847,9 @@ export default function NeighborhoodPageClient({
             </div>
           ) : (
             <div className="text-center bg-slate-800 p-8 rounded-lg mb-16">
-              <h2 className="text-2xl font-bold text-white mb-4">
-                Ready for robot lawn mowing services in {neighborhood.name}?
-              </h2>
+              <h2 className="text-2xl font-bold text-white mb-4">Ready for robot lawn mowing services near me?</h2>
               <p className="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
-                Contact us today to schedule your grass lawn mowing service in {neighborhood.name}, whether you're near{" "}
-                {landmarks.landmarks.slice(0, 2).join(", ")},{landmarks.intersections.slice(0, 2).join(", ")}, or
-                anywhere else in the neighborhood.
+                Contact us today to schedule your grass lawn mowing service in {neighborhood.name}.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" onClick={() => setShowPhoneForm(true)}>
@@ -2134,8 +1873,7 @@ export default function NeighborhoodPageClient({
           {realEstateBusinesses.length > 0 && (
             <div className="mb-12">
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
-                Real Estate & Property Management in {neighborhood.name} and Surrounding Areas like{" "}
-                {landmarks.landmarks.slice(0, 2).join(", ")}
+                Real Estate & Property Management in {neighborhood.name}
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

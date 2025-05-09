@@ -14,7 +14,6 @@ export function generateStaticParams() {
 export const dynamicParams = false
 
 export default function NeighborhoodPage({ params }: { params: { neighborhood: string } }) {
-  // Make sure we have a valid neighborhood object
   const neighborhood = neighborhoods.find((n) => n.slug === params.neighborhood)
 
   if (!neighborhood) {

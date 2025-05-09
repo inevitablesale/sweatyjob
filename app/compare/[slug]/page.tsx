@@ -4,6 +4,7 @@ import { cookies } from "next/headers"
 import CompetitorDetailPageClient from "./CompetitorDetailPageClient"
 import { fetchWikipediaArticle } from "@/lib/wiki-api"
 import { getNeighborhoodText } from "@/lib/wiki-neighborhoods"
+import { getCityCoordinates } from "@/app/actions/geocoding"
 
 // Define the competitor type
 interface Competitor {
@@ -135,70 +136,6 @@ async function getCityInfo(city: string, state: string) {
   }
 }
 
-// Update the getCityCoordinates function to include better validation and fallbacks
-async function getCityCoordinates(city: string, state: string) {
-  try {
-    // Server-side only
-    const mapboxToken = process.env.MAPBOX_ACCESS_TOKEN
-    if (!mapboxToken) {
-      console.error("❌ Mapbox token not found")
-      return null
-    }
-
-    const query = encodeURIComponent(`${city}, ${state}`)
-    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${mapboxToken}&limit=1&types=place`
-
-    console.log(`🌍 Geocoding request for: "${city}, ${state}"`)
-
-    // Add timeout to the fetch request
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
-
-    const response = await fetch(url, {
-      cache: "force-cache",
-      signal: controller.signal,
-    })
-
-    clearTimeout(timeoutId)
-
-    console.log(`📡 Response status: ${response.status} ${response.statusText}`)
-
-    if (!response.ok) {
-      console.error(`❌ Failed to fetch coordinates: ${response.statusText}`)
-      return null
-    }
-
-    const data = await response.json()
-
-    if (!data.features || data.features.length === 0) {
-      console.error(`❌ No features found in Mapbox response for "${city}, ${state}"`)
-      return null
-    }
-
-    const [longitude, latitude] = data.features[0].center
-    console.log(`📍 Extracted coordinates for ${city}, ${state}: [${longitude}, ${latitude}]`)
-
-    // Validate the coordinates
-    if (isNaN(latitude) || isNaN(longitude) || !isFinite(latitude) || !isFinite(longitude)) {
-      console.error(`❌ Invalid coordinates: latitude=${latitude}, longitude=${longitude}`)
-      return null
-    }
-
-    // Additional validation for obviously wrong coordinates
-    if (Math.abs(latitude) < 0.001 && Math.abs(longitude) < 0.001) {
-      console.error(`❌ Invalid coordinates (near 0,0): likely a geocoding failure`)
-      return null
-    }
-
-    console.log(`✅ Valid coordinates found: latitude=${latitude}, longitude=${longitude}`)
-    return { latitude, longitude }
-  } catch (error) {
-    console.error(`❌ Error fetching city coordinates:`, error)
-    return null
-  }
-}
-
-// In the CompetitorDetailPage component, add fallback coordinates
 export default async function CompetitorDetailPage({ params }: { params: { slug: string } }) {
   const competitor = await getCompetitorBySlug(params.slug)
 
@@ -209,10 +146,10 @@ export default async function CompetitorDetailPage({ params }: { params: { slug:
   // Get city info from Wikipedia
   const cityInfo = await getCityInfo(competitor.city, competitor.state)
 
-  // Fetch city coordinates using Mapbox geocoding
+  // Fetch city coordinates using our server action
   const cityCoordinates = await getCityCoordinates(competitor.city, competitor.state)
 
-  // Add coordinates to cityInfo with fallback values
+  // Add coordinates to cityInfo
   const enhancedCityInfo = {
     ...cityInfo,
     geo: cityCoordinates || null,
@@ -234,8 +171,7 @@ export default async function CompetitorDetailPage({ params }: { params: { slug:
   const videoInfo = {
     name: `SweatyJob Robot Mower Demo - Better Than ${competitor.title} in ${competitor.city}`,
     description: `See how SweatyJob's robot mower works daily in ${competitor.city}, providing better lawn care than ${competitor.title} at half the cost.`,
-    thumbnailUrl:
-      "https://sjc.microlink.io/RDtndPkm5tQdLrPSYvSLzZOE1lWpiQlrcaIf7qcIhCczjt-FjXOBSUGjoa8BqpxiD6jPHraF-IqbrvEeP-auBA.jpeg",
+    thumbnailUrl: "https://sweatyjob.com/images/robot-mower.jpg",
     uploadDate: "2023-04-15T08:00:00+08:00",
     duration: "PT1M30S", // ISO 8601 format - 1 minute 30 seconds
     contentUrl:

@@ -1,79 +1,111 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import Image from "next/image"
-import { Loader2 } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import mapboxgl from "mapbox-gl"
+import "mapbox-gl/dist/mapbox-gl.css"
+import "@/app/components/map-styles.css"
 
 interface ServiceAreaMapProps {
   city: string
   state: string
   longitude: number
   latitude: number
-  mapboxToken: string
 }
 
-export default function ServiceAreaMap({ city, state, longitude, latitude, mapboxToken }: ServiceAreaMapProps) {
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [mapUrl, setMapUrl] = useState<string | null>(null)
+export default function ServiceAreaMap({ city, state, longitude, latitude }: ServiceAreaMapProps) {
+  const mapContainer = useRef<HTMLDivElement>(null)
+  const map = useRef<mapboxgl.Map | null>(null)
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    // Validate coordinates
-    if (isNaN(longitude) || isNaN(latitude)) {
-      console.error("Invalid coordinates:", { longitude, latitude })
-      setError("Invalid coordinates provided")
-      setLoading(false)
-      return
+    if (!mapContainer.current || map.current) return
+
+    // Initialize the map
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/streets-v12",
+      center: [longitude, latitude],
+      zoom: 11,
+      attributionControl: false,
+      transformRequest: (url, resourceType) => {
+        // Proxy Mapbox requests through our API route
+        if (url.startsWith("https://api.mapbox.com") || url.startsWith("https://tiles.mapbox.com")) {
+          const proxyUrl = new URL("/api/mapbox-proxy", window.location.origin)
+          proxyUrl.searchParams.append("url", url)
+          return {
+            url: proxyUrl.toString(),
+          }
+        }
+      },
+    })
+
+    // Add navigation control
+    map.current.addControl(new mapboxgl.NavigationControl(), "top-right")
+
+    // Add marker for the city center
+    new mapboxgl.Marker({ color: "#3b82f6" })
+      .setLngLat([longitude, latitude])
+      .setPopup(new mapboxgl.Popup().setHTML(`<h3>${city}, ${state}</h3><p>Service area center</p>`))
+      .addTo(map.current)
+
+    // Add a circle to represent the service area
+    map.current.on("load", () => {
+      if (!map.current) return
+
+      // Add a source for the service area circle
+      map.current.addSource("service-area", {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [longitude, latitude],
+          },
+          properties: {},
+        },
+      })
+
+      // Add a circle layer
+      map.current.addLayer({
+        id: "service-area-fill",
+        type: "circle",
+        source: "service-area",
+        paint: {
+          "circle-radius": {
+            stops: [
+              [0, 0],
+              [10, 10000], // 10km radius at zoom level 10
+              [15, 20000], // 20km radius at zoom level 15
+            ],
+            base: 2,
+          },
+          "circle-color": "#3b82f6",
+          "circle-opacity": 0.2,
+          "circle-stroke-width": 2,
+          "circle-stroke-color": "#3b82f6",
+          "circle-stroke-opacity": 0.6,
+        },
+      })
+
+      setLoaded(true)
+    })
+
+    return () => {
+      if (map.current) {
+        map.current.remove()
+        map.current = null
+      }
     }
-
-    if (!mapboxToken) {
-      console.error("Mapbox token not found")
-      setError("Map configuration error")
-      setLoading(false)
-      return
-    }
-
-    try {
-      // Construct the map URL
-      const url = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l+3b82f6(${longitude},${latitude})/${longitude},${latitude},11,0/600x300@2x?access_token=${mapboxToken}`
-      console.log("🗺️ Constructed map URL (token hidden):", url.split("?")[0])
-      setMapUrl(url)
-      setLoading(false)
-    } catch (err) {
-      console.error("Error constructing map URL:", err)
-      setError("Error loading map")
-      setLoading(false)
-    }
-  }, [longitude, latitude, mapboxToken])
-
-  if (loading) {
-    return (
-      <div className="relative h-[300px] rounded-lg overflow-hidden bg-slate-700 flex items-center justify-center">
-        <Loader2 className="h-8 w-8 text-blue-400 animate-spin" />
-      </div>
-    )
-  }
-
-  if (error || !mapUrl) {
-    return (
-      <div className="relative h-[300px] rounded-lg overflow-hidden bg-slate-700 flex items-center justify-center">
-        <div className="text-white text-center p-4">
-          <p className="text-red-400 font-bold mb-2">Error</p>
-          <p>{error || "Unable to load map"}</p>
-        </div>
-      </div>
-    )
-  }
+  }, [longitude, latitude, city, state])
 
   return (
-    <div className="relative h-[300px] rounded-lg overflow-hidden">
-      <Image
-        src={mapUrl || "/placeholder.svg"}
-        alt={`Map of ${city}, ${state} service area`}
-        fill
-        className="object-cover"
-        unoptimized={true}
-      />
+    <div className="relative w-full h-full rounded-lg overflow-hidden">
+      <div ref={mapContainer} className="w-full h-full" />
+      {!loaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-700 bg-opacity-50">
+          <div className="text-white">Loading map...</div>
+        </div>
+      )}
     </div>
   )
 }

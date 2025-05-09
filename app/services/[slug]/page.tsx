@@ -7,6 +7,7 @@ import { PhoneCaptureForm } from "@/components/phone-capture-form"
 import { CheckCircle2, ArrowRight, MapPin, Info, Map } from "lucide-react"
 import { fetchWikipediaArticle, geoSearchWikipedia } from "@/lib/wiki-api"
 import ServiceAreaMap from "@/components/service-area-map"
+import { getCityCoordinates } from "@/app/actions/geocoding"
 
 // Define services data
 const services = [
@@ -177,44 +178,19 @@ const services = [
 // Function to fetch Mapbox data for a city
 async function fetchMapboxData(city: string, state: string) {
   try {
-    // Server-side only
-    const mapboxToken = process.env.MAPBOX_ACCESS_TOKEN
-    if (!mapboxToken) {
-      throw new Error("Mapbox token not found")
+    // Use our server action to get coordinates
+    const coordinates = await getCityCoordinates(city, state)
+
+    if (!coordinates) {
+      return null
     }
 
-    const query = encodeURIComponent(`${city}, ${state}`)
-    const response = await fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${mapboxToken}&limit=1&types=place`,
-      { cache: "force-cache" },
-    )
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch coordinates: ${response.statusText}`)
+    return {
+      coordinates: [coordinates.longitude, coordinates.latitude], // [longitude, latitude]
+      longitude: coordinates.longitude,
+      latitude: coordinates.latitude,
+      placeName: `${city}, ${state}`,
     }
-
-    const data = await response.json()
-    console.log("📊 Full Mapbox response:", JSON.stringify(data, null, 2))
-
-    if (data.features && data.features.length > 0) {
-      const feature = data.features[0]
-      const longitude = feature.center[0]
-      const latitude = feature.center[1]
-      console.log(`📍 Extracted coordinates: [${longitude}, ${latitude}]`)
-      console.log(`🏙️ Place name from Mapbox: ${feature.place_name}`)
-      console.log(`✅ Valid coordinates found: latitude=${latitude}, longitude=${longitude}`)
-
-      return {
-        coordinates: feature.center, // [longitude, latitude]
-        longitude: feature.center[0],
-        latitude: feature.center[1],
-        bbox: feature.bbox, // [west, south, east, north]
-        placeName: feature.place_name,
-        context: feature.context || [],
-      }
-    }
-
-    return null
   } catch (error) {
     console.error("Error fetching Mapbox data:", error)
     return null
@@ -380,9 +356,6 @@ export default async function ServicePage({ params }: Props) {
     longitude: mapboxData?.longitude,
     latitude: mapboxData?.latitude,
   })
-
-  // Get Mapbox token for client components - we'll use an empty string and rely on our proxy
-  const mapboxToken = ""
 
   return (
     <div className="bg-slate-900 pt-24">
@@ -589,7 +562,6 @@ export default async function ServicePage({ params }: Props) {
                     state={state}
                     longitude={mapboxData.longitude}
                     latitude={mapboxData.latitude}
-                    mapboxToken={mapboxToken}
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full bg-slate-700 text-white rounded-lg">

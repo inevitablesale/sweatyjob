@@ -30,42 +30,54 @@ export default function ColorfulMap({
   const map = useRef<mapboxgl.Map | null>(null)
   const [mapLoaded, setMapLoaded] = useState(false)
 
-  // Map styles with vibrant colors
-  const mapStyles = {
-    streets: "mapbox://styles/mapbox/streets-v12",
-    outdoors: "mapbox://styles/mapbox/outdoors-v12",
-    light: "mapbox://styles/mapbox/light-v11",
-    dark: "mapbox://styles/mapbox/dark-v11",
-    satellite: "mapbox://styles/mapbox/satellite-v9",
-    "satellite-streets": "mapbox://styles/mapbox/satellite-streets-v12",
-  }
-
   useEffect(() => {
     if (!mapContainer.current) return
 
-    // We'll use a token-free approach and rely on our proxy API
-    mapboxgl.accessToken = "" // Empty string as we'll use our proxy API
+    // Initialize map
+    const initializeMap = async () => {
+      mapboxgl.accessToken = "" // We'll use our proxy API instead of direct token access
 
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v12", // This will be handled by our proxy
-      center: center,
-      zoom: zoom,
-      transformRequest: (url, resourceType) => {
-        // Transform mapbox:// URLs to use our proxy
-        if (url.startsWith("mapbox://") && resourceType === "Style") {
-          return {
-            url: `/api/mapbox-proxy?url=${encodeURIComponent(url)}`,
-            headers: {},
-            credentials: "same-origin",
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: style,
+        center: center,
+        zoom: zoom,
+        transformRequest: (url, resourceType) => {
+          // Transform mapbox:// URLs to use our proxy
+          if (url.startsWith("mapbox://") || url.includes("api.mapbox.com")) {
+            // Extract the path from the URL
+            let urlObj
+            try {
+              urlObj = new URL(url)
+              return {
+                url: `/api/mapbox-proxy?path=${encodeURIComponent(urlObj.pathname)}&search=${encodeURIComponent(
+                  urlObj.search,
+                )}`,
+                headers: {},
+                credentials: "same-origin",
+              }
+            } catch (e) {
+              // If the URL is not valid, try to parse it as a mapbox:// URL
+              if (url.startsWith("mapbox://")) {
+                const mapboxPath = url.replace("mapbox://", "")
+                return {
+                  url: `/api/mapbox-proxy?path=${encodeURIComponent(mapboxPath)}`,
+                  headers: {},
+                  credentials: "same-origin",
+                }
+              }
+            }
           }
-        }
-      },
-    })
+          return { url }
+        },
+      })
 
-    map.current.on("load", () => {
-      setMapLoaded(true)
-    })
+      map.current.on("load", () => {
+        setMapLoaded(true)
+      })
+    }
+
+    initializeMap()
 
     return () => {
       map.current?.remove()
