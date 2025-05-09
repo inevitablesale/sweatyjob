@@ -12,3 +12,5 @@ export const createClient = () => {
   const cookieStore = cookies()
   return createServerComponentClient<Database>({ cookies: () => cookieStore })
 }
+
+// Re-export explicitly to ensure it's recognized
