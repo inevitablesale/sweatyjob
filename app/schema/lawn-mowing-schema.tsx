@@ -497,3 +497,37 @@ export const LawnMowingJobsSchema = {
   educationRequirements: "High school diploma or equivalent",
   experienceRequirements: "1+ years in lawn care or technical field",
 }
+
+// NEW: Speakable Schema for Voice Search Optimization
+export const SpeakableLawnMowingSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: [
+      ".voice-search-heading",
+      ".voice-search-paragraph",
+      ".voice-search-faq-question",
+      ".voice-search-faq-answer",
+    ],
+  },
+  name: "Compare Robot Lawn Mowing Services",
+  description:
+    "Compare robot lawn mowing services with traditional lawn care. Daily mowing at $79/month versus weekly service at $160-240/month.",
+}
+
+// NEW: Comparison Table Schema for Service Comparison
+export const LawnServiceComparisonSchema = {
+  "@context": "https://schema.org",
+  "@type": "Table",
+  about: "Lawn Mowing Service Comparison",
+  abstract: "Comparison of robot lawn mowing services versus traditional lawn care services in Richmond, VA",
+  isPartOf: {
+    "@type": "WebPage",
+    name: "Compare Lawn Mowing Services Near Me",
+  },
+  mainContentOfPage: {
+    "@type": "WebPageElement",
+    cssSelector: ".comparison-table",
+  },
+}
