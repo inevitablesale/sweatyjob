@@ -31,11 +31,12 @@ export default function ServiceAreaMap({ city, state, longitude, latitude }: Ser
         // Proxy Mapbox requests through our API route
         if (url.startsWith("https://api.mapbox.com") || url.startsWith("https://tiles.mapbox.com")) {
           const proxyUrl = new URL("/api/mapbox-proxy", window.location.origin)
-          proxyUrl.searchParams.append("url", url)
+          proxyUrl.searchParams.append("path", url.replace("https://api.mapbox.com", ""))
           return {
             url: proxyUrl.toString(),
           }
         }
+        return { url }
       },
     })
 
