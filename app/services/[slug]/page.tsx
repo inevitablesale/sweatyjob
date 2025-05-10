@@ -4,10 +4,41 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { PhoneCaptureForm } from "@/components/phone-capture-form"
-import { CheckCircle2, ArrowRight, MapPin, Info, Map } from "lucide-react"
-import { fetchWikipediaArticle, geoSearchWikipedia } from "@/lib/wiki-api"
-import ServiceAreaMap from "@/components/service-area-map"
-import { getCityCoordinates } from "@/app/actions/geocoding"
+import { CheckCircle2, ArrowRight, MapPin } from "lucide-react"
+
+// Define neighborhoods data
+const neighborhoods = [
+  {
+    name: "Battery Park",
+    slug: "battery-park",
+    image: "/images/neighborhoods/battery-park.jpg",
+  },
+  {
+    name: "Bellevue",
+    slug: "bellevue",
+    image: "/images/neighborhoods/bellevue.jpg",
+  },
+  {
+    name: "Ginter Park",
+    slug: "ginter-park",
+    image: "/images/neighborhoods/ginter-park.jpg",
+  },
+  {
+    name: "Laburnum Park",
+    slug: "laburnum-park",
+    image: "/images/neighborhoods/laburnum-park.jpg",
+  },
+  {
+    name: "Sherwood Park",
+    slug: "sherwood-park",
+    image: "/images/neighborhoods/sherwood-park.jpg",
+  },
+  {
+    name: "Rosedale",
+    slug: "rosedale",
+    image: "/images/neighborhoods/rosedale.jpg",
+  },
+]
 
 // Define services data
 const services = [
@@ -34,9 +65,9 @@ const services = [
       "Environmentally friendly practices",
     ],
     image: "/images/hero-lawn.jpg",
-    metaTitle: "Professional Lawn Mowing Services | SweatyJob",
+    metaTitle: "Professional Lawn Mowing Services in Richmond, VA | SweatyJob",
     metaDescription:
-      "Expert lawn mowing services. Weekly or bi-weekly schedules, precision cutting, and edging. Join the Saturday Club for member pricing.",
+      "Expert lawn mowing services in Richmond, VA. Weekly or bi-weekly schedules, precision cutting, and edging. Join the Saturday Club for member pricing.",
   },
   {
     id: "window-cleaning",
@@ -61,9 +92,9 @@ const services = [
       "Spotless, streak-free windows that last longer between cleanings",
     ],
     image: "/images/services/window-cleaning.jpg",
-    metaTitle: "Professional Window Cleaning Services | SweatyJob",
+    metaTitle: "Professional Window Cleaning Services in Richmond, VA | SweatyJob",
     metaDescription:
-      "Expert window cleaning services. Interior and exterior cleaning, streak-free results, and screen cleaning. Join the Saturday Club for member pricing.",
+      "Expert window cleaning services in Richmond, VA. Interior and exterior cleaning, streak-free results, and screen cleaning. Join the Saturday Club for member pricing.",
   },
   {
     id: "pressure-washing",
@@ -88,9 +119,9 @@ const services = [
       "Increased property value",
     ],
     image: "/images/services/pressure-washing.jpg",
-    metaTitle: "Professional Pressure Washing Services | SweatyJob",
+    metaTitle: "Professional Pressure Washing Services in Richmond, VA | SweatyJob",
     metaDescription:
-      "Expert pressure washing services. House siding, driveways, decks, and more. Join the Saturday Club for member pricing.",
+      "Expert pressure washing services in Richmond, VA. House siding, driveways, decks, and more. Join the Saturday Club for member pricing.",
   },
   {
     id: "grill-scrubbing",
@@ -115,9 +146,9 @@ const services = [
       "Ready for immediate use after service",
     ],
     image: "/images/services/grill-steaming.jpg",
-    metaTitle: "Professional Grill Cleaning Services | SweatyJob",
+    metaTitle: "Professional Grill Cleaning Services in Richmond, VA | SweatyJob",
     metaDescription:
-      "Expert grill cleaning services. Deep cleaning for all grill types, food-safe solutions, and same-day service. Join the Saturday Club for member pricing.",
+      "Expert grill cleaning services in Richmond, VA. Deep cleaning for all grill types, food-safe solutions, and same-day service. Join the Saturday Club for member pricing.",
   },
   {
     id: "flower-bed-maintenance",
@@ -142,9 +173,9 @@ const services = [
       "Increased property value and curb appeal",
     ],
     image: "/images/services/flower-bed-maintenance.jpg",
-    metaTitle: "Professional Flower Bed Maintenance | SweatyJob",
+    metaTitle: "Professional Flower Bed Maintenance in Richmond, VA | SweatyJob",
     metaDescription:
-      "Expert flower bed maintenance services. Weeding, pruning, mulching, and plant care. Join the Saturday Club for member pricing.",
+      "Expert flower bed maintenance services in Richmond, VA. Weeding, pruning, mulching, and plant care. Join the Saturday Club for member pricing.",
   },
   {
     id: "garden-weeding",
@@ -169,105 +200,11 @@ const services = [
       "Healthier garden ecosystem overall",
     ],
     image: "/images/services/garden-weeding.jpg",
-    metaTitle: "Professional Garden Weeding Services | SweatyJob",
+    metaTitle: "Professional Garden Weeding Services in Richmond, VA | SweatyJob",
     metaDescription:
-      "Expert garden weeding services. Complete root removal, debris disposal, and preventative recommendations. Join the Saturday Club for member pricing.",
+      "Expert garden weeding services in Richmond, VA. Complete root removal, debris disposal, and preventative recommendations. Join the Saturday Club for member pricing.",
   },
 ]
-
-// Function to fetch Mapbox data for a city
-async function fetchMapboxData(city: string, state: string) {
-  try {
-    // Use our server action to get coordinates
-    const coordinates = await getCityCoordinates(city, state)
-
-    if (!coordinates) {
-      return null
-    }
-
-    return {
-      coordinates: [coordinates.longitude, coordinates.latitude], // [longitude, latitude]
-      longitude: coordinates.longitude,
-      latitude: coordinates.latitude,
-      placeName: `${city}, ${state}`,
-    }
-  } catch (error) {
-    console.error("Error fetching Mapbox data:", error)
-    return null
-  }
-}
-
-// Function to get neighborhood text from POIs
-async function getNeighborhoodText(city: string, state: string) {
-  try {
-    // First get coordinates from Mapbox
-    const mapboxData = await fetchMapboxData(city, state)
-    if (!mapboxData || !mapboxData.coordinates) {
-      console.error("No coordinates found for city")
-      return `throughout ${city}`
-    }
-
-    const [longitude, latitude] = mapboxData.coordinates
-    console.log(`🏙️ Getting neighborhood text for ${city}, ${state}`)
-    console.log(`🔍 Searching for neighborhoods in ${city}, ${state}`)
-    console.log(`🌍 Using coordinates for ${city}: lat=${latitude}, lon=${longitude}`)
-
-    // Use coordinates to find nearby POIs with Wikipedia
-    console.log(
-      `🔍 GeoSearch URL: https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${latitude}|${longitude}&gsradius=10000&gslimit=50&format=json&origin=*`,
-    )
-    const geosearchResults = await geoSearchWikipedia(latitude, longitude, 10000, 50)
-    console.log(`📊 GeoSearch found ${geosearchResults.length} nearby articles`)
-
-    // Filter for likely neighborhoods
-    const neighborhoodKeywords = [
-      "district",
-      "neighborhood",
-      "heights",
-      "park",
-      "village",
-      "gardens",
-      "hills",
-      "square",
-      "place",
-      "quarter",
-    ]
-
-    const neighborhoods = geosearchResults
-      .filter((result) => {
-        const title = result.title.toLowerCase()
-        // Exclude the city itself and articles with parentheses (often disambiguation)
-        if (title === city.toLowerCase() || title.includes("(")) {
-          return false
-        }
-
-        // Include if it contains neighborhood keywords
-        return neighborhoodKeywords.some((keyword) => title.includes(keyword.toLowerCase()))
-      })
-      .slice(0, 5) // Limit to 5 neighborhoods
-      .map((n) => n.title)
-
-    console.log(`✅ Found ${neighborhoods.length} neighborhoods via GeoSearch: ${neighborhoods.join(", ")}`)
-
-    if (neighborhoods.length === 0) {
-      return `throughout ${city}`
-    }
-
-    if (neighborhoods.length === 1) {
-      return `in ${neighborhoods[0]}`
-    }
-
-    if (neighborhoods.length === 2) {
-      return `in ${neighborhoods[0]} and ${neighborhoods[1]}`
-    }
-
-    const lastNeighborhood = neighborhoods[neighborhoods.length - 1]
-    return `in ${neighborhoods.slice(0, -1).join(", ")}, and ${lastNeighborhood}`
-  } catch (error) {
-    console.error("Error getting neighborhood text:", error)
-    return `throughout ${city}`
-  }
-}
 
 type Props = {
   params: { slug: string }
@@ -283,60 +220,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
   }
 
-  // Use Las Vegas, NV as our target city
-  const city = "Las Vegas"
-  const state = "Nevada"
-
   return {
-    title: `Professional ${service.title} Services in ${city}, ${state} | SweatyJob`,
-    description: `Expert ${service.title.toLowerCase()} services in ${city}, ${state}. Professional, reliable, and affordable. Join the Saturday Club for member pricing.`,
+    title: service.metaTitle,
+    description: service.metaDescription,
   }
 }
 
-export default async function ServicePage({ params }: Props) {
+export default function ServicePage({ params }: Props) {
   const service = services.find((service) => service.id === params.slug)
 
   if (!service) {
     notFound()
-  }
-
-  // Use Las Vegas, NV as our target city
-  const city = "Las Vegas"
-  const state = "Nevada"
-  const competitor = "Walker Landscape Maintenance"
-
-  // Fetch city information from Wikipedia
-  const wikiTitle = `${city}, ${state}`
-  // Get city information directly from the API response
-  const cityInfo = await fetchWikipediaArticle(wikiTitle)
-  console.log(`📊 Wikipedia response:`, {
-    pageid: cityInfo?.pageid,
-    title: cityInfo?.title,
-    extract_length: cityInfo?.extract?.length,
-    has_thumbnail: !!cityInfo?.thumbnail,
-    has_coordinates: !!cityInfo?.coordinates,
-  })
-
-  // Use the Wikipedia data directly - no fallbacks
-  const cityDescription = cityInfo?.extract || `Information about ${city}, ${state} is being loaded.`
-
-  // Fetch Mapbox data for the city
-  const mapboxData = await fetchMapboxData(city, state)
-
-  // Fetch neighborhood data
-  const neighborhoodText = await getNeighborhoodText(city, state)
-
-  // Parse neighborhood text into an array
-  let neighborhoods = []
-  if (neighborhoodText && neighborhoodText !== `throughout ${city}`) {
-    // Split by commas and "and"
-    const parts = neighborhoodText.split(/,\s*|\s+and\s+/)
-    neighborhoods = parts.map((part) => ({
-      name: part.trim(),
-      slug: part.trim().toLowerCase().replace(/\s+/g, "-"),
-      // Use placeholder images with the neighborhood name
-      image: `/placeholder.svg?height=300&width=400&query=${encodeURIComponent(`${part.trim()} neighborhood in ${city}`)}`,
-    }))
   }
 
   // Get service image
@@ -346,16 +240,6 @@ export default async function ServicePage({ params }: Props) {
     }
     return service.image
   }
-
-  // Debug the mapbox data
-  console.log("🗺️ Mapbox data for map:", {
-    hasData: !!mapboxData,
-    hasCoordinates: !!(mapboxData && mapboxData.coordinates),
-    coordinates: mapboxData?.coordinates,
-    coordinatesLength: mapboxData?.coordinates?.length,
-    longitude: mapboxData?.longitude,
-    latitude: mapboxData?.latitude,
-  })
 
   return (
     <div className="bg-slate-900 pt-24">
@@ -375,15 +259,13 @@ export default async function ServicePage({ params }: Props) {
 
         {/* Hero Section */}
         <div className="mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            {service.title} in {city}, {state}
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">{service.title}</h1>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="relative h-[400px] rounded-lg overflow-hidden">
               <Image
                 src={getServiceImage() || "/placeholder.svg"}
-                alt={`${service.title} services in ${city}, ${state}`}
+                alt={service.title}
                 fill
                 className="object-cover"
                 priority
@@ -391,10 +273,7 @@ export default async function ServicePage({ params }: Props) {
             </div>
 
             <div>
-              <p className="text-xl text-gray-300 mb-6">
-                Professional {service.title.toLowerCase()} services for homes and businesses in {city}, {state}.
-                {service.description}
-              </p>
+              <p className="text-xl text-gray-300 mb-6">{service.description}</p>
 
               <div className="bg-slate-800 p-6 rounded-lg mb-6">
                 <h3 className="text-xl font-bold text-white mb-4">Service Highlights</h3>
@@ -409,7 +288,7 @@ export default async function ServicePage({ params }: Props) {
               </div>
 
               <div className="bg-slate-800 p-4 rounded-lg mb-6">
-                <h3 className="text-white font-medium mb-2">Request a Quote in {city}</h3>
+                <h3 className="text-white font-medium mb-2">Request a Quote</h3>
                 <PhoneCaptureForm serviceType={service.title} buttonText="Get a Free Quote" />
               </div>
 
@@ -422,55 +301,12 @@ export default async function ServicePage({ params }: Props) {
           </div>
         </div>
 
-        {/* City Information Section */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8">
-            {service.title} Services in {city}, {state}
-          </h2>
-
-          <div className="bg-slate-800 p-8 rounded-lg">
-            <div className="flex flex-col md:flex-row gap-8">
-              {cityInfo && cityInfo.thumbnail && (
-                <div className="md:w-1/3">
-                  <div className="relative h-[250px] rounded-lg overflow-hidden">
-                    <Image
-                      src={
-                        cityInfo.thumbnail.source ||
-                        `/placeholder.svg?height=250&width=400&query=${encodeURIComponent(`${city || "/placeholder.svg"}, ${state} skyline`)}`
-                      }
-                      alt={`${city}, ${state}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
-              )}
-              <div className={cityInfo && cityInfo.thumbnail ? "md:w-2/3" : "w-full"}>
-                <div className="flex items-center mb-4">
-                  <Info className="h-5 w-5 text-blue-400 mr-2" />
-                  <h3 className="text-xl font-bold text-white">About {city}</h3>
-                </div>
-                <p className="text-gray-300 mb-6">{cityDescription}</p>
-                <p className="text-gray-300">
-                  Our {service.title.toLowerCase()} services are available {neighborhoodText}. We provide professional,
-                  reliable service with flexible scheduling options to meet your needs.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Service Details Section */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8">
-            About Our {service.title} Service in {city}
-          </h2>
+          <h2 className="text-3xl font-bold text-white mb-8">About Our {service.title} Service</h2>
 
           <div className="bg-slate-800 p-8 rounded-lg">
-            <p className="text-gray-300 mb-8">
-              {service.longDescription} Our {city}-based technicians are familiar with local conditions and
-              requirements, ensuring you receive service tailored to your specific needs.
-            </p>
+            <p className="text-gray-300 mb-8">{service.longDescription}</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
@@ -486,7 +322,7 @@ export default async function ServicePage({ params }: Props) {
               </div>
 
               <div>
-                <h3 className="text-xl font-bold text-white mb-4">Benefits for {city} Residents</h3>
+                <h3 className="text-xl font-bold text-white mb-4">Benefits</h3>
                 <ul className="space-y-3">
                   {service.benefits.map((benefit, index) => (
                     <li key={index} className="flex items-start">
@@ -501,189 +337,56 @@ export default async function ServicePage({ params }: Props) {
         </div>
 
         {/* Neighborhoods Section */}
-        {neighborhoods.length > 0 && (
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-white mb-8">
-              {service.title} in {city} Neighborhoods
-            </h2>
-
-            <p className="text-gray-300 mb-6">
-              We provide {service.title.toLowerCase()} services {neighborhoodText}. Click on a neighborhood below to
-              learn more about our tailored services in your area:
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {neighborhoods.map((neighborhood) => (
-                <Link
-                  key={neighborhood.slug}
-                  href={`/neighborhoods/${neighborhood.slug}/${service.id}`}
-                  className="bg-slate-800 rounded-lg overflow-hidden hover:bg-slate-700 transition-colors group"
-                >
-                  <div className="relative h-48">
-                    <Image
-                      src={neighborhood.image || "/placeholder.svg"}
-                      alt={`${service.title} in ${neighborhood.name}`}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-70"></div>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center mb-2">
-                      <MapPin className="h-5 w-5 text-blue-400 mr-2" />
-                      <h3 className="text-xl font-semibold text-white group-hover:text-blue-400 transition-colors">
-                        {neighborhood.name}
-                      </h3>
-                    </div>
-                    <p className="text-gray-300 mb-4">
-                      {service.title} services tailored for {neighborhood.name} homes and properties.
-                    </p>
-                    <div className="flex items-center text-blue-400">
-                      <span>View Details</span>
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Map Section */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8">Our Service Area in {city}</h2>
+          <h2 className="text-3xl font-bold text-white mb-8">{service.title} in Richmond Neighborhoods</h2>
 
-          <div className="bg-slate-800 p-8 rounded-lg">
-            <div className="flex flex-col md:flex-row gap-8 items-center">
-              <div className="md:w-1/2 h-[300px]">
-                {mapboxData && typeof mapboxData.longitude === "number" && typeof mapboxData.latitude === "number" ? (
-                  <ServiceAreaMap
-                    city={city}
-                    state={state}
-                    longitude={mapboxData.longitude}
-                    latitude={mapboxData.latitude}
+          <p className="text-gray-300 mb-6">
+            We provide {service.title.toLowerCase()} services throughout Richmond. Click on a neighborhood below to
+            learn more about our tailored services in your area:
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {neighborhoods.map((neighborhood) => (
+              <Link
+                key={neighborhood.slug}
+                href={`/neighborhoods/${neighborhood.slug}/${service.id}`}
+                className="bg-slate-800 rounded-lg overflow-hidden hover:bg-slate-700 transition-colors group"
+              >
+                <div className="relative h-48">
+                  <Image
+                    src={neighborhood.image || "/placeholder.svg"}
+                    alt={`${service.title} in ${neighborhood.name}`}
+                    fill
+                    className="object-cover"
                   />
-                ) : (
-                  <div className="flex items-center justify-center h-full bg-slate-700 text-white rounded-lg">
-                    <p>Loading map data...</p>
-                  </div>
-                )}
-              </div>
-              <div className="md:w-1/2">
-                <div className="flex items-center mb-4">
-                  <Map className="h-5 w-5 text-blue-400 mr-2" />
-                  <h3 className="text-xl font-bold text-white">Service Coverage</h3>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-70"></div>
                 </div>
-                <p className="text-gray-300 mb-4">
-                  Our {service.title.toLowerCase()} services cover all of {city} and surrounding areas. We provide
-                  flexible scheduling options with same-week availability in most neighborhoods.
-                </p>
-                <p className="text-gray-300">
-                  Popular service areas include {neighborhoodText}, with special pricing available for Saturday Club
-                  members throughout the region.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Competitor Comparison Section */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8">
-            {service.title} Service Near Me in {city}
-          </h2>
-
-          <div className="bg-slate-800 p-8 rounded-lg">
-            <h3 className="text-xl font-bold text-white mb-4">SweatyJob vs {competitor}</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-              <div className="bg-slate-700 p-6 rounded-lg">
-                <h4 className="text-lg font-bold text-blue-400 mb-3">SweatyJob Robot Mowing</h4>
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <CheckCircle2 className="h-5 w-5 text-blue-400 mr-3 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300">Price: $79/month</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 className="h-5 w-5 text-blue-400 mr-3 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300">Frequency: Daily mowing</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 className="h-5 w-5 text-blue-400 mr-3 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300">Noise: Whisper quiet</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 className="h-5 w-5 text-blue-400 mr-3 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300">Emissions: Zero emissions</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-slate-700 p-6 rounded-lg">
-                <h4 className="text-lg font-bold text-gray-400 mb-3">{competitor}</h4>
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <CheckCircle2 className="h-5 w-5 text-gray-500 mr-3 mt-1 flex-shrink-0" />
-                    <span className="text-gray-400">Price: $160-200/month</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 className="h-5 w-5 text-gray-500 mr-3 mt-1 flex-shrink-0" />
-                    <span className="text-gray-400">Frequency: Weekly mowing</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 className="h-5 w-5 text-gray-500 mr-3 mt-1 flex-shrink-0" />
-                    <span className="text-gray-400">Noise: Loud gas engines</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle2 className="h-5 w-5 text-gray-500 mr-3 mt-1 flex-shrink-0" />
-                    <span className="text-gray-400">Emissions: High carbon footprint</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <p className="text-gray-300">
-              When comparing SweatyJob to {competitor} in {city}, our robot mowing service provides daily cutting at
-              half the monthly cost. Our service is whisper-quiet, environmentally friendly, and requires no scheduling
-              hassles. The result is a consistently perfect lawn that's healthier and more attractive than what
-              traditional weekly mowing can achieve.
-            </p>
-          </div>
-        </div>
-
-        {/* Video Section */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8">
-            See Our {service.title} Service in Action in {city}
-          </h2>
-
-          <div className="bg-slate-800 p-8 rounded-lg">
-            <div className="aspect-video relative rounded-lg overflow-hidden mb-6">
-              <iframe
-                src="https://www.bestmow.com/cdn/shop/videos/c/vp/962096c1d1224dc78b09087c9a8c7ef8/962096c1d1224dc78b09087c9a8c7ef8.HD-1080p-7.2Mbps-44563247.mp4?v=0"
-                title={`SweatyJob ${service.title} Demo in ${city}`}
-                className="absolute inset-0 w-full h-full"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
-            <h3 className="text-xl font-bold text-white mb-2">
-              SweatyJob {service.title} Demo - Better Than {competitor} in {city}
-            </h3>
-            <p className="text-gray-300">
-              See how our {service.title.toLowerCase()} service works in {city}, providing better results than
-              {competitor} at half the cost. Our technology and expert technicians ensure consistent, high-quality
-              results every time.
-            </p>
+                <div className="p-6">
+                  <div className="flex items-center mb-2">
+                    <MapPin className="h-5 w-5 text-blue-400 mr-2" />
+                    <h3 className="text-xl font-semibold text-white group-hover:text-blue-400 transition-colors">
+                      {neighborhood.name}
+                    </h3>
+                  </div>
+                  <p className="text-gray-300 mb-4">
+                    {service.title} services tailored for {neighborhood.name} homes and properties.
+                  </p>
+                  <div className="flex items-center text-blue-400">
+                    <span>View Details</span>
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
 
         {/* Ready to Schedule Section */}
         <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 p-8 rounded-lg text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Schedule Your {service.title} in {city}?
-          </h2>
+          <h2 className="text-3xl font-bold text-white mb-4">Ready to Schedule Your {service.title}?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
             Contact us today for a free quote or learn about our Saturday Club membership for exclusive discounts on
-            {service.title.toLowerCase()} and other services throughout {city} and {state}.
+            {service.title.toLowerCase()} and other services.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -43,27 +43,21 @@ export async function fetchWikipediaArticle(title: string): Promise<WikipediaArt
     // Construct the API URL with all the properties we need
     const apiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts|pageimages|coordinates|description&exintro=1&explaintext=1&piprop=thumbnail&pithumbsize=600&titles=${encodedTitle}&origin=*`
 
-    console.log(`🔗 Wikipedia API URL: ${apiUrl}`)
-
     // Make the API request with auth headers if available
     const response = await fetch(apiUrl, {
       headers: getAuthHeaders(),
     })
 
-    console.log(`📡 Wikipedia API response status: ${response.status} ${response.statusText}`)
-
     if (!response.ok) {
-      console.error(`❌ Wikipedia API error: Failed to fetch article for "${title}" with status ${response.status}`)
       return handleApiError(response, `Failed to fetch article for "${title}"`)
     }
 
     const data = await response.json()
-    console.log(`📊 Wikipedia API raw response:`, JSON.stringify(data, null, 2))
 
     // Wikipedia API returns pages in an object with page IDs as keys
     const pages = data.query?.pages
     if (!pages) {
-      console.error("❌ No pages found in Wikipedia response")
+      console.error("No pages found in Wikipedia response")
       return null
     }
 
@@ -73,7 +67,7 @@ export async function fetchWikipediaArticle(title: string): Promise<WikipediaArt
 
     // Check if we got a valid page or a "missing" indicator
     if (page.missing || pageId === "-1") {
-      console.warn(`⚠️ Wikipedia article not found for "${title}"`)
+      console.warn(`Wikipedia article not found for "${title}"`)
       return null
     }
 
@@ -92,7 +86,6 @@ export async function fetchWikipediaArticle(title: string): Promise<WikipediaArt
         width: page.thumbnail.width,
         height: page.thumbnail.height,
       }
-      console.log(`🖼️ Wikipedia thumbnail found: ${page.thumbnail.source}`)
     }
 
     // Add coordinates if available
@@ -101,54 +94,11 @@ export async function fetchWikipediaArticle(title: string): Promise<WikipediaArt
         lat: page.coordinates[0].lat,
         lon: page.coordinates[0].lon,
       }
-      console.log(`🌍 Wikipedia coordinates found: lat=${page.coordinates[0].lat}, lon=${page.coordinates[0].lon}`)
-    } else {
-      console.log(`ℹ️ No coordinates in Wikipedia article for "${title}"`)
-    }
-
-    console.log(`✅ Wikipedia article found for "${title}"`)
-    console.log(`📊 Wikipedia response:`, {
-      pageid: article.pageid,
-      title: article.title,
-      extract_length: article.extract.length,
-      has_thumbnail: !!article.thumbnail,
-      has_coordinates: !!article.coordinates,
-    })
-
-    // If the extract is empty, try to get more content:
-    if (!article.extract || article.extract.length < 10) {
-      console.log(`⚠️ Wikipedia extract is empty or too short for "${title}", trying to get full content`)
-
-      // Try to get the full article content without the intro-only flag
-      const fullContentUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts|pageimages|coordinates|description&explaintext=1&piprop=thumbnail&pithumbsize=600&titles=${encodedTitle}&origin=*`
-
-      try {
-        const fullResponse = await fetch(fullContentUrl, {
-          headers: getAuthHeaders(),
-        })
-
-        if (fullResponse.ok) {
-          const fullData = await fullResponse.json()
-          const fullPage = fullData.query?.pages[pageId]
-
-          if (fullPage && fullPage.extract) {
-            article.extract = fullPage.extract.substring(0, 1000) + "..."
-            console.log(`✅ Retrieved full content for "${title}", length: ${article.extract.length}`)
-          }
-        }
-      } catch (error) {
-        console.error(`❌ Error fetching full content for "${title}":`, error)
-      }
-    }
-
-    // Make sure we return a valid extract even if it's empty
-    if (!article.extract || article.extract.length < 10) {
-      article.extract = `${title} is a location with information available on Wikipedia.`
     }
 
     return article
   } catch (error) {
-    console.error("❌ Error fetching Wikipedia article:", error)
+    console.error("Error fetching Wikipedia article:", error)
     return null
   }
 }

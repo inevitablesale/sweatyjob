@@ -6,19 +6,6 @@ import { Star, MapPin, ArrowLeft, Check, X, Quote } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { SchemaMarkup } from "@/app/components/seo/schema-markup"
 import { VideoModal } from "@/components/video-modal"
-import { InlineLeadForm } from "@/components/inline-lead-form"
-import CompetitorLocationMapClient from "@/components/competitor-location-map-client"
-
-// Helper function that acknowledges when we don't have specific neighborhood data
-function getNeighborhoodText(city: string): string {
-  // For Richmond, we have actual data from the neighborhoods array
-  if (city.toLowerCase() === "richmond") {
-    return "including Battery Park, Bellevue, Ginter Park, The Fan, and Church Hill"
-  }
-
-  // For other cities, be honest about not having specific data
-  return "throughout all neighborhoods"
-}
 
 interface Competitor {
   id: number
@@ -44,10 +31,6 @@ interface CityInfo {
   extract?: string
   thumbnail?: {
     source?: string
-  }
-  geo?: {
-    latitude: number
-    longitude: number
   }
 }
 
@@ -189,8 +172,7 @@ export default function CompetitorDetailPageClient({
               </h1>
               <p className="text-xl text-gray-300 mb-4 voice-search-optimized">
                 Compare {competitor.title} with SweatyJob's robot lawn mowing service in {competitor.city},{" "}
-                {competitor.state}. We serve homes {getNeighborhoodText(competitor.city)}. Daily mowing at $79/month vs
-                weekly service at $160-200/month.
+                {competitor.state}. Daily mowing at $79/month vs weekly service at $160-200/month.
               </p>
 
               {/* Location and Rating */}
@@ -221,8 +203,8 @@ export default function CompetitorDetailPageClient({
               )}
             </div>
 
-            <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg" asChild>
-              <a href="#get-started">Try SweatyJob Instead</a>
+            <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg">
+              Try SweatyJob Instead
             </Button>
           </div>
         </div>
@@ -408,67 +390,6 @@ export default function CompetitorDetailPageClient({
           </div>
         </div>
 
-        {/* Robot Lawnmower Technology Section */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold mb-8 text-center">Advanced Robot Lawnmower Technology</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-gray-900 rounded-xl p-8">
-              <h3 className="text-2xl font-bold mb-4">Robot Lawnmower Features</h3>
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <Check size={20} className="text-green-500 mr-2 mt-1 flex-shrink-0" />
-                  <span>
-                    <strong>Wire-Free Navigation:</strong> Our robot lawnmowers use advanced GPS and vision technology
-                    instead of boundary wires
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <Check size={20} className="text-green-500 mr-2 mt-1 flex-shrink-0" />
-                  <span>
-                    <strong>Versatile Lawn Size:</strong> Works for small gardens up to large 1.5-acre properties
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <Check size={20} className="text-green-500 mr-2 mt-1 flex-shrink-0" />
-                  <span>
-                    <strong>Affordable Cost:</strong> Just $79/month instead of $600-$3,500 upfront purchase
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <Check size={20} className="text-green-500 mr-2 mt-1 flex-shrink-0" />
-                  <span>
-                    <strong>Easy Setup:</strong> Professional installation with no technical knowledge required
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <Check size={20} className="text-green-500 mr-2 mt-1 flex-shrink-0" />
-                  <span>
-                    <strong>Smart Technology:</strong> AI-powered navigation adapts to your specific lawn
-                  </span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-gray-900 rounded-xl p-8">
-              <h3 className="text-2xl font-bold mb-4">Why Choose Our Robot Lawnmower?</h3>
-              <p className="text-gray-300 mb-4">
-                Unlike traditional services like {competitor.title} or DIY mowing, our robot lawnmowers provide daily
-                cutting for a consistently perfect lawn. Whether you have a small garden or a large 2-acre property, our
-                technology adapts to your specific needs.
-              </p>
-              <p className="text-gray-300 mb-4">
-                With no boundary wires to install or maintain, our setup process is simple and clean. The robot works in
-                various conditions, handles slopes up to 35 degrees, and operates quietly enough to run at night.
-              </p>
-              <p className="text-gray-300">
-                At $79/month, you get all the benefits of a premium robot lawnmower (worth $1,500-$3,500) without the
-                large upfront cost or maintenance hassles. It's the smart, affordable way to achieve a perfect lawn in{" "}
-                {competitor.city}.
-              </p>
-            </div>
-          </div>
-        </div>
-
         {/* Competitor Review Section - Only shown if review data exists */}
         {competitor.review_text && competitor.reviewer_name && (
           <div className="mb-16">
@@ -540,39 +461,6 @@ export default function CompetitorDetailPageClient({
           </div>
         )}
 
-        {/* Service Area Map */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold mb-8 text-center">
-            SweatyJob Service Area Near {competitor.title} in {competitor.city}
-          </h2>
-          <div className="bg-gray-900 rounded-xl p-8">
-            {cityInfo?.geo ? (
-              <div className="h-[400px]">
-                <CompetitorLocationMapClient
-                  city={competitor.city}
-                  state={competitor.state}
-                  competitorName={competitor.title}
-                  lat={cityInfo.geo.latitude}
-                  lng={cityInfo.geo.longitude}
-                />
-              </div>
-            ) : (
-              <div className="rounded-lg bg-slate-800 p-8 text-center">
-                <p className="text-white">Map data unavailable for this location</p>
-              </div>
-            )}
-            <div className="mt-6 bg-gray-800 p-4 rounded-lg">
-              <h4 className="font-bold text-green-500 mb-2">SweatyJob Coverage in {competitor.city}:</h4>
-              <p className="text-gray-300">
-                Our robot mowing service is available throughout {competitor.city} and surrounding areas{" "}
-                {getNeighborhoodText(competitor.city)}. The map shows our service area (green) in relation to{" "}
-                {competitor.title}'s location (red). We provide daily robot mowing service to residential properties
-                throughout the region.
-              </p>
-            </div>
-          </div>
-        </div>
-
         {/* CTA Section */}
         <div className="bg-gradient-to-r from-green-900 to-green-800 rounded-xl p-8 text-center mb-16">
           <h2 className="text-2xl font-bold mb-2">Ready to upgrade your lawn care?</h2>
@@ -580,18 +468,9 @@ export default function CompetitorDetailPageClient({
             Join thousands of homeowners who've switched from {competitor.title} to SweatyJob's robot mowing service.
             Get daily mowing at half the cost with no noise or emissions.
           </p>
-          <Button className="bg-white text-green-900 hover:bg-gray-100 px-8 py-6 text-lg" asChild>
-            <a href="#get-started">Get Your Robot Mower Today</a>
+          <Button className="bg-white text-green-900 hover:bg-gray-100 px-8 py-6 text-lg">
+            Get Your Robot Mower Today
           </Button>
-        </div>
-
-        {/* Lead Capture Form */}
-        <div className="mb-16">
-          <InlineLeadForm
-            source={`competitor-${competitor.slug}`}
-            title="Get Your Robot Mower Today"
-            description={`Ready to upgrade from ${competitor.title}? Enter your phone number to schedule a free consultation and see how much you can save with SweatyJob.`}
-          />
         </div>
 
         {/* FAQ Section - Optimized for Featured Snippets */}
@@ -652,58 +531,6 @@ export default function CompetitorDetailPageClient({
                   <p className="text-gray-300 faq-answer">{faq.answer}</p>
                 </div>
               ))}
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <h3 className="text-2xl font-bold mb-6 text-center">Robot Lawnmower FAQs</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gray-900 rounded-xl p-6">
-                <h3 className="text-xl font-bold mb-2 faq-question">How much is a robot lawnmower?</h3>
-                <p className="text-gray-300 faq-answer">
-                  Robot lawnmowers typically cost $600-$3,500 to purchase outright. With SweatyJob, you get a premium
-                  robot lawnmower service for just $79/month with no large upfront cost, including maintenance and
-                  support.
-                </p>
-              </div>
-              <div className="bg-gray-900 rounded-xl p-6">
-                <h3 className="text-xl font-bold mb-2 faq-question">How to set up a robot lawnmower?</h3>
-                <p className="text-gray-300 faq-answer">
-                  With SweatyJob, we handle the entire setup process. Our professional installation includes property
-                  assessment, precision mapping with no boundary wires needed, charging station setup, and app
-                  configuration.
-                </p>
-              </div>
-              <div className="bg-gray-900 rounded-xl p-6">
-                <h3 className="text-xl font-bold mb-2 faq-question">Are there robot lawnmowers without wires?</h3>
-                <p className="text-gray-300 faq-answer">
-                  Yes, SweatyJob's advanced robot lawnmowers use GPS, RTK positioning, and computer vision to navigate
-                  without physical boundary wires, eliminating wire installation and maintenance issues.
-                </p>
-              </div>
-              <div className="bg-gray-900 rounded-xl p-6">
-                <h3 className="text-xl font-bold mb-2 faq-question">Is there a robot lawnmower for small gardens?</h3>
-                <p className="text-gray-300 faq-answer">
-                  Yes, SweatyJob's robot mowing service is perfect for small gardens in {competitor.city}, providing
-                  daily mowing at $79/month. Our robots are compact, quiet, and efficient, ideal for small urban or
-                  suburban spaces.
-                </p>
-              </div>
-              <div className="bg-gray-900 rounded-xl p-6">
-                <h3 className="text-xl font-bold mb-2 faq-question">Can robot lawnmowers handle dog poop?</h3>
-                <p className="text-gray-300 faq-answer">
-                  While our robot lawnmowers have obstacle detection, it's recommended to pick up pet waste before
-                  mowing. Our daily mowing schedule makes this easier as you'll likely notice waste before the robot
-                  encounters it.
-                </p>
-              </div>
-              <div className="bg-gray-900 rounded-xl p-6">
-                <h3 className="text-xl font-bold mb-2 faq-question">Is there a robot lawnmower for 2 acres?</h3>
-                <p className="text-gray-300 faq-answer">
-                  Yes, SweatyJob's commercial-grade robot mowers can handle properties up to 1.5 acres per unit. For
-                  2-acre properties, we can deploy multiple coordinated units at $79/month per unit.
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -832,7 +659,8 @@ export function VideoSection({ videoInfo, competitor }: { videoInfo: VideoInfo; 
               <li>How SweatyJob's robot mower navigates your lawn</li>
               <li>The difference in cut quality compared to {competitor.title}</li>
               <li>How quiet our mowers are compared to traditional services</li>
-              <li>How our robot lawnmower works without wires and handles various lawn sizes</li>
+              <li>Real customer testimonials from {competitor.city}</li>
+              <li>How to get started with SweatyJob today</li>
             </ol>
           </div>
         </div>

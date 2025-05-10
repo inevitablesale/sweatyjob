@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react"
 import { X } from "lucide-react"
-import { Button } from "@/components/ui/button"
 
 interface VideoModalProps {
   isOpen: boolean
@@ -101,11 +100,6 @@ export function VideoModal({ isOpen, onClose, videoUrl, title }: VideoModalProps
           >
             Your browser does not support the video tag.
           </video>
-        </div>
-        <div className="mt-4">
-          <Button className="bg-green-600 hover:bg-green-700 text-white" asChild onClick={() => onClose()}>
-            <a href="#get-started">Get Your Robot Mower</a>
-          </Button>
         </div>
       </div>
     </div>

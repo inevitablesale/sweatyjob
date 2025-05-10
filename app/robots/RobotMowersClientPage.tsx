@@ -201,9 +201,7 @@ export default function RobotMowersClientPage() {
                 </div>
                 <p className="text-gray-300 ml-16">
                   Advanced RTK positioning and vision technology create a virtual map of your lawn - no boundary wires
-                  needed. The robot navigates efficiently, avoiding obstacles and ensuring complete coverage whether you
-                  have a small garden or a large 2-acre property. Setup is simple compared to traditional robot
-                  lawnmowers that require wire installation.
+                  needed. The robot navigates efficiently, avoiding obstacles and ensuring complete coverage.
                 </p>
               </div>
 
@@ -491,23 +489,6 @@ export default function RobotMowersClientPage() {
               </p>
             </div>
           </div>
-
-          <div className="mt-8 bg-gray-800 rounded-lg p-6 max-w-4xl mx-auto">
-            <h3 className="text-xl font-bold mb-4 text-center">Finding the Right Robot Lawnmower</h3>
-            <p className="text-gray-300">
-              When searching for the perfect robot lawnmower, consider your specific needs. For small gardens, compact
-              models like the WORX Landroid work well. For large gardens or properties up to 2 acres, consider
-              Husqvarna's Automower or multiple SweatyJob units. Some models require boundary wires, while advanced
-              options like ours work without wires using GPS and vision technology.
-            </p>
-            <p className="text-gray-300 mt-4">
-              Robot lawnmowers are available for sale through retailers, but the upfront cost ($600-$3,500) and setup
-              complexity can be barriers. SweatyJob's subscription model at $79/month eliminates these concerns with
-              professional setup, maintenance, and support included. Whether you're looking for a robot lawnmower with a
-              roller for striped lawns or one that can handle dog poo safely, our team can help you find the perfect
-              solution.
-            </p>
-          </div>
         </div>
       </section>
 
@@ -589,8 +570,7 @@ export default function RobotMowersClientPage() {
               ROBOT MOWERS <span className="text-yellow-500">WITHOUT WIRES</span>
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              SmartYard uses advanced technology to eliminate the need for boundary wires, making setup easier for
-              gardens of all sizes
+              SmartYard uses advanced technology to eliminate the need for boundary wires
             </p>
           </div>
 
@@ -1092,6 +1072,7 @@ export default function RobotMowersClientPage() {
           </div>
         </div>
       </section>
+      <VideoModal isOpen={isVideoModalOpen} onClose={() => setIsVideoModalOpen(false)} videoUrl={videoUrl} />
     </main>
   )
 }

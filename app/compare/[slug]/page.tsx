@@ -3,8 +3,6 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 import CompetitorDetailPageClient from "./CompetitorDetailPageClient"
 import { fetchWikipediaArticle } from "@/lib/wiki-api"
-import { getNeighborhoodText } from "@/lib/wiki-neighborhoods"
-import { getCityCoordinates } from "@/app/actions/geocoding"
 
 // Define the competitor type
 interface Competitor {
@@ -58,80 +56,28 @@ async function getCompetitorBySlug(slug: string): Promise<Competitor | null> {
   return data as Competitor
 }
 
-// Fetch city information from Wikipedia with detailed logging
+// Fetch city information from Wikipedia
 async function getCityInfo(city: string, state: string) {
-  console.log(`📚 Wikipedia request for: "${city}, ${state}"`)
-
   try {
     // Direct call to Wikipedia API using our utility function
-    console.log(`🔍 Attempting primary Wikipedia query: "${city}, ${state}"`)
     const wikiArticle = await fetchWikipediaArticle(`${city}, ${state}`)
 
-    if (wikiArticle) {
-      console.log(`✅ Wikipedia article found for "${city}, ${state}"`)
-      console.log(
-        `📊 Wikipedia response:`,
-        JSON.stringify(
-          {
-            pageid: wikiArticle.pageid,
-            title: wikiArticle.title,
-            description: wikiArticle.description,
-            extract_length: wikiArticle.extract?.length,
-            has_thumbnail: !!wikiArticle.thumbnail,
-            has_coordinates: !!wikiArticle.coordinates,
-          },
-          null,
-          2,
-        ),
-      )
+    // Log the results to the console for debugging
+    console.log("Wikipedia API Response:", wikiArticle)
 
-      if (wikiArticle.coordinates) {
-        console.log(`🌍 Wikipedia coordinates: lat=${wikiArticle.coordinates.lat}, lon=${wikiArticle.coordinates.lon}`)
-      } else {
-        console.log(`⚠️ No coordinates in Wikipedia article for "${city}, ${state}"`)
+    if (!wikiArticle) {
+      // Try a different query format if the first one fails
+      const alternativeArticle = await fetchWikipediaArticle(`${city} (${state})`)
+      console.log("Alternative Wikipedia API Response:", alternativeArticle)
+
+      if (alternativeArticle) {
+        return alternativeArticle
       }
-
-      return wikiArticle
     }
 
-    // Try a different query format if the first one fails
-    console.log(`⚠️ No Wikipedia article found for "${city}, ${state}", trying alternative format`)
-    console.log(`🔍 Attempting alternative Wikipedia query: "${city} (${state})"`)
-    const alternativeArticle = await fetchWikipediaArticle(`${city} (${state})`)
-
-    if (alternativeArticle) {
-      console.log(`✅ Wikipedia article found for alternative query "${city} (${state})"`)
-      console.log(
-        `📊 Wikipedia response:`,
-        JSON.stringify(
-          {
-            pageid: alternativeArticle.pageid,
-            title: alternativeArticle.title,
-            description: alternativeArticle.description,
-            extract_length: alternativeArticle.extract?.length,
-            has_thumbnail: !!alternativeArticle.thumbnail,
-            has_coordinates: !!alternativeArticle.coordinates,
-          },
-          null,
-          2,
-        ),
-      )
-
-      if (alternativeArticle.coordinates) {
-        console.log(
-          `🌍 Wikipedia coordinates: lat=${alternativeArticle.coordinates.lat}, lon=${alternativeArticle.coordinates.lon}`,
-        )
-      } else {
-        console.log(`⚠️ No coordinates in Wikipedia article for "${city} (${state})"`)
-      }
-
-      return alternativeArticle
-    }
-
-    console.log(`❌ No Wikipedia article found for either query format for "${city}, ${state}"`)
-    return null
+    return wikiArticle
   } catch (error) {
-    console.error(`❌ Error fetching city info from Wikipedia:`, error)
+    console.error("Error fetching city info from Wikipedia:", error)
     return null
   }
 }
@@ -143,29 +89,9 @@ export default async function CompetitorDetailPage({ params }: { params: { slug:
     notFound()
   }
 
-  // Get city info from Wikipedia
+  // Actually call the Wikipedia API now
   const cityInfo = await getCityInfo(competitor.city, competitor.state)
-
-  // Fetch city coordinates using our server action
-  const cityCoordinates = await getCityCoordinates(competitor.city, competitor.state)
-
-  // Add coordinates to cityInfo
-  const enhancedCityInfo = {
-    ...cityInfo,
-    geo: cityCoordinates || null,
-  }
-
-  // Log the final coordinates being passed to the client
-  if (enhancedCityInfo.geo) {
-    console.log(
-      `🗺️ Final coordinates being passed to client: lat=${enhancedCityInfo.geo.latitude}, lng=${enhancedCityInfo.geo.longitude}`,
-    )
-  } else {
-    console.log(`⚠️ No coordinates available to pass to client for ${competitor.city}, ${competitor.state}`)
-  }
-
-  // Get neighborhood text using our new Wikipedia-based utility
-  const neighborhoodText = await getNeighborhoodText(competitor.city, competitor.state)
+  console.log(`City info for ${competitor.city}, ${competitor.state}:`, cityInfo)
 
   // Video information for schema and display
   const videoInfo = {
@@ -232,7 +158,8 @@ export default async function CompetitorDetailPage({ params }: { params: { slug:
     },
   ]
 
-  // Update the faqs array to use the real neighborhood data
+  // Generate 50 FAQs that dynamically incorporate the competitor's name and city
+  // Structured for featured snippets and voice search
   const faqs = [
     {
       question: `How much is lawn mowing near me in ${competitor.city}?`,
@@ -264,7 +191,7 @@ export default async function CompetitorDetailPage({ params }: { params: { slug:
     },
     {
       question: `Where can I find lawn mowing near me in ${competitor.city}?`,
-      answer: `You can find lawn mowing services in ${competitor.city} through SweatyJob, which provides daily robot mowing throughout the area. We serve homes ${neighborhoodText}. Check availability for your specific address at SweatyJob.com.`,
+      answer: `You can find lawn mowing services in ${competitor.city} through SweatyJob, which provides daily robot mowing throughout the area. We serve the same neighborhoods as ${competitor.title}, including ${competitor.city} and surrounding areas. Check availability for your specific address at SweatyJob.com.`,
     },
     {
       question: `What are lawn mowing near me prices in ${competitor.city}?`,
@@ -324,7 +251,7 @@ export default async function CompetitorDetailPage({ params }: { params: { slug:
     },
     {
       question: `Can I get online estimates for lawn mowing service near me in ${competitor.city}?`,
-      answer: `Yes! SweatyJob offers instant online pricing for our robot mowing service in ${competitor.city} at $79/month for lawns up to 1/2 acre, regardless of specific dimensions. Unlike ${competitor.title} which may require an in-person estimate, our service has simple, transparent pricing at $79/month for lawns up to 1/2 acre, regardless of specific dimensions.`,
+      answer: `Yes! SweatyJob offers instant online pricing for our robot mowing service in ${competitor.city} at $79/month. Unlike ${competitor.title} which may require an in-person estimate, our service has simple, transparent pricing at $79/month for lawns up to 1/2 acre, regardless of specific dimensions.`,
     },
     {
       question: `Are there local lawn mowing services near me in ${competitor.city}?`,
@@ -487,13 +414,11 @@ export default async function CompetitorDetailPage({ params }: { params: { slug:
       addressRegion: competitor.state,
       addressCountry: "US",
     },
-    geo: cityCoordinates
-      ? {
-          "@type": "GeoCoordinates",
-          latitude: enhancedCityInfo.geo.latitude,
-          longitude: enhancedCityInfo.geo.longitude,
-        }
-      : null,
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 37.5407, // Replace with actual coordinates
+      longitude: -77.436, // Replace with actual coordinates
+    },
     areaServed: [
       {
         "@type": "City",
@@ -608,7 +533,7 @@ export default async function CompetitorDetailPage({ params }: { params: { slug:
     ],
   }
 
-  // Create VideoObject schema for the demo video
+  // Create VideoObject schema for the demo video - optimized based on Brian Dean's article
   const videoObjectSchema = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
@@ -624,6 +549,7 @@ export default async function CompetitorDetailPage({ params }: { params: { slug:
       target: `https://sweatyjob.com/compare/${competitor.slug}?t={seek_to_second_number}`,
       "startOffset-input": "required name=seek_to_second_number",
     },
+    // Additional properties to enhance video snippet chances
     interactionStatistic: {
       "@type": "InteractionCounter",
       interactionType: "https://schema.org/WatchAction",
@@ -666,7 +592,7 @@ export default async function CompetitorDetailPage({ params }: { params: { slug:
   return (
     <CompetitorDetailPageClient
       competitor={competitor}
-      cityInfo={enhancedCityInfo}
+      cityInfo={cityInfo}
       videoInfo={videoInfo}
       comparisonFeatures={comparisonFeatures}
       faqs={faqs}
@@ -675,7 +601,6 @@ export default async function CompetitorDetailPage({ params }: { params: { slug:
       merchantProductSchema={merchantProductSchema}
       videoObjectSchema={videoObjectSchema}
       reviewSchema={reviewSchema}
-      neighborhoodText={neighborhoodText}
     />
   )
 }

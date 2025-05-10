@@ -38,17 +38,3 @@ export function isWithinServiceArea(lat: number, lng: number): boolean {
 export function formatCoordinatesForStorage(lat: number, lng: number) {
   return { latitude: lat, longitude: lng }
 }
-
-/**
- * Formats a Mapbox Static Map URL using our secure proxy
- * @param lng Longitude
- * @param lat Latitude
- * @param zoom Zoom level
- * @param width Image width
- * @param height Image height
- * @returns URL for static map image
- */
-export function getStaticMapUrl(lng: number, lat: number, zoom = 12, width = 600, height = 300) {
-  // Use our proxy endpoint instead of exposing the token
-  return `/api/mapbox-proxy?path=/styles/v1/mapbox/streets-v11/static/${lng},${lat},${zoom},0/${width}x${height}@2x`
-}
