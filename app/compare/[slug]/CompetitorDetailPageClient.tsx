@@ -5,6 +5,8 @@ import Link from "next/link"
 import { ChevronLeft, Star, Check, X, MapPin, Play } from "lucide-react"
 import { ExpandedFAQSection } from "@/components/expanded-faq-section"
 import LocalBusinessSchema from "../components/local-business-schema"
+import { VoiceOptimizedContent } from "@/app/components/seo/voice-optimized-content"
+import InlineForm from "../InlineForm"
 
 interface CompetitorDetailPageClientProps {
   competitor: {
@@ -19,6 +21,7 @@ interface CompetitorDetailPageClientProps {
     review_rating?: number
     pros?: string[]
     cons?: string[]
+    reviewer_name?: string
   }
   cityInfo?: any
   cityCoordinates?: any
@@ -111,7 +114,120 @@ export default function CompetitorDetailPageClient({
         question: `Is there a cheap lawn mowing service near me in ${cityName}?`,
         answer: `Yes, SweatyJob offers the most affordable lawn mowing in ${cityName} at $79/month for daily robot mowing. This is significantly cheaper than ${competitorTitle}'s weekly service which costs approximately $160-200 monthly. Despite the lower price, you get daily mowing instead of just weekly service.`,
       },
+      {
+        question: `Is there a lawn mowing service near me open now in ${cityName}?`,
+        answer: `Yes, SweatyJob's robot mowers operate 24/7 in ${cityName}, unlike ${competitorTitle} which only operates during business hours. Once installed, our robots work automatically every day regardless of time, ensuring your lawn always looks freshly cut without waiting for service appointments.`,
+      },
+      {
+        question: `What's the lawn mowing service near me cost in ${cityName}?`,
+        answer: `In ${cityName}, lawn mowing service costs vary. SweatyJob charges $79/month for daily robot mowing, while ${competitorTitle} and similar services typically charge $160-200/month for weekly mowing. SweatyJob's service includes professional installation, maintenance, and daily mowing at about half the monthly cost.`,
+      },
+      {
+        question: `Where can I find lawn mowing near me in ${cityName}?`,
+        answer: `You can find lawn mowing services in ${cityName} through SweatyJob, which provides daily robot mowing throughout the area. We serve homes throughout ${cityName}. Check availability for your specific address at SweatyJob.com.`,
+      },
+      {
+        question: `What are lawn mowing near me prices in ${cityName}?`,
+        answer: `In ${cityName}, lawn mowing prices range from $40-60 per visit for traditional services like ${competitorTitle}, totaling $160-200 monthly for weekly service. SweatyJob offers a more affordable alternative at $79/month for daily robot mowing, which is about half the monthly cost while providing 7x more frequent service.`,
+      },
+      {
+        question: `Can I get lawn mowing and maintenance near me in ${cityName}?`,
+        answer: `Yes, SweatyJob provides comprehensive lawn mowing and maintenance in ${cityName} for $79/month. Our service includes daily robot mowing, regular maintenance of the robot, blade sharpening, and technical support. Unlike ${competitorTitle}'s weekly service, our daily mowing creates a consistently maintained, healthier lawn.`,
+      },
+      // More Lawn Mowing Service Questions
+      {
+        question: `What lawn care and mowing near me options are available in ${cityName}?`,
+        answer: `In ${cityName}, you have two main lawn care options: traditional services like ${competitorTitle} that provide weekly mowing at $160-200/month, or SweatyJob's innovative robot mowing service that provides daily mowing for $79/month. Our service promotes healthier lawns through daily micro-clippings that act as natural fertilizer.`,
+      },
+      {
+        question: `Is there lawn mowing and trimming near me in ${cityName}?`,
+        answer: `SweatyJob provides daily robot mowing throughout ${cityName} for $79/month. While our robots handle the mowing, we recommend occasional trimming for edges. Many customers find they need much less trimming with our service compared to ${competitorTitle} because our robots maintain a consistent lawn height daily.`,
+      },
+      {
+        question: `Are there lawn mowing and gardening services near me in ${cityName}?`,
+        answer: `Yes, SweatyJob offers daily robot mowing services throughout ${cityName} for $79/month. While we specialize in lawn mowing, many customers pair our service with local gardening services. Our daily mowing creates a beautiful backdrop for garden beds, unlike the weekly service from ${competitorTitle}.`,
+      },
+      {
+        question: `What's the most affordable lawn mowing service near me in ${cityName}?`,
+        answer: `SweatyJob offers the most affordable lawn mowing service in ${cityName} at $79/month for daily robot mowing. This is approximately 50% less than what ${competitorTitle} charges for just weekly service ($160-200/month), making SweatyJob the best value lawn care option in the area.`,
+      },
+      {
+        question: `Is there a lawn mowing and weeding service near me in ${cityName}?`,
+        answer: `SweatyJob provides daily robot mowing throughout ${cityName} for $79/month. Our frequent mowing helps prevent many weeds from establishing and going to seed, unlike the weekly service from ${competitorTitle}. For persistent weeds, we recommend pairing our service with occasional targeted weed treatment.`,
+      },
+      // Lawn Mowing Near Me Pricing
+      {
+        question: `Is there same day lawn mowing near me in ${cityName}?`,
+        answer: `Yes! With SweatyJob's robot mowing service in ${cityName}, your lawn gets mowed every day automatically. Installation can often be scheduled within 24-48 hours. Unlike ${competitorTitle} which requires advance booking, our robots work autonomously on your schedule for just $79/month.`,
+      },
+      {
+        question: `Is there same day lawn mowing service near me in ${cityName}?`,
+        answer: `SweatyJob provides same-day mowing every day in ${cityName} through our robot mowing service for $79/month. Once installed, your lawn is mowed daily without any scheduling or waiting, unlike ${competitorTitle}'s weekly service that requires booking in advance and costs $160-200/month.`,
+      },
+      {
+        question: `Can I get online estimates for lawn mowing service near me in ${cityName}?`,
+        answer: `Yes! SweatyJob offers instant online pricing for our robot mowing service in ${cityName} at $79/month for lawns up to 1/2 acre, regardless of specific dimensions. Unlike ${competitorTitle} which may require an in-person estimate, our service has simple, transparent pricing.`,
+      },
+      {
+        question: `Are there local lawn mowing services near me in ${cityName}?`,
+        answer: `Yes, SweatyJob provides local robot mowing services throughout ${cityName} for $79/month, serving the same areas as ${competitorTitle}. Our local team handles the professional installation and maintenance of your robot mower, ensuring excellent service with local knowledge and support.`,
+      },
+      // Robot Lawnmower FAQs
+      {
+        question: `How much is a robot lawnmower?`,
+        answer: `Robot lawnmowers typically cost $600-$3,500 to purchase outright. With SweatyJob, you get a premium robot lawnmower service for just $79/month with no large upfront cost, including maintenance and support.`,
+      },
+      {
+        question: `How to set up a robot lawnmower?`,
+        answer: `With SweatyJob, we handle the entire setup process. Our professional installation includes property assessment, precision mapping with no boundary wires needed, charging station setup, and app configuration.`,
+      },
+      {
+        question: `Are there robot lawnmowers without wires?`,
+        answer: `Yes, SweatyJob's advanced robot lawnmowers use GPS, RTK positioning, and computer vision to navigate without physical boundary wires, eliminating wire installation and maintenance issues.`,
+      },
+      {
+        question: `Is there a robot lawnmower for small gardens?`,
+        answer: `Yes, SweatyJob's robot mowing service is perfect for small gardens in ${cityName}, providing daily mowing at $79/month. Our robots are compact, quiet, and efficient, ideal for small urban or suburban spaces.`,
+      },
+      {
+        question: `Can robot lawnmowers handle dog poop?`,
+        answer: `While our robot lawnmowers have obstacle detection, it's recommended to pick up pet waste before mowing. Our daily mowing schedule makes this easier as you'll likely notice waste before the robot encounters it.`,
+      },
+      {
+        question: `Is there a robot lawnmower for 2 acres?`,
+        answer: `Yes, SweatyJob's commercial-grade robot mowers can handle properties up to 1.5 acres per unit. For 2-acre properties, we can deploy multiple coordinated units at $79/month per unit.`,
+      },
     ],
+    // Voice search optimized FAQs (shorter, more direct answers)
+    voiceSearchFaqs: [
+      {
+        question: `How much does lawn mowing cost in ${cityName}?`,
+        answer: `SweatyJob's robot lawn mowing costs $79 per month in ${cityName} for daily mowing. Traditional services like ${competitorTitle} charge $160-200 monthly for weekly service.`,
+      },
+      {
+        question: `What's the best lawn mowing service in ${cityName}?`,
+        answer: `SweatyJob is the best lawn mowing service in ${cityName}, providing daily robot mowing for $79 per month, compared to ${competitorTitle}'s weekly service at $160-200 per month.`,
+      },
+      {
+        question: `How does robot lawn mowing work?`,
+        answer: `SweatyJob's robot mowers use GPS and computer vision to navigate your lawn daily, cutting grass to the perfect height. They're quiet, environmentally friendly, and cost $79 monthly in ${cityName}.`,
+      },
+      {
+        question: `Is robot lawn mowing better than traditional mowing?`,
+        answer: `Yes, robot lawn mowing is better because it mows daily instead of weekly, costs half as much at $79 monthly, operates silently, and produces zero emissions compared to ${competitorTitle}'s gas-powered equipment.`,
+      },
+      {
+        question: `Can I get same-day lawn mowing service in ${cityName}?`,
+        answer: `With SweatyJob's robot mowers, your lawn is mowed every day automatically. Installation can be scheduled within 24-48 hours in ${cityName}, unlike ${competitorTitle} which requires advance booking.`,
+      },
+    ],
+  }
+
+  const scrollToForm = () => {
+    const formElement = document.getElementById("get-started")
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: "smooth" })
+    }
   }
 
   // Set coordinates from server-side data
@@ -234,7 +350,11 @@ export default function CompetitorDetailPageClient({
 
               <div className="mt-6">
                 <Link
-                  href="#get-started"
+                  href={`/compare/${competitor.slug}#get-started`}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToForm()
+                  }}
                   className="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-md transition duration-200"
                 >
                   Try SweatyJob Instead
@@ -243,6 +363,17 @@ export default function CompetitorDetailPageClient({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Voice Search Optimized Content - Hidden visually but available to screen readers */}
+      <div className="sr-only">
+        <VoiceOptimizedContent
+          title={`Compare ${competitorTitle} vs SweatyJob Lawn Mowing in ${cityName}`}
+          description={`Find the best lawn mowing service in ${cityName}. SweatyJob offers daily robot mowing for $79/month, while ${competitorTitle} provides weekly service for $160-200/month.`}
+          faqs={competitorDetails.voiceSearchFaqs}
+          cityName={cityName}
+          competitorName={competitorTitle}
+        />
       </div>
 
       {/* City Information Section (if available) */}
@@ -525,8 +656,10 @@ export default function CompetitorDetailPageClient({
                   <Star className="h-5 w-5 text-yellow-400 fill-current" />
                   <Star className="h-5 w-5 text-yellow-400 fill-current" />
                 </div>
-                <p className="font-medium mb-2">chris holloway</p>
-                <p className="text-xl italic mb-6">"Top Notch Lawn Service. Everyone Is So Friendly As Well."</p>
+                <p className="font-medium mb-2">{competitor.reviewer_name || "Verified Customer"}</p>
+                <p className="text-xl italic mb-6">
+                  "{competitor.review_text || `${competitorTitle} provides regular lawn service in ${cityName}.`}"
+                </p>
 
                 <div className="bg-gray-800 p-6 rounded-lg">
                   <h4 className="text-green-500 font-medium mb-3">Why SweatyJob is Better:</h4>
@@ -590,7 +723,11 @@ export default function CompetitorDetailPageClient({
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="#get-started"
+              href={`/compare/${competitor.slug}#get-started`}
+              onClick={(e) => {
+                e.preventDefault()
+                scrollToForm()
+              }}
               className="px-8 py-3 bg-white text-green-800 font-medium rounded-lg hover:bg-gray-100 transition-colors"
             >
               Get Started
@@ -601,6 +738,16 @@ export default function CompetitorDetailPageClient({
             >
               Compare More Services
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Inline Form Section */}
+      <section id="get-started" className="py-16 bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">Get Started with SweatyJob</h2>
+          <div className="max-w-3xl mx-auto">
+            <InlineForm />
           </div>
         </div>
       </section>

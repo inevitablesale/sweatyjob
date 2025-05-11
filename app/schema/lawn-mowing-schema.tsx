@@ -442,60 +442,44 @@ export const LawnMowingBreadcrumbSchema = {
   ],
 }
 
-// Video Schema for Demo Video
+// Video Schema for Demo Video - Updated with the absolute URL
 export const LawnMowingVideoSchema = {
   "@context": "https://schema.org",
   "@type": "VideoObject",
   name: "Robot Lawn Mowing Service Demo",
   description: "See how our robot mower service works to keep your lawn perfectly maintained every day.",
-  thumbnailUrl: "https://sweatyjob.com/images/video-thumbnail.jpg",
+  thumbnailUrl: "https://www.bestmow.com/cdn/shop/files/30.png?v=1744042530&width=3600",
   uploadDate: "2023-03-15",
   duration: "PT2M30S",
   contentUrl:
     "https://www.bestmow.com/cdn/shop/videos/c/vp/04894b9bd6f141c7820bf2e063b88bfe/04894b9bd6f141c7820bf2e063b88bfe.HD-1080p-7.2Mbps-44563246.mp4?v=0",
   embedUrl: "https://www.youtube.com/embed/abc123",
-}
-
-// JobPosting Schema for "lawn mowing jobs near me" searches
-export const LawnMowingJobsSchema = {
-  "@context": "https://schema.org",
-  "@type": "JobPosting",
-  title: "Robot Lawn Mower Technician",
-  description:
-    "Join our team installing and maintaining robot lawn mowers throughout Richmond. Technical aptitude required. Full-time and part-time positions available.",
-  datePosted: "2023-09-01",
-  validThrough: "2023-12-31",
-  employmentType: "FULL_TIME",
-  hiringOrganization: {
+  publisher: {
     "@type": "Organization",
     name: "SweatyJob",
-    sameAs: "https://sweatyjob.com",
-    logo: "https://sweatyjob.com/images/logo.png",
-  },
-  jobLocation: {
-    "@type": "Place",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "123 Main Street",
-      addressLocality: "Richmond",
-      addressRegion: "VA",
-      postalCode: "23220",
-      addressCountry: "US",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://sweatyjob.com/images/sweatyjob-logo.png",
+      width: "512",
+      height: "512",
     },
   },
-  baseSalary: {
-    "@type": "MonetaryAmount",
-    currency: "USD",
-    value: {
-      "@type": "QuantitativeValue",
-      value: "45000",
-      unitText: "YEAR",
+  hasPart: [
+    {
+      "@type": "Clip",
+      name: "Robot Mower Creating Perfect Stripes",
+      startOffset: 10,
+      endOffset: 30,
+      url: "https://www.bestmow.com/cdn/shop/videos/c/vp/04894b9bd6f141c7820bf2e063b88bfe/04894b9bd6f141c7820bf2e063b88bfe.HD-1080p-7.2Mbps-44563246.mp4?v=0#t=10,30",
     },
-  },
-  skills: "Lawn care, robotics, customer service, technical troubleshooting",
-  qualifications: "Experience with lawn care equipment, basic technical skills, valid driver's license",
-  educationRequirements: "High school diploma or equivalent",
-  experienceRequirements: "1+ years in lawn care or technical field",
+    {
+      "@type": "Clip",
+      name: "Automated Docking and Charging",
+      startOffset: 60,
+      endOffset: 90,
+      url: "https://www.bestmow.com/cdn/shop/videos/c/vp/04894b9bd6f141c7820bf2e063b88bfe/04894b9bd6f141c7820bf2e063b88bfe.HD-1080p-7.2Mbps-44563246.mp4?v=0#t=60,90",
+    },
+  ],
 }
 
 // NEW: Speakable Schema for Voice Search Optimization
@@ -516,7 +500,7 @@ export const SpeakableLawnMowingSchema = {
     "Compare robot lawn mowing services with traditional lawn care. Daily mowing at $79/month versus weekly service at $160-240/month.",
 }
 
-// NEW: Comparison Table Schema for Service Comparison
+// Comparison Table Schema for Service Comparison
 export const LawnServiceComparisonSchema = {
   "@context": "https://schema.org",
   "@type": "Table",

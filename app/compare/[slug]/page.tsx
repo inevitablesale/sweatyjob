@@ -5,8 +5,17 @@ import { fetchWikipediaArticle } from "@/lib/wiki-api"
 import { getCityCoordinates } from "@/app/actions/geocoding"
 import { getNeighborhoodText } from "@/lib/neighborhood-utils"
 import { SchemaMarkup } from "@/app/components/seo/schema-markup"
-import { LawnServiceComparisonSchema } from "@/app/schema/lawn-mowing-schema"
-import InlineForm from "../InlineForm"
+import {
+  LawnServiceComparisonSchema,
+  LawnMowingServiceSchema,
+  LawnMowingFAQSchema,
+  LawnMowingLocalBusinessSchema,
+  LawnMowingHowToSchema,
+  RobotMowerProductSchema,
+  LawnMowingBreadcrumbSchema,
+  SpeakableLawnMowingSchema,
+  LawnMowingVideoSchema,
+} from "@/app/schema/lawn-mowing-schema"
 
 interface Competitor {
   id: string
@@ -56,6 +65,50 @@ async function getCityInfo(city: string, state: string) {
   return null
 }
 
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: { slug: string }
+  searchParams: { city?: string }
+}) {
+  const supabase = createServerComponentClient({ cookies })
+  const { data: competitor } = await supabase.from("competitors").select("*").eq("slug", params.slug).single()
+  const city = searchParams.city || "richmond"
+  const cityName = city.charAt(0).toUpperCase() + city.slice(1).replace("-", " ")
+  const competitorTitle = competitor?.title || competitor?.name || "Traditional Lawn Service"
+
+  return {
+    title: `${competitorTitle} vs SweatyJob | Lawn Mowing Service in ${cityName}`,
+    description: `Compare SweatyJob's robot lawn mowing service with ${competitorTitle} in ${cityName}. Daily mowing at $79/month vs weekly service at $160-200/month.`,
+    openGraph: {
+      title: `${competitorTitle} vs SweatyJob | Lawn Mowing Service in ${cityName}`,
+      description: `Compare SweatyJob's robot lawn mowing service with ${competitorTitle} in ${cityName}. Daily mowing at $79/month vs weekly service at $160-200/month.`,
+      type: "website",
+      locale: "en_US",
+      url: `https://sweatyjob.com/compare/${params.slug}`,
+      siteName: "SweatyJob",
+      images: [
+        {
+          url: "https://www.bestmow.com/cdn/shop/files/30.png?v=1744042530&width=3600",
+          width: 3600,
+          height: 2025,
+          alt: "SweatyJob Robot Lawn Mower creating perfect stripes",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${competitorTitle} vs SweatyJob | Lawn Mowing Service in ${cityName}`,
+      description: `Compare SweatyJob's robot lawn mowing service with ${competitorTitle} in ${cityName}. Daily mowing at $79/month vs weekly service at $160-200/month.`,
+      images: ["https://www.bestmow.com/cdn/shop/files/30.png?v=1744042530&width=3600"],
+    },
+    alternates: {
+      canonical: `https://sweatyjob.com/compare/${params.slug}`,
+    },
+  }
+}
+
 export default async function CompetitorDetailPage({
   params,
   searchParams,
@@ -89,9 +142,114 @@ export default async function CompetitorDetailPage({
     console.log(`✅ Server: Neighborhood text length: ${neighborhoodText?.length || 0}`)
   }
 
+  const city = searchParams.city || "richmond"
+  const cityName = city.charAt(0).toUpperCase() + city.slice(1).replace("-", " ")
+  const competitorTitle = competitor.title || competitor.name
+
+  // Create customized schema objects with the competitor and city information
+  const customizedServiceSchema = {
+    ...LawnMowingServiceSchema,
+    name: `Robot Lawn Mowing Service Near Me in ${cityName}`,
+    description: `Professional robot lawn mowing service in ${cityName}. Daily mowing with AI technology for a perfect lawn without the work. Starting at $79/month.`,
+    areaServed: [
+      cityName,
+      ...(LawnMowingServiceSchema.areaServed as string[]).filter((area) => !area.includes(cityName)),
+    ],
+  }
+
+  const customizedFAQSchema = {
+    ...LawnMowingFAQSchema,
+    mainEntity: LawnMowingFAQSchema.mainEntity.map((faq: any) => ({
+      ...faq,
+      name: faq.name.replace("Richmond", cityName),
+      acceptedAnswer: {
+        ...faq.acceptedAnswer,
+        text: faq.acceptedAnswer.text.replace("Richmond", cityName),
+      },
+    })),
+  }
+
+  const customizedLocalBusinessSchema = {
+    ...LawnMowingLocalBusinessSchema,
+    name: `SweatyJob Robot Lawn Mowing in ${cityName}`,
+    address: {
+      ...LawnMowingLocalBusinessSchema.address,
+      addressLocality: cityName,
+      addressRegion: competitor.state || "VA",
+    },
+    geo: cityCoordinates?.features?.[0]?.center
+      ? {
+          "@type": "GeoCoordinates",
+          latitude: cityCoordinates.features[0].center[1],
+          longitude: cityCoordinates.features[0].center[0],
+        }
+      : LawnMowingLocalBusinessSchema.geo,
+  }
+
+  const customizedHowToSchema = {
+    ...LawnMowingHowToSchema,
+    name: `How To Get Started With Robot Lawn Mowing Service in ${cityName}`,
+    description: `Step-by-step guide to setting up robot lawn mowing service for your ${cityName} home`,
+  }
+
+  const customizedProductSchema = {
+    ...RobotMowerProductSchema,
+    name: `SweatyJob Robot Lawn Mower Service in ${cityName}`,
+    description: `AI-powered robot lawn mower service that cuts your grass daily for a perfect lawn in ${cityName} without the work.`,
+  }
+
+  const customizedBreadcrumbSchema = {
+    ...LawnMowingBreadcrumbSchema,
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://sweatyjob.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Compare",
+        item: "https://sweatyjob.com/compare",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: `${competitorTitle} vs SweatyJob`,
+        item: `https://sweatyjob.com/compare/${params.slug}`,
+      },
+    ],
+  }
+
+  const customizedSpeakableSchema = {
+    ...SpeakableLawnMowingSchema,
+    name: `Compare Robot Lawn Mowing Services in ${cityName}`,
+    description: `Compare robot lawn mowing services with ${competitorTitle} in ${cityName}. Daily mowing at $79/month versus weekly service at $160-240/month.`,
+  }
+
+  // Updated Video Schema with the absolute URL for the thumbnail
+  const customizedVideoSchema = {
+    ...LawnMowingVideoSchema,
+    name: `Robot Lawn Mowing Service Demo in ${cityName}`,
+    description: `See how our robot mower service works to keep your ${cityName} lawn perfectly maintained every day.`,
+    thumbnailUrl: "https://www.bestmow.com/cdn/shop/files/30.png?v=1744042530&width=3600",
+    uploadDate: new Date().toISOString().split("T")[0], // Use current date formatted as YYYY-MM-DD
+  }
+
   return (
     <>
+      {/* All Schema Markup for SEO */}
+      <SchemaMarkup schema={customizedServiceSchema} />
+      <SchemaMarkup schema={customizedFAQSchema} />
+      <SchemaMarkup schema={customizedLocalBusinessSchema} />
+      <SchemaMarkup schema={customizedHowToSchema} />
+      <SchemaMarkup schema={customizedProductSchema} />
+      <SchemaMarkup schema={customizedBreadcrumbSchema} />
+      <SchemaMarkup schema={customizedSpeakableSchema} />
+      <SchemaMarkup schema={customizedVideoSchema} />
       <SchemaMarkup schema={LawnServiceComparisonSchema} />
+
       <CompetitorDetailPageClient
         competitor={competitor}
         cityInfo={cityInfo}
@@ -99,12 +257,6 @@ export default async function CompetitorDetailPage({
         neighborhoodText={neighborhoodText}
         searchParams={searchParams}
       />
-
-      <section id="get-started" className="py-16 bg-black">
-        <div className="max-w-xl mx-auto px-4">
-          <InlineForm />
-        </div>
-      </section>
     </>
   )
 }

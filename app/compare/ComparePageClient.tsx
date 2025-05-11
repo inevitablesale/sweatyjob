@@ -88,6 +88,13 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
   // Group competitors by city - only do this once on component mount
   const competitorsByCity = useRef<Record<string, Competitor[]>>({}).current
 
+  const scrollToForm = () => {
+    const formElement = document.getElementById("get-started")
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   // Initialize competitorsByCity only once
   useEffect(() => {
     // Only process if it hasn't been processed yet
@@ -203,7 +210,7 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
     }
   }
 
-  const scrollToForm = () => {
+  const scrollToFormOriginal = () => {
     if (formSectionRef.current) {
       formSectionRef.current.scrollIntoView({ behavior: "smooth" })
     }
@@ -281,7 +288,7 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
       </section>
 
       {/* Robot Mower Form Section */}
-      <section ref={formSectionRef} className="py-16 px-6 md:px-12">
+      <section ref={formSectionRef} id="get-started" className="py-16 px-6 md:px-12">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center">Get Started with Your Robot Mower</h2>
           <div className="flex justify-center">
