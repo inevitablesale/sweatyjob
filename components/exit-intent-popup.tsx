@@ -124,17 +124,17 @@ export function ExitIntentPopup() {
         {/* Free trial banner */}
         <div className="h-32 bg-yellow-500 relative">
           <div className="absolute inset-0 flex items-center justify-center">
-            <h2 className="text-3xl font-black text-black text-center px-4">Wait, before you go...</h2>
+            <h2 className="text-3xl font-bold mb-2 text-center">Wait, before you go...</h2>
           </div>
         </div>
 
         <div className="p-6">
           {!isSubmitted ? (
             <>
-              <h3 className="text-xl font-bold text-white mb-2">NO SHIPPING COST</h3>
+              <h3 className="text-xl font-bold text-white mb-2">SPECIAL OFFER</h3>
               <p className="text-gray-300 mb-4">
-                Try our robot mower service for 30 days with zero risk. No shipping fees, no hidden costs. Experience a
-                perfect lawn without lifting a finger.
+                Experience our robot mower service with zero risk. No shipping fees, no hidden costs. Get a perfect lawn
+                without lifting a finger.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -155,7 +155,7 @@ export function ExitIntentPopup() {
                   className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold"
                   disabled={isLoading}
                 >
-                  {isLoading ? "SUBMITTING..." : "CLAIM YOUR FREE TRIAL"}
+                  {isLoading ? "SUBMITTING..." : "GET STARTED NOW"}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </form>
@@ -163,11 +163,11 @@ export function ExitIntentPopup() {
               <div className="mt-4 space-y-2">
                 <div className="flex items-center">
                   <CheckCircle className="h-4 w-4 text-yellow-500 mr-2" />
-                  <span className="text-sm text-gray-300">30-day free trial</span>
+                  <span className="text-sm text-gray-300">Zero shipping costs</span>
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="h-4 w-4 text-yellow-500 mr-2" />
-                  <span className="text-sm text-gray-300">No shipping costs</span>
+                  <span className="text-sm text-gray-300">No hidden fees</span>
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="h-4 w-4 text-yellow-500 mr-2" />
@@ -181,7 +181,7 @@ export function ExitIntentPopup() {
                 <CheckCircle className="h-8 w-8 text-black" />
               </div>
               <h3 className="text-xl font-bold text-white mb-2">YOU'RE IN!</h3>
-              <p className="text-gray-300">Check your inbox for details about your free 30-day trial.</p>
+              <p className="text-gray-300">Check your inbox for details about your special offer.</p>
             </div>
           )}
         </div>

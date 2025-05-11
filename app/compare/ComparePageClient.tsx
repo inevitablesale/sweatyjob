@@ -1,12 +1,11 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown, ChevronRight, MapPin, Search, Star, Check } from "lucide-react"
 import { VoiceOptimizedContent } from "@/components/voice-optimized-content"
+import InlineForm from "./InlineForm"
 
 interface City {
   id: string
@@ -37,27 +36,10 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
   const [filteredCompetitors, setFilteredCompetitors] = useState<Competitor[]>([])
   const [expandedFaqs, setExpandedFaqs] = useState<Record<string, boolean>>({})
   const [visibleListings, setVisibleListings] = useState<number>(5)
-  const [showRobotForm, setShowRobotForm] = useState(false)
-
-  // Form state
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    lawnSize: "small",
-  })
-
-  // Form validation errors
-  const [errors, setErrors] = useState<{
-    name?: string
-    email?: string
-    phone?: string
-    address?: string
-  }>({})
 
   // Refs for scrolling
   const searchSectionRef = useRef<HTMLDivElement>(null)
+  const formSectionRef = useRef<HTMLDivElement>(null)
 
   // Popular search terms
   const popularSearches = [
@@ -113,19 +95,29 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
       competitors.forEach((competitor) => {
         if (!competitor.city) return
 
+        // Normalize city ID to ensure consistent matching
         const cityId = competitor.city.toLowerCase().replace(/\s+/g, "-")
+
         if (!competitorsByCity[cityId]) {
           competitorsByCity[cityId] = []
         }
         competitorsByCity[cityId].push(competitor)
       })
+
+      // Log all cities with competitors for debugging
+      console.log("Cities with competitors:", Object.keys(competitorsByCity))
     }
   }, [competitors, competitorsByCity])
 
   // Update filtered competitors when search term or selected city changes
   useEffect(() => {
     if (selectedCity) {
+      // Log for debugging
+      console.log(`Selected city: ${selectedCity}`)
+      console.log(`Competitors by city:`, competitorsByCity)
+
       const cityCompetitors = competitorsByCity[selectedCity] || []
+      console.log(`Found ${cityCompetitors.length} competitors for ${selectedCity}`)
 
       if (searchTerm) {
         setFilteredCompetitors(
@@ -151,6 +143,7 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
   }
 
   const handleCitySelect = (cityId: string) => {
+    console.log(`Selecting city: ${cityId}`)
     setSelectedCity(cityId)
     setVisibleListings(5) // Reset visible listings when changing city
 
@@ -210,80 +203,10 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
     }
   }
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
-
-    // Clear error when user starts typing
-    if (errors[name as keyof typeof errors]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: undefined,
-      }))
+  const scrollToForm = () => {
+    if (formSectionRef.current) {
+      formSectionRef.current.scrollIntoView({ behavior: "smooth" })
     }
-  }
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-
-    // Validate form
-    const newErrors: {
-      name?: string
-      email?: string
-      phone?: string
-      address?: string
-    } = {}
-
-    // Name validation
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required"
-    } else if (formData.name.trim().length < 3) {
-      newErrors.name = "Name must be at least 3 characters"
-    }
-
-    // Email validation
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required"
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address"
-    }
-
-    // Phone validation
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required"
-    } else if (!/^[\d+\-$$$$ ]{10,15}$/.test(formData.phone.replace(/\s/g, ""))) {
-      newErrors.phone = "Please enter a valid phone number"
-    }
-
-    // Address validation
-    if (!formData.address.trim()) {
-      newErrors.address = "Address is required"
-    } else if (formData.address.trim().length < 5) {
-      newErrors.address = "Please enter a complete address"
-    }
-
-    // If there are errors, set them and prevent form submission
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-      return
-    }
-
-    // Here you would typically send the data to your backend
-    console.log("Form submitted:", formData)
-
-    // Show success message or redirect
-    alert("Thanks for your interest! We'll contact you shortly to get your robot mower set up.")
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-      lawnSize: "small",
-    })
-    setShowRobotForm(false)
   }
 
   const voiceSearchFaqs = [
@@ -312,7 +235,7 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
-      <section className="relative h-[100vh] overflow-hidden">
+      <section className="relative min-h-[90vh]">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -325,13 +248,12 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
           <div className="absolute inset-0 bg-black bg-opacity-70"></div>
         </div>
 
-        <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center">
-          <div className="max-w-4xl">
-            <h1 className="text-[3.5rem] md:text-[5rem] font-bold leading-[1.1]">
-              <div className="text-white">
-                Find & Compare the <span className="text-green-500">Best</span>
-              </div>
-              <div className="text-green-500 text-[3.5rem] md:text-[5rem]">Lawn Mowing Services</div>
+        <div className="relative z-10 container mx-auto px-6 py-20 md:py-32 flex flex-col justify-center h-full">
+          <div className="max-w-5xl">
+            <h1 className="text-[2.5rem] md:text-[4.5rem] font-bold leading-[1.1]">
+              <span className="text-white">Find & Compare the </span>
+              <span className="text-green-500">Best</span>
+              <div className="text-green-500 text-[2.5rem] md:text-[4.5rem]">Lawn Mowing Services</div>
               <div className="text-white">Near You</div>
             </h1>
 
@@ -342,7 +264,7 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
 
             <div className="flex flex-col sm:flex-row gap-4">
               <button
-                onClick={() => setShowRobotForm(!showRobotForm)}
+                onClick={scrollToForm}
                 className="bg-green-600 text-white px-8 py-4 rounded-md font-bold hover:bg-green-500 transition-colors text-center text-lg"
               >
                 Get Your Robot Mower
@@ -355,118 +277,16 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
               </button>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Inline Form */}
-          {showRobotForm && (
-            <div className="mt-12 bg-[#111827] rounded-xl p-6 max-w-md">
-              <h2 className="text-2xl font-bold mb-6 text-center">Get Your Robot Mower</h2>
-              <form onSubmit={handleFormSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleFormChange}
-                    required
-                    className={`w-full bg-gray-900 border ${
-                      errors.name ? "border-red-500" : "border-gray-700"
-                    } rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-green-500`}
-                  />
-                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleFormChange}
-                    required
-                    className={`w-full bg-gray-900 border ${
-                      errors.email ? "border-red-500" : "border-gray-700"
-                    } rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-green-500`}
-                  />
-                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-1">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleFormChange}
-                    required
-                    className={`w-full bg-gray-900 border ${
-                      errors.phone ? "border-red-500" : "border-gray-700"
-                    } rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-green-500`}
-                  />
-                  {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
-                </div>
-
-                <div>
-                  <label htmlFor="address" className="block text-sm font-medium text-gray-300 mb-1">
-                    Property Address
-                  </label>
-                  <input
-                    type="text"
-                    id="address"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleFormChange}
-                    required
-                    className={`w-full bg-gray-900 border ${
-                      errors.address ? "border-red-500" : "border-gray-700"
-                    } rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-green-500`}
-                  />
-                  {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
-                </div>
-
-                <div>
-                  <label htmlFor="lawnSize" className="block text-sm font-medium text-gray-300 mb-1">
-                    Lawn Size
-                  </label>
-                  <select
-                    id="lawnSize"
-                    name="lawnSize"
-                    value={formData.lawnSize}
-                    onChange={handleFormChange}
-                    className="w-full bg-gray-900 border border-gray-700 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-                  >
-                    <option value="small">Small (under 1/4 acre)</option>
-                    <option value="medium">Medium (1/4 to 1/2 acre)</option>
-                    <option value="large">Large (1/2 to 1 acre)</option>
-                    <option value="xlarge">Extra Large (over 1 acre)</option>
-                  </select>
-                </div>
-
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    className="w-full bg-green-600 text-white py-3 rounded-md font-bold hover:bg-green-500 transition-colors"
-                  >
-                    Submit Request
-                  </button>
-                </div>
-
-                <p className="text-xs text-gray-400 text-center mt-4">
-                  By submitting this form, you agree to our Terms of Service and Privacy Policy. We'll contact you
-                  within 24 hours to schedule your free consultation.
-                </p>
-              </form>
-            </div>
-          )}
+      {/* Robot Mower Form Section */}
+      <section ref={formSectionRef} className="py-16 px-6 md:px-12">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold mb-8 text-center">Get Started with Your Robot Mower</h2>
+          <div className="flex justify-center">
+            <InlineForm />
+          </div>
         </div>
       </section>
 
@@ -648,10 +468,7 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
                       </ul>
 
                       <button
-                        onClick={() => {
-                          setShowRobotForm(true)
-                          window.scrollTo({ top: 0, behavior: "smooth" })
-                        }}
+                        onClick={scrollToForm}
                         className="block w-full bg-white text-green-800 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors text-center"
                       >
                         Get Started
@@ -757,10 +574,7 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
                     available!
                   </p>
                   <button
-                    onClick={() => {
-                      setShowRobotForm(true)
-                      window.scrollTo({ top: 0, behavior: "smooth" })
-                    }}
+                    onClick={scrollToForm}
                     className="inline-block bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-500 transition-colors"
                   >
                     Get Started with SweatyJob
@@ -873,10 +687,7 @@ export default function ComparePageClient({ cities, competitors }: ComparePageCl
           <h2 className="text-3xl font-bold mb-4">Ready to upgrade your lawn care?</h2>
           <p className="text-xl text-gray-200 mb-8">Join thousands of homeowners who've switched to robot mowing.</p>
           <button
-            onClick={() => {
-              setShowRobotForm(true)
-              window.scrollTo({ top: 0, behavior: "smooth" })
-            }}
+            onClick={scrollToForm}
             className="inline-block bg-white text-green-800 px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition-colors"
           >
             Get Your Robot Mower Today

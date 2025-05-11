@@ -1,73 +1,110 @@
-import type { Metadata } from "next"
-import { createClient } from "@/lib/supabase/server"
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import { cookies } from "next/headers"
+import CompetitorDetailPageClient from "./CompetitorDetailPageClient"
+import { fetchWikipediaArticle } from "@/lib/wiki-api"
+import { getCityCoordinates } from "@/app/actions/geocoding"
+import { getNeighborhoodText } from "@/lib/neighborhood-utils"
 import { SchemaMarkup } from "@/app/components/seo/schema-markup"
 import { LawnServiceComparisonSchema } from "@/app/schema/lawn-mowing-schema"
+import InlineForm from "../InlineForm"
 
-type Props = {
+interface Competitor {
+  id: string
+  name: string
+  title?: string
+  logo: string
+  city?: string
+  state?: string
+  slug: string
+}
+
+async function getCompetitorBySlug(slug: string): Promise<Competitor | null> {
+  console.log(`🔍 Server: Fetching competitor data for slug: ${slug}`)
+  const supabase = createServerComponentClient({ cookies })
+  const { data, error } = await supabase.from("competitors").select("*").eq("slug", slug).single()
+
+  if (error) {
+    console.error(`❌ Server: Error fetching competitor:`, error)
+    return null
+  }
+
+  console.log(`✅ Server: Competitor data retrieved:`, data)
+  return data
+}
+
+async function getCityInfo(city: string, state: string) {
+  console.log(`🔍 Server: Fetching city info for: ${city}, ${state}`)
+
+  // Direct call to Wikipedia API using our utility function
+  const wikiArticle = await fetchWikipediaArticle(`${city}, ${state}`)
+
+  if (wikiArticle) {
+    console.log(`✅ Server: Wikipedia article found for "${city}, ${state}"`)
+    return wikiArticle
+  }
+
+  // If first attempt fails, try alternative format
+  console.log(`🔍 Server: Trying alternative format: ${city} (${state})`)
+  const alternativeArticle = await fetchWikipediaArticle(`${city} (${state})`)
+
+  if (alternativeArticle) {
+    console.log(`✅ Server: Wikipedia article found for "${city} (${state})"`)
+    return alternativeArticle
+  }
+
+  console.log(`⚠️ Server: No Wikipedia article found for ${city}, ${state}`)
+  return null
+}
+
+export default async function CompetitorDetailPage({
+  params,
+  searchParams,
+}: {
   params: { slug: string }
   searchParams: { city?: string }
-}
+}) {
+  const competitor = await getCompetitorBySlug(params.slug)
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const supabase = createClient()
-  const { data: competitor } = await supabase.from("competitors").select("*").eq("slug", params.slug).single()
-
-  return {
-    title: competitor
-      ? `SweatyJob vs ${competitor.title} | Lawn Mowing Service Comparison`
-      : "Compare Lawn Mowing Services | SweatyJob",
-    description: `Compare SweatyJob's robot lawn mowing service with ${
-      competitor?.title || "traditional lawn services"
-    }. See how our daily mowing at $79/month compares to traditional weekly service.`,
-    openGraph: {
-      title: competitor
-        ? `SweatyJob vs ${competitor.title} | Lawn Mowing Service Comparison`
-        : "Compare Lawn Mowing Services | SweatyJob",
-      description: `Compare SweatyJob's robot lawn mowing service with ${
-        competitor?.title || "traditional lawn services"
-      }. See how our daily mowing at $79/month compares to traditional weekly service.`,
-    },
+  if (!competitor) {
+    return <div>Competitor not found</div>
   }
-}
 
-export default async function Page({ params, searchParams }: Props) {
-  const supabase = createClient()
+  // Fetch additional data
+  let cityInfo = null
+  let cityCoordinates = null
+  let neighborhoodText = null
 
-  // Get the competitor details
-  const { data: competitor } = await supabase.from("competitors").select("*").eq("slug", params.slug).single()
+  if (competitor.city && competitor.state) {
+    // Get city information from Wikipedia
+    cityInfo = await getCityInfo(competitor.city, competitor.state)
 
-  // Get city information if provided
-  let city = null
-  if (searchParams.city) {
-    const { data: cityData } = await supabase.from("competitors").select("city").eq("city", searchParams.city).single()
+    // Get city coordinates
+    console.log(`🔍 Server: Fetching coordinates for ${competitor.city}, ${competitor.state}`)
+    cityCoordinates = await getCityCoordinates(competitor.city, competitor.state)
+    console.log(`✅ Server: City coordinates:`, cityCoordinates?.features?.[0]?.center || "Not found")
 
-    if (cityData) {
-      city = cityData.city
-    }
+    // Get neighborhood text
+    console.log(`🔍 Server: Fetching neighborhood text for ${competitor.city}, ${competitor.state}`)
+    neighborhoodText = await getNeighborhoodText(competitor.city, competitor.state)
+    console.log(`✅ Server: Neighborhood text length: ${neighborhoodText?.length || 0}`)
   }
 
   return (
     <>
       <SchemaMarkup schema={LawnServiceComparisonSchema} />
+      <CompetitorDetailPageClient
+        competitor={competitor}
+        cityInfo={cityInfo}
+        cityCoordinates={cityCoordinates}
+        neighborhoodText={neighborhoodText}
+        searchParams={searchParams}
+      />
 
-      <div className="min-h-screen bg-black text-white pt-16">
-        <div className="max-w-6xl mx-auto px-4 py-12">
-          <h1 className="text-4xl font-bold mb-8 speakable-content">
-            SweatyJob vs {competitor?.title || "Traditional Lawn Service"}
-          </h1>
-
-          <p className="text-xl text-gray-300 mb-12 max-w-3xl speakable-content">
-            See how SweatyJob's robot mowing service compares to {competitor?.title || "traditional lawn services"}
-            {city ? ` in ${city}` : ""}.
-          </p>
-
-          {/* Placeholder for the actual comparison page component */}
-          <p className="text-gray-400">
-            Detailed comparison coming soon. This page will show a side-by-side comparison of SweatyJob's robot mowing
-            service and {competitor?.title || "the selected lawn service"}.
-          </p>
+      <section id="get-started" className="py-16 bg-black">
+        <div className="max-w-xl mx-auto px-4">
+          <InlineForm />
         </div>
-      </div>
+      </section>
     </>
   )
 }
