@@ -10,6 +10,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
+  const [isHomeownersDropdownOpen, setIsHomeownersDropdownOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,9 +40,53 @@ export function Header() {
           <Link href="/robots" className="text-white hover:text-yellow-400 transition-colors font-medium">
             Lawn Mowing Robot
           </Link>
-          <Link href="/neighborhoods" className="text-white hover:text-yellow-400 transition-colors font-medium">
-            For Homeowners
-          </Link>
+          <div className="relative group">
+            <button
+              className="text-white hover:text-yellow-400 transition-colors font-medium flex items-center gap-1"
+              onClick={() => setIsHomeownersDropdownOpen(!isHomeownersDropdownOpen)}
+              onMouseEnter={() => setIsHomeownersDropdownOpen(true)}
+              onMouseLeave={() => setIsHomeownersDropdownOpen(false)}
+            >
+              For Homeowners
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="ml-1"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+
+            {isHomeownersDropdownOpen && (
+              <div
+                className="absolute left-0 mt-2 w-48 bg-slate-900 shadow-lg rounded-md py-1 z-50"
+                onMouseEnter={() => setIsHomeownersDropdownOpen(true)}
+                onMouseLeave={() => setIsHomeownersDropdownOpen(false)}
+              >
+                <Link
+                  href="/neighborhoods"
+                  className="block px-4 py-2 text-white hover:bg-slate-800 hover:text-yellow-400"
+                  onClick={() => setIsHomeownersDropdownOpen(false)}
+                >
+                  Richmond
+                </Link>
+                <Link
+                  href="/compare"
+                  className="block px-4 py-2 text-white hover:bg-slate-800 hover:text-yellow-400"
+                  onClick={() => setIsHomeownersDropdownOpen(false)}
+                >
+                  National
+                </Link>
+              </div>
+            )}
+          </div>
           <Link href="/realtor" className="text-white hover:text-yellow-400 transition-colors font-medium">
             For Property Managers
           </Link>
@@ -74,13 +119,53 @@ export function Header() {
             >
               Lawn Mowing Robot
             </Link>
-            <Link
-              href="/neighborhoods"
-              className="text-white hover:text-yellow-400 transition-colors font-medium py-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              For Homeowners
-            </Link>
+            <div className="flex flex-col">
+              <button
+                className="text-white hover:text-yellow-400 transition-colors font-medium py-2 text-left flex items-center justify-between"
+                onClick={() => setIsHomeownersDropdownOpen(!isHomeownersDropdownOpen)}
+              >
+                For Homeowners
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={`transition-transform ${isHomeownersDropdownOpen ? "rotate-180" : ""}`}
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+
+              {isHomeownersDropdownOpen && (
+                <div className="pl-4 flex flex-col space-y-2 mt-1 mb-2">
+                  <Link
+                    href="/neighborhoods"
+                    className="text-white hover:text-yellow-400 transition-colors py-1"
+                    onClick={() => {
+                      setIsHomeownersDropdownOpen(false)
+                      setIsMenuOpen(false)
+                    }}
+                  >
+                    Richmond
+                  </Link>
+                  <Link
+                    href="/compare"
+                    className="text-white hover:text-yellow-400 transition-colors py-1"
+                    onClick={() => {
+                      setIsHomeownersDropdownOpen(false)
+                      setIsMenuOpen(false)
+                    }}
+                  >
+                    National
+                  </Link>
+                </div>
+              )}
+            </div>
             <Link
               href="/realtor"
               className="text-white hover:text-yellow-400 transition-colors font-medium py-2"
