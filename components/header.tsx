@@ -38,7 +38,7 @@ export function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <Link href="/robots" className="text-white hover:text-yellow-400 transition-colors font-medium">
-            Lawn Mowing Robot
+            Lawn Robots
           </Link>
           <div className="relative group">
             <button
@@ -117,7 +117,7 @@ export function Header() {
               className="text-white hover:text-yellow-400 transition-colors font-medium py-2"
               onClick={() => setIsMenuOpen(false)}
             >
-              Lawn Mowing Robot
+              Lawn Robots
             </Link>
             <div className="flex flex-col">
               <button

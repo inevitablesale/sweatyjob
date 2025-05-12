@@ -5,6 +5,7 @@ import { CheckCircle, ArrowRight, Play, Zap, Shield, Battery } from "lucide-reac
 import Link from "next/link"
 import { useState } from "react"
 import { VideoModal } from "@/components/video-modal"
+import { RobotServicesGrid } from "@/components/robot-services-grid"
 
 export default function RobotMowersClientPage() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
@@ -119,43 +120,8 @@ export default function RobotMowersClientPage() {
         </div>
       </section>
 
-      {/* Related Pages Section */}
-      <section className="py-12 bg-gray-900">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Lawn Mowing Page Link */}
-              <Link href="/robots/lawn-mowing" className="block">
-                <div className="bg-gray-800 rounded-lg p-6 h-full border-l-4 border-yellow-500 hover:bg-gray-700 transition-colors">
-                  <h3 className="text-xl font-bold mb-2">Lawn Mowing Service</h3>
-                  <p className="text-gray-300">
-                    Learn more about our daily robot lawn mowing service and how it can transform your lawn care
-                    routine.
-                  </p>
-                  <div className="mt-4 flex items-center text-yellow-500">
-                    <span className="font-bold">Learn More</span>
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </div>
-                </div>
-              </Link>
-
-              {/* Lawn Mower Repair Alternative Page Link */}
-              <Link href="/robots/lawn-mower-repair" className="block">
-                <div className="bg-gray-800 rounded-lg p-6 h-full border-l-4 border-yellow-500 hover:bg-gray-700 transition-colors">
-                  <h3 className="text-xl font-bold mb-2">Lawn Mower Repair Alternative</h3>
-                  <p className="text-gray-300">
-                    Why repair your old mower when you can upgrade to our SmartYard robot mowing service?
-                  </p>
-                  <div className="mt-4 flex items-center text-yellow-500">
-                    <span className="font-bold">Learn More</span>
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </div>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Robot Services Grid - All 4 services in one section */}
+      <RobotServicesGrid />
 
       {/* How Robot Mowers Work */}
       <section className="py-20 bg-gradient-to-b from-black to-gray-900">

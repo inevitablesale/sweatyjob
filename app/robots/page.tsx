@@ -2,9 +2,9 @@ import type { Metadata } from "next"
 import RobotMowersClientPage from "./RobotMowersClientPage"
 
 export const metadata: Metadata = {
-  title: "SmartYard Robot Lawn Mowing Service | AI-Powered Mowers in Richmond, VA",
+  title: "Robot Lawn Mowers & Weeding Robots | SweatyJob",
   description:
-    "Experience the future of lawn care with our SmartYard robot lawn mowing service. Daily cutting, perfect results, no work for you. Starting at $79/month in Richmond.",
+    "Discover the future of lawn care with autonomous robot lawn mowers and weeding robots. Learn about the latest technology that keeps your lawn perfectly maintained with minimal effort.",
   keywords: "lawn mowing robot, robot lawn mowing, SmartYard, automatic lawn mowing, lawn mowing roomba",
   openGraph: {
     images: [

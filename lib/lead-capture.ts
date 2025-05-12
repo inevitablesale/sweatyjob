@@ -12,6 +12,9 @@ export type LeadSource =
   | "appointment_booking"
   | "contact_form"
   | "website_signup"
+  | "competitor_comparison"
+  | "lawn_weeding_robots"
+  | "garden_weeding_robots"
 
 export type LeadStatus =
   | "new"

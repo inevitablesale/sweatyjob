@@ -1,8 +1,7 @@
 "use client"
-
-import { useState } from "react"
 import { captureCompareLead } from "@/app/actions/capture-compare-lead"
-import { useFormState } from "react-dom"
+import { useActionState } from "react"
+import { usePathname } from "next/navigation"
 
 interface InlineFormProps {
   title?: string
@@ -28,16 +27,13 @@ export default function InlineForm({
   darkMode = true,
   className = "",
 }: InlineFormProps) {
-  const [formState, formAction] = useFormState(captureCompareLead, initialState)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formState, formAction, isPending] = useActionState(captureCompareLead, initialState)
+  const pathname = usePathname()
 
-  const handleSubmit = async (formData: FormData) => {
-    setIsSubmitting(true)
-    try {
-      await formAction(formData)
-    } finally {
-      setIsSubmitting(false)
-    }
+  const handleSubmit = (formData: FormData) => {
+    // Add the current path as source
+    formData.append("source", pathname)
+    formAction(formData)
   }
 
   return (
@@ -100,12 +96,12 @@ export default function InlineForm({
           <div>
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isPending}
               className={`w-full p-3 ${
                 darkMode ? "bg-yellow-500 hover:bg-yellow-600 text-black" : "bg-green-600 hover:bg-green-700 text-white"
               } rounded-md font-bold transition-colors duration-200 flex justify-center items-center`}
             >
-              {isSubmitting ? (
+              {isPending ? (
                 <span className="flex items-center">
                   <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-current"
