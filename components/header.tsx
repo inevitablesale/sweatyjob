@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -11,6 +11,9 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
   const [isHomeownersDropdownOpen, setIsHomeownersDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +22,38 @@ export function Header() {
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+    setIsHomeownersDropdownOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    // Add a small delay before closing the dropdown
+    timeoutRef.current = setTimeout(() => {
+      setIsHomeownersDropdownOpen(false)
+    }, 300) // 300ms delay gives users time to move to the dropdown
+  }
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        buttonRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setIsHomeownersDropdownOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
   return (
@@ -42,10 +77,13 @@ export function Header() {
           </Link>
           <div className="relative group">
             <button
+              ref={buttonRef}
               className="text-white hover:text-yellow-400 transition-colors font-medium flex items-center gap-1"
               onClick={() => setIsHomeownersDropdownOpen(!isHomeownersDropdownOpen)}
-              onMouseEnter={() => setIsHomeownersDropdownOpen(true)}
-              onMouseLeave={() => setIsHomeownersDropdownOpen(false)}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              aria-expanded={isHomeownersDropdownOpen}
+              aria-haspopup="true"
             >
               For Homeowners
               <svg
@@ -66,14 +104,19 @@ export function Header() {
 
             {isHomeownersDropdownOpen && (
               <div
+                ref={dropdownRef}
                 className="absolute left-0 mt-2 w-48 bg-slate-900 shadow-lg rounded-md py-1 z-50"
-                onMouseEnter={() => setIsHomeownersDropdownOpen(true)}
-                onMouseLeave={() => setIsHomeownersDropdownOpen(false)}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="homeowners-menu"
               >
                 <Link
                   href="/neighborhoods"
                   className="block px-4 py-2 text-white hover:bg-slate-800 hover:text-yellow-400"
                   onClick={() => setIsHomeownersDropdownOpen(false)}
+                  role="menuitem"
                 >
                   Richmond
                 </Link>
@@ -81,6 +124,7 @@ export function Header() {
                   href="/compare"
                   className="block px-4 py-2 text-white hover:bg-slate-800 hover:text-yellow-400"
                   onClick={() => setIsHomeownersDropdownOpen(false)}
+                  role="menuitem"
                 >
                   National
                 </Link>
