@@ -74,8 +74,10 @@ export async function generateMetadata({
 }) {
   const supabase = createServerComponentClient({ cookies })
   const { data: competitor } = await supabase.from("competitors").select("*").eq("slug", params.slug).single()
-  const city = searchParams.city || "richmond"
-  const cityName = city.charAt(0).toUpperCase() + city.slice(1).replace("-", " ")
+
+  // Get city from competitor data or search params, with fallback
+  const cityFromData = competitor?.city || searchParams.city || "richmond"
+  const cityName = cityFromData.charAt(0).toUpperCase() + cityFromData.slice(1).replace("-", " ")
   const competitorTitle = competitor?.title || competitor?.name || "Traditional Lawn Service"
 
   return {
@@ -127,23 +129,28 @@ export default async function CompetitorDetailPage({
   let cityCoordinates = null
   let neighborhoodText = null
 
-  if (competitor.city && competitor.state) {
+  // Get city from competitor data, not from search params
+  const competitorCity = competitor.city || ""
+  const competitorState = competitor.state || ""
+
+  if (competitorCity && competitorState) {
     // Get city information from Wikipedia
-    cityInfo = await getCityInfo(competitor.city, competitor.state)
+    cityInfo = await getCityInfo(competitorCity, competitorState)
 
     // Get city coordinates
-    console.log(`🔍 Server: Fetching coordinates for ${competitor.city}, ${competitor.state}`)
-    cityCoordinates = await getCityCoordinates(competitor.city, competitor.state)
+    console.log(`🔍 Server: Fetching coordinates for ${competitorCity}, ${competitorState}`)
+    cityCoordinates = await getCityCoordinates(competitorCity, competitorState)
     console.log(`✅ Server: City coordinates:`, cityCoordinates?.features?.[0]?.center || "Not found")
 
     // Get neighborhood text
-    console.log(`🔍 Server: Fetching neighborhood text for ${competitor.city}, ${competitor.state}`)
-    neighborhoodText = await getNeighborhoodText(competitor.city, competitor.state)
+    console.log(`🔍 Server: Fetching neighborhood text for ${competitorCity}, ${competitorState}`)
+    neighborhoodText = await getNeighborhoodText(competitorCity, competitorState)
     console.log(`✅ Server: Neighborhood text length: ${neighborhoodText?.length || 0}`)
   }
 
-  const city = searchParams.city || "richmond"
-  const cityName = city.charAt(0).toUpperCase() + city.slice(1).replace("-", " ")
+  // Use the city from competitor data, not from search params
+  const cityName = competitorCity.charAt(0).toUpperCase() + competitorCity.slice(1).replace("-", " ")
+  const stateName = competitorState
   const competitorTitle = competitor.title || competitor.name
 
   // Create customized schema objects with the competitor and city information
@@ -161,10 +168,10 @@ export default async function CompetitorDetailPage({
     ...LawnMowingFAQSchema,
     mainEntity: LawnMowingFAQSchema.mainEntity.map((faq: any) => ({
       ...faq,
-      name: faq.name.replace("Richmond", cityName),
+      name: faq.name.replace(/Richmond/g, cityName),
       acceptedAnswer: {
         ...faq.acceptedAnswer,
-        text: faq.acceptedAnswer.text.replace("Richmond", cityName),
+        text: faq.acceptedAnswer.text.replace(/Richmond/g, cityName),
       },
     })),
   }
@@ -175,7 +182,7 @@ export default async function CompetitorDetailPage({
     address: {
       ...LawnMowingLocalBusinessSchema.address,
       addressLocality: cityName,
-      addressRegion: competitor.state || "VA",
+      addressRegion: stateName || "VA",
     },
     geo: cityCoordinates?.features?.[0]?.center
       ? {
@@ -237,6 +244,12 @@ export default async function CompetitorDetailPage({
     uploadDate: new Date().toISOString().split("T")[0], // Use current date formatted as YYYY-MM-DD
   }
 
+  // Customize the comparison schema with the city name
+  const customizedComparisonSchema = {
+    ...LawnServiceComparisonSchema,
+    abstract: `Comparison of robot lawn mowing services versus traditional lawn care services in ${cityName}, ${stateName || "VA"}`,
+  }
+
   return (
     <>
       {/* All Schema Markup for SEO */}
@@ -248,7 +261,7 @@ export default async function CompetitorDetailPage({
       <SchemaMarkup schema={customizedBreadcrumbSchema} />
       <SchemaMarkup schema={customizedSpeakableSchema} />
       <SchemaMarkup schema={customizedVideoSchema} />
-      <SchemaMarkup schema={LawnServiceComparisonSchema} />
+      <SchemaMarkup schema={customizedComparisonSchema} />
 
       <CompetitorDetailPageClient
         competitor={competitor}
