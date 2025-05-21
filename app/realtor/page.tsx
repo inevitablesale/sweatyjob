@@ -46,7 +46,7 @@ export default function RealtorPage() {
                   lawn care is an hour you could be closing deals. It's time to solve this problem once and for all.
                 </p>
                 <div className="w-full max-w-md space-y-2">
-                  <Link href="/purchase/smart-yard" className="w-full">
+                  <Link href="https://calendly.com/job-sweatyjob/new-meeting" className="w-full">
                     <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black text-xl font-black py-6">
                       GET YOUR TIME BACK NOW <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
@@ -223,7 +223,7 @@ export default function RealtorPage() {
                     </li>
                   </ul>
                 </div>
-                <Link href="/purchase/smart-yard" className="w-full">
+                <Link href="https://calendly.com/job-sweatyjob/new-meeting" className="w-full">
                   <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black text-xl font-black py-6">
                     START WINNING NOW <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
@@ -571,7 +571,7 @@ export default function RealtorPage() {
           </div>
 
           <div className="mt-12 text-center">
-            <Link href="/purchase/smart-yard">
+            <Link href="https://calendly.com/job-sweatyjob/new-meeting">
               <Button
                 size="lg"
                 className="bg-yellow-500 hover:bg-yellow-600 text-black text-xl font-black px-8 py-6 rounded-md"
@@ -651,7 +651,7 @@ export default function RealtorPage() {
               Join other real estate professionals who've already made the switch.
             </p>
 
-            <Link href="/purchase/smart-yard">
+            <Link href="https://calendly.com/job-sweatyjob/new-meeting">
               <Button
                 size="lg"
                 className="bg-black hover:bg-gray-900 text-yellow-500 text-xl font-black px-8 py-6 rounded-md"
@@ -729,7 +729,7 @@ export default function RealtorPage() {
               what actually matters: closing deals and growing your business.
             </p>
             <div className="w-full max-w-md mx-auto">
-              <Link href="/purchase/smart-yard" className="w-full">
+              <Link href="https://calendly.com/job-sweatyjob/new-meeting" className="w-full">
                 <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black text-xl font-black py-6">
                   START WINNING NOW <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
