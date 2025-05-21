@@ -1195,7 +1195,7 @@ export default function Home() {
         <VideoModal
           isOpen={isVideoModalOpen}
           onClose={() => setIsVideoModalOpen(false)}
-          videoUrl="https://www.youtube.com/embed/Qdj6_J33Ags?si=iBYJs-8HTRhslQ_L"
+          videoUrl="https://www.youtube.com/embed/Qdj6_J33Ags"
           title="SmartYard Robot Mower Demo"
         />
       )}
