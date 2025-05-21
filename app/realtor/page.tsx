@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 export const metadata: Metadata = {
   title: "Property Management Lawn Care | Richmond's #1 Robot Mowing Service for Realtors",
   description:
-    "Richmond's top robot lawn mowing service for realtors and property managers. No contracts, cancel anytime, perfect for listings and rental properties. $79/month.",
+    "Richmond's top robot lawn mowing service for realtors and property managers. No contracts, cancel anytime, perfect for listings and rental properties. $250/month.",
   keywords:
     "realtor lawn service, property management lawn care, robot lawn mowing, Richmond real estate lawn care, listing preparation, rental property maintenance",
 }
@@ -195,7 +195,7 @@ export default function RealtorPage() {
             <div className="bg-black p-8">
               <div className="flex flex-col mb-6">
                 <div className="text-center mb-4">
-                  <span className="text-5xl font-black text-white">$79</span>
+                  <span className="text-5xl font-black text-white">$250</span>
                   <span className="text-xl text-gray-300">/month per property</span>
                 </div>
                 <div className="bg-gray-900 p-6 rounded-lg mb-6">
@@ -250,11 +250,11 @@ export default function RealtorPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold mb-1">OPTIONAL PROFESSIONAL INSTALLATION</h3>
-                  <p className="text-gray-400">One-time setup by our Richmond-based technicians</p>
+                  <p className="text-gray-400">One-time setup by our technicians</p>
                 </div>
               </div>
               <div className="text-center md:text-right mt-4 md:mt-0">
-                <div className="text-3xl font-bold text-white">$249</div>
+                <div className="text-3xl font-bold text-white">$100</div>
                 <p className="text-gray-500">One-time fee</p>
               </div>
             </div>
@@ -389,7 +389,7 @@ export default function RealtorPage() {
                   </div>
                   <div>
                     <p className="text-sm text-gray-400 font-medium">Monthly Cost</p>
-                    <p className="text-lg text-white font-bold">$160-$240</p>
+                    <p className="text-lg text-white font-bold">$260-$400</p>
                     <p className="text-xs text-gray-400">Per property</p>
                   </div>
                 </div>
@@ -487,7 +487,7 @@ export default function RealtorPage() {
                   </div>
                   <div>
                     <p className="text-sm text-gray-400 font-medium">Monthly Cost</p>
-                    <p className="text-lg text-white font-bold">$79 flat rate</p>
+                    <p className="text-lg text-white font-bold">$250 per acre</p>
                     <p className="text-xs text-gray-400">All-inclusive</p>
                   </div>
                 </div>
@@ -604,7 +604,7 @@ export default function RealtorPage() {
               <div className="bg-gray-900 rounded-lg p-8 h-full border-l-4 border-yellow-500">
                 <h3 className="text-2xl font-bold mb-4">QUICK SETUP</h3>
                 <p className="text-gray-300">
-                  We install the system in under 2 hours. Optional one-time $249 fee. We handle everything.
+                  We install the system in under 2 hours. One-time $100 fee. We handle everything.
                 </p>
               </div>
             </div>
