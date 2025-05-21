@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button"
 
 // Update the metadata with voice search optimization
 export const metadata: Metadata = {
-  title: "Property Management Lawn Care | Richmond's #1 Robot Mowing Service for Realtors",
+  title: "Property Management Lawn Care | The US's #1 Robot Mowing Service for Realtors",
   description:
-    "Richmond's top robot lawn mowing service for realtors and property managers. No contracts, cancel anytime, perfect for listings and rental properties. $250/month.",
+    "United State's top robot lawn mowing service for realtors and property managers. No contracts, cancel anytime, perfect for listings and rental properties. $250/month.",
   keywords:
-    "realtor lawn service, property management lawn care, robot lawn mowing, Richmond real estate lawn care, listing preparation, rental property maintenance",
+    "realtor lawn service, property management lawn care, robot lawn mowing, real estate lawn care, listing preparation, rental property maintenance",
 }
 
 export default function RealtorPage() {
@@ -24,7 +24,7 @@ export default function RealtorPage() {
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
                 <div className="bg-yellow-500 text-black text-sm font-bold px-3 py-1 inline-block mb-4 rounded">
-                  ATTENTION RICHMOND REALTORS & PROPERTY MANAGERS
+                  ATTENTION REALTORS, BUSINESS OWNERS & PROPERTY MANAGERS
                 </div>
                 {/* Gary V-style headline - direct, bold, value-focused */}
                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-tight text-white">
@@ -57,13 +57,13 @@ export default function RealtorPage() {
             <div className="relative aspect-video overflow-hidden rounded-xl">
               <Image
                 src="https://www.bestmow.com/cdn/shop/files/20250214-165544_ac820ecc-ef58-4def-bda6-a5a2dfe8df80.jpg?v=1743403982"
-                alt="Robot lawn mower maintaining a perfectly cut lawn at a Richmond rental property"
+                alt="Robot lawn mower maintaining a perfectly cut lawn at a rental property"
                 fill
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
               <div className="absolute bottom-4 left-4 right-4 bg-yellow-500 text-black p-3 font-black text-lg rounded">
-                PERFECT LAWNS. ZERO EFFORT. $79/MONTH.
+                PERFECT LAWNS. ZERO EFFORT. $250/MONTH.
               </div>
             </div>
           </div>
@@ -111,7 +111,7 @@ export default function RealtorPage() {
               </div>
               <h3 className="text-2xl font-bold mb-3">MASSIVE ROI</h3>
               <p className="text-gray-300">
-                $79/month for perfect lawns + more closed deals + happier clients = the best investment you'll make this
+                $250/month for perfect lawns + more closed deals + happier clients = the best investment you'll make this
                 year.
               </p>
             </div>
@@ -648,7 +648,7 @@ export default function RealtorPage() {
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-4xl md:text-6xl font-black mb-6 text-black">STOP WASTING YOUR TIME</h2>
             <p className="text-2xl mb-8 text-black/80 font-bold">
-              Join other Richmond real estate professionals who've already made the switch.
+              Join other real estate professionals who've already made the switch.
             </p>
 
             <Link href="/purchase/smart-yard">
@@ -660,7 +660,7 @@ export default function RealtorPage() {
               </Button>
             </Link>
             <p className="mt-6 text-black/80 font-bold">
-              Limited spots available for Richmond this month. Don't miss out.
+              Limited spots available this month. Don't miss out.
             </p>
           </div>
         </div>
