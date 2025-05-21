@@ -363,5 +363,5 @@ export const LawnMowingVideoSchema = {
   duration: "PT2M30S",
   contentUrl:
     "https://www.bestmow.com/cdn/shop/videos/c/vp/04894b9bd6f141c7820bf2e063b88bfe/04894b9bd6f141c7820bf2e063b88bfe.HD-1080p-7.2Mbps-44563246.mp4?v=0",
-  embedUrl: "https://www.youtube.com/embed/abc123",
+  embedUrl: "https://www.youtube.com/embed/Qdj6_J33Ags",
 }
