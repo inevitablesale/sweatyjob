@@ -326,8 +326,8 @@ export default function CompetitorDetailPageClient({
                 {cityName}
               </h1>
               <p className="text-xl text-gray-300 mb-6">
-                Compare {competitorTitle} with BestMow's robot lawn mowing service in {cityName}
-                {competitor.state ? `, ${competitor.state}` : ""}. We serve homes throughout all neighborhoods. Daily
+                Compare {competitorTitle} with BestMow's robot lawn mowers in {cityName}
+                {competitor.state ? `, ${competitor.state}` : ""}. Available for homes throughout all neighborhoods. Daily
                 mowing at $79/month vs weekly service at $160-200/month.
               </p>
 
