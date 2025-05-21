@@ -385,7 +385,7 @@ export const RobotMowerProductSchema = {
   },
   offers: {
     "@type": "Offer",
-    url: "https://sweatyjob.com/purchase/smart-yard",
+    url: "https://www.bestmow.com/54di4z",
     priceCurrency: "USD",
     price: "79",
     priceValidUntil: "2024-12-31",
