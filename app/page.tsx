@@ -1195,7 +1195,7 @@ export default function Home() {
         <VideoModal
           isOpen={isVideoModalOpen}
           onClose={() => setIsVideoModalOpen(false)}
-          videoUrl="https://www.youtube.com/embed/Qdj6_J33Ags"
+          videoUrl="https://www.bestmow.com/cdn/shop/videos/c/vp/962096c1d1224dc78b09087c9a8c7ef8/962096c1d1224dc78b09087c9a8c7ef8.HD-1080p-7.2Mbps-44563247.mp4?v=0"
           title="SmartYard Robot Mower Demo"
         />
       )}
