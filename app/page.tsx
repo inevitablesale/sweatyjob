@@ -427,7 +427,7 @@ export default function Home() {
                   poster="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/attachments/gen-images/public/robot-mower-in-action-cCcyAbdw1Zfz3UQ5FQSyM12UoF26O9.png"
                 >
                   <source
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ" // Placeholder - replace with a working video URL
+                    src="https://www.youtube.com/embed/Qdj6_J33Ags?si=iBYJs-8HTRhslQ_L" // Placeholder - replace with a working video URL
                     type="video/mp4"
                   />
                   Your browser does not support the video tag.
@@ -1195,7 +1195,7 @@ export default function Home() {
         <VideoModal
           isOpen={isVideoModalOpen}
           onClose={() => setIsVideoModalOpen(false)}
-          videoUrl="https://www.bestmow.com/cdn/shop/videos/c/vp/962096c1d1224dc78b09087c9a8c7ef8/962096c1d1224dc78b09087c9a8c7ef8.HD-1080p-7.2Mbps-44563247.mp4?v=0"
+          videoUrl="https://www.youtube.com/embed/Qdj6_J33Ags?si=iBYJs-8HTRhslQ_L"
           title="SmartYard Robot Mower Demo"
         />
       )}
