@@ -232,7 +232,7 @@ export default function RealtorPage() {
             </div>
           </div>
 
-          {/* Optional installation */}
+          {/* Installation */}
           <div className="mx-auto max-w-3xl mt-6 bg-gray-900 rounded-lg p-6 border border-gray-700">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <div className="flex items-center">
@@ -249,7 +249,7 @@ export default function RealtorPage() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold mb-1">OPTIONAL PROFESSIONAL INSTALLATION</h3>
+                  <h3 className="text-xl font-bold mb-1">PROFESSIONAL INSTALLATION</h3>
                   <p className="text-gray-400">One-time setup by our technicians</p>
                 </div>
               </div>
