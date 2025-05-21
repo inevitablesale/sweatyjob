@@ -351,10 +351,6 @@ export default function CompetitorDetailPageClient({
               <div className="mt-6">
                 <Link
                   href={`https://www.bestmow.com/54di4z`}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    scrollToForm()
-                  }}
                   className="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-md transition duration-200"
                 >
                   Try SweatyJob Instead
