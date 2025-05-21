@@ -353,7 +353,7 @@ export default function CompetitorDetailPageClient({
                   href={`https://www.bestmow.com/54di4z`}
                   className="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-md transition duration-200"
                 >
-                  Try SweatyJob Instead
+                  Try Robotic Mowing Instead
                 </Link>
               </div>
             </div>
@@ -720,13 +720,9 @@ export default function CompetitorDetailPageClient({
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href={`https://www.bestmow.com/54di4z`}
-              onClick={(e) => {
-                e.preventDefault()
-                scrollToForm()
-              }}
               className="px-8 py-3 bg-white text-green-800 font-medium rounded-lg hover:bg-gray-100 transition-colors"
             >
-              Get Started
+              Get Started With Robotic Mowing
             </Link>
             <Link
               href="/compare"
