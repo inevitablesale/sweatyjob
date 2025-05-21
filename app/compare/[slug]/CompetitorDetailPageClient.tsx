@@ -350,7 +350,7 @@ export default function CompetitorDetailPageClient({
 
               <div className="mt-6">
                 <Link
-                  href={`/compare/${competitor.slug}#get-started`}
+                  href={`https://www.bestmow.com/54di4z`}
                   onClick={(e) => {
                     e.preventDefault()
                     scrollToForm()
@@ -723,7 +723,7 @@ export default function CompetitorDetailPageClient({
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href={`/compare/${competitor.slug}#get-started`}
+              href={`https://www.bestmow.com/54di4z`}
               onClick={(e) => {
                 e.preventDefault()
                 scrollToForm()
