@@ -5,16 +5,16 @@ export default function LocalBusinessSchema({ city }: { city: string }) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: "SweatyJob Robotic Lawn Service",
-    description: `SweatyJob provides robotic lawn mowing services in ${cityName}. Compare our service to traditional lawn care companies.`,
+    name: "BestMow Robotic Lawn Service",
+    description: `BestMow provides robotic lawn mowers in ${cityName}. Compare traditional lawn care service to robotic mowing.`,
     url: `https://sweatyjob.com/compare?city=${city}`,
-    logo: "https://sweatyjob.com/images/sweatyjob-logo.png",
-    telephone: "+1-800-SWEATYJ",
-    email: "info@sweatyjob.com",
+    logo: "https://www.bestmow.com/cdn/shop/files/faveicon3.png?v=1737859762&width=760",
+    telephone: "+1-804-573-9825",
+    email: "job@sweatyjob.com",
     address: {
       "@type": "PostalAddress",
       addressLocality: cityName,
-      addressRegion: "VA",
+      addressRegion: "",
       addressCountry: "US",
     },
     geo: {
@@ -29,9 +29,7 @@ export default function LocalBusinessSchema({ city }: { city: string }) {
       closes: "17:00",
     },
     sameAs: [
-      "https://www.facebook.com/sweatyjob",
-      "https://www.instagram.com/sweatyjob",
-      "https://twitter.com/sweatyjob",
+      "https://www.youtube.com/@sweatyjob",
     ],
   }
 
